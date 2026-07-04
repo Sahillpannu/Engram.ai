@@ -2,112 +2,131 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg: #f7f7f4;
+  --card: #ffffff;
+  --ink: #26251e;
+  --muted: #5a5852;
+  --line: #e6e5e0;
+  --accent: #f54e00;
+  --accent-soft: rgba(245, 78, 0, 0.08);
+  --section-y: 96px;
+  --section-y-lg: 120px;
+}
+
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: #ffffff;
+  background: rgba(245, 78, 0, 0.16);
+  color: var(--ink);
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 11px;
+  height: 11px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
+  background: #d6d5cf;
+  border-radius: 8px;
+  border: 3px solid var(--bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: #c2c1ba;
 }
 
 @layer utilities {
-  .traveling-border {
-    position: relative;
-    overflow: hidden;
+  .text-balance {
+    text-wrap: balance;
   }
-
-  .traveling-border::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: conic-gradient(
-      from var(--border-angle, 0deg),
-      transparent 0%,
-      transparent 60%,
-      #3b82f6 70%,
-      #60a5fa 80%,
-      transparent 90%,
-      transparent 100%
-    );
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    -webkit-mask-composite: xor;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .traveling-border:hover::before {
-    opacity: 1;
+  .text-pretty {
+    text-wrap: pretty;
   }
 }
 
-@property --border-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
+/* ---------- background fx ---------- */
+.grid-overlay {
+  background-image: linear-gradient(
+      to right,
+      rgba(38, 37, 30, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(38, 37, 30, 0.045) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: grid-drift 40s linear infinite;
+  -webkit-mask-image: radial-gradient(
+    ellipse 90% 70% at 50% 22%,
+    #000 35%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 90% 70% at 50% 22%,
+    #000 35%,
+    transparent 100%
+  );
 }
 
-@keyframes border-spin {
+@keyframes grid-drift {
+  from {
+    background-position: 0 0, 0 0;
+  }
   to {
-    --border-angle: 360deg;
+    background-position: 60px 60px, 60px 60px;
   }
 }
 
-.hover\:border-travel {
-  animation: border-spin 3s linear infinite paused;
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  animation: noise 0.7s steps(3) infinite;
+  opacity: 0.03;
+  mix-blend-mode: multiply;
 }
 
-.group:hover .hover\:border-travel,
-.hover\:border-travel:hover {
-  animation-play-state: running;
-}
-
-@keyframes pulse-glow {
+@keyframes noise {
   0%,
   100% {
-    opacity: 0.15;
-    transform: scale(1);
+    transform: translate(0, 0);
   }
-  50% {
-    opacity: 0.3;
-    transform: scale(1.03);
+  20% {
+    transform: translate(-8%, 6%);
+  }
+  40% {
+    transform: translate(6%, -10%);
+  }
+  60% {
+    transform: translate(-10%, 4%);
+  }
+  80% {
+    transform: translate(8%, 8%);
   }
 }
 
-@keyframes gradient-mesh {
-  0% {
-    background-position: 0% 50%;
+/* ---------- keyframes ---------- */
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
   }
   50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
+    opacity: 0.85;
   }
 }
 
@@ -128,23 +147,6 @@ body {
   }
 }
 
-@keyframes dot-flow-reverse {
-  from {
-    offset-distance: 100%;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  to {
-    offset-distance: 0%;
-    opacity: 0;
-  }
-}
-
 @keyframes line-draw {
   from {
     stroke-dashoffset: var(--line-length);
@@ -154,36 +156,26 @@ body {
   }
 }
 
-@keyframes noise {
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes syncing-blink {
   0%,
   100% {
-    transform: translate(0, 0);
-  }
-  10% {
-    transform: translate(-5%, -5%);
-  }
-  20% {
-    transform: translate(-10%, 5%);
-  }
-  30% {
-    transform: translate(5%, -10%);
-  }
-  40% {
-    transform: translate(-5%, 15%);
+    opacity: 0.2;
+    transform: scale(0.85);
   }
   50% {
-    transform: translate(-10%, 5%);
+    opacity: 1;
+    transform: scale(1);
   }
-  60% {
-    transform: translate(15%, 0);
-  }
-  70% {
-    transform: translate(0, 10%);
-  }
-  80% {
-    transform: translate(-15%, 0);
-  }
-  90% {
-    transform: translate(10%, 5%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid-overlay,
+  .noise-overlay,
+  .animate-marquee {
+    animation: none !important;
   }
 }

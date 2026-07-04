@@ -13,13 +13,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Engram — Persistent memory for AI agents",
+  title: "Engram — Your AI agent remembers.",
   description:
-    "Engram gives your AI agent a brain. Connect Gmail, Calendar, and Meetings to build long-term memory your agent can reason over.",
+    "Engram is a persistent memory infrastructure layer for AI agents. It turns emails, meetings, calendars and conversations into long-term memory agents can reason over.",
   openGraph: {
-    title: "Engram — Persistent memory for AI agents",
+    title: "Engram — Your AI agent remembers.",
     description:
-      "Engram gives your AI agent a brain. Connect Gmail, Calendar, and Meetings to build long-term memory your agent can reason over.",
+      "Persistent memory infrastructure for AI agents. Turn emails, meetings, and calendars into long-term memory your agents can reason over.",
   },
 };
 
@@ -29,9 +29,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} bg-background text-foreground font-sans antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} bg-bg text-ink font-sans antialiased`}
       >
         {children}
       </body>

@@ -4,93 +4,64 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { faq } from "@/content/copy";
-
-const springConfig = {
-  type: "spring" as const,
-  stiffness: 250,
-  damping: 28,
-  mass: 0.8,
-};
+import { EASE, SectionShell, SectionIntro } from "./ui";
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggle = (i: number) => {
-    setOpenIndex(openIndex === i ? null : i);
-  };
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section
-      id="faq"
-      className="border-t border-border py-24 px-4 sm:px-6 lg:px-8"
-    >
-      <div className="max-w-2xl mx-auto">
-        <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="text-xs tracking-[0.2em] uppercase text-accent font-semibold mb-4">
-            {faq.eyebrow}
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
-            {faq.headline}
-          </h2>
-        </motion.div>
+    <SectionShell id="faq">
+      <SectionIntro eyebrow={faq.eyebrow} headline={faq.headline} />
 
-        <div className="space-y-3">
-          {faq.items.map((item, i) => (
+      <div className="mt-12 max-w-3xl space-y-3">
+        {faq.items.map((item, i) => {
+          const open = openIndex === i;
+          return (
             <motion.div
               key={i}
-              className="border border-border rounded-xl overflow-hidden bg-[#0d0d0d]"
-              initial={{ opacity: 0, y: 16 }}
+              className="overflow-hidden rounded-xl border border-line bg-card"
+              initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35, delay: i * 0.06 }}
+              transition={{ duration: 0.45, ease: EASE, delay: (i % 6) * 0.05 }}
             >
               <button
-                onClick={() => toggle(i)}
-                className="w-full flex items-center justify-between px-6 py-5 text-left group"
+                onClick={() => setOpenIndex(open ? null : i)}
+                className="flex w-full items-center justify-between px-5 py-4 text-left"
               >
-                <span className="text-sm font-medium text-white pr-4">
+                <span className="text-[15px] font-normal text-ink pr-4">
                   {item.question}
                 </span>
                 <motion.span
-                  animate={{ rotate: openIndex === i ? 180 : 0 }}
-                  transition={springConfig}
+                  animate={{ rotate: open ? 180 : 0 }}
+                  transition={{ duration: 0.4, ease: EASE }}
                   className="shrink-0"
                 >
                   <ChevronDown
-                    size={18}
-                    className="text-muted group-hover:text-white transition-colors"
+                    size={17}
+                    className={`transition-colors ${open ? "text-accent" : "text-muted"}`}
                   />
                 </motion.span>
               </button>
-              <AnimatePresence initial={false} mode="wait">
-                {openIndex === i && (
+              <AnimatePresence initial={false}>
+                {open && (
                   <motion.div
-                    key="content"
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{
-                      height: springConfig,
-                      opacity: { duration: 0.2 },
-                    }}
+                    transition={{ duration: 0.4, ease: EASE }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-5 text-sm text-muted leading-relaxed">
+                    <div className="px-5 pb-4 text-[14px] leading-relaxed text-muted">
                       {item.answer}
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>
-          ))}
-        </div>
+          );
+        })}
       </div>
-    </section>
+    </SectionShell>
   );
 }

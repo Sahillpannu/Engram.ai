@@ -9,32 +9,43 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0a0a0a",
-        foreground: "#ffffff",
+        bg: "var(--bg)",
+        card: "var(--card)",
+        ink: "var(--ink)",
+        muted: "var(--muted)",
+        line: "var(--line)",
         accent: {
-          DEFAULT: "#3b82f6",
-          light: "#60a5fa",
-          dark: "#2563eb",
+          DEFAULT: "var(--accent)",
+          soft: "var(--accent-soft)",
         },
-        muted: {
-          DEFAULT: "#a1a1aa",
-          dark: "#71717a",
-        },
-        border: "rgba(255,255,255,0.1)",
+      },
+      borderColor: {
+        DEFAULT: "var(--line)",
+      },
+      divideColor: {
+        DEFAULT: "var(--line)",
       },
       fontFamily: {
-        mono: ["var(--font-mono)", "monospace"],
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        sans: ["var(--font-sans)", "Inter", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
-      animation: {
-        marquee: "marquee 30s linear infinite",
-        "marquee-fast": "marquee 20s linear infinite",
+      letterSpacing: {
+        tightest: "-0.035em",
+      },
+      maxWidth: {
+        content: "1200px",
+      },
+      transitionTimingFunction: {
+        editorial: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
       keyframes: {
         marquee: {
-          "0%": { transform: "translateX(0%)" },
-          "100%": { transform: "translateX(-50%)" },
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
         },
+      },
+      animation: {
+        marquee: "marquee 40s linear infinite",
       },
     },
   },

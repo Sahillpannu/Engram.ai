@@ -1,10 +1,13 @@
 import Navbar from "@/components/Navbar";
+import BackgroundFX from "@/components/BackgroundFX";
 import Hero from "@/components/Hero";
 import ProblemSection from "@/components/ProblemSection";
-import ArchitectureDiagram from "@/components/ArchitectureDiagram";
-import CapabilitiesGrid from "@/components/CapabilitiesGrid";
 import HowItWorks from "@/components/HowItWorks";
-import IntegrationsMarquee from "@/components/IntegrationsMarquee";
+import CapabilitiesBento from "@/components/CapabilitiesBento";
+import ArchitectureDiagram from "@/components/ArchitectureDiagram";
+import IntegrationsDock from "@/components/IntegrationsDock";
+import UseCases from "@/components/UseCases";
+import Pricing from "@/components/Pricing";
 import FAQ from "@/components/FAQ";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
@@ -12,14 +15,17 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <>
+      <BackgroundFX />
       <Navbar />
-      <main>
+      <main id="top" className="relative z-10">
         <Hero />
         <ProblemSection />
-        <ArchitectureDiagram />
-        <CapabilitiesGrid />
         <HowItWorks />
-        <IntegrationsMarquee />
+        <CapabilitiesBento />
+        <ArchitectureDiagram />
+        <IntegrationsDock />
+        <UseCases />
+        <Pricing />
         <FAQ />
         <FinalCTA />
       </main>

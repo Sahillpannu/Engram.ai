@@ -1,61 +1,106 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Mail, CalendarClock, Briefcase, Users, MessageSquare } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { problem } from "@/content/copy";
-
-const iconMap: Record<string, React.ElementType> = {
-  Mail,
-  CalendarClock,
-  Briefcase,
-  Users,
-  MessageSquare,
-};
+import { EASE, MonoLabel } from "./ui";
 
 export default function ProblemSection() {
+  const [gone, setGone] = useState(0);
+  const total = problem.cards.length;
+
+  useEffect(() => {
+    const cycle = () => {
+      setGone(0);
+      const t: number[] = [];
+      for (let i = 1; i <= total; i++) {
+        t.push(window.setTimeout(() => setGone(i), 600 * i));
+      }
+      t.push(window.setTimeout(() => setGone(0), 600 * total + 1500));
+      return t;
+    };
+    let timers = cycle();
+    const loop = window.setInterval(() => {
+      timers = cycle();
+    }, 600 * total + 2400);
+    return () => {
+      window.clearInterval(loop);
+      timers.forEach((t) => window.clearTimeout(t));
+    };
+  }, [total]);
+
   return (
-    <section className="border-t border-border py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <section className="relative border-t border-line px-6 py-24 lg:px-8 lg:py-32">
+      <div className="relative z-10 mx-auto grid max-w-content grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
+        {/* left */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          className="max-w-xl"
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: EASE }}
         >
-          <p className="text-xs tracking-[0.2em] uppercase text-accent font-semibold mb-4">
-            {problem.eyebrow}
-          </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight max-w-3xl">
+          <MonoLabel className="mb-5 block">{problem.eyebrow}</MonoLabel>
+          <h2 className="text-balance text-[32px] font-normal leading-[1.08] tracking-tightest text-ink sm:text-[44px]">
             {problem.headline}
           </h2>
-          <p className="mt-4 text-muted text-base sm:text-lg max-w-2xl leading-relaxed">
-            {problem.body}
-          </p>
+          <p className="mt-5 text-[17px] leading-relaxed text-muted">{problem.body}</p>
         </motion.div>
 
+        {/* right: animated deck */}
         <motion.div
-          className="mt-14 border border-border rounded-xl p-8 bg-[#0d0d0d]"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
         >
-          <p className="text-xs tracking-[0.15em] uppercase text-muted-dark mb-6 font-semibold">
-            {problem.forgetsTitle}
-          </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {problem.forgets.map((item, i) => {
-              const Icon = iconMap[item.icon];
+          <div className="relative h-[360px] sm:h-[380px]">
+            {problem.cards.map((c, i) => {
+              const vanished = i < gone;
               return (
                 <div
-                  key={i}
-                  className="flex items-center gap-3 text-sm text-muted border border-border rounded-lg px-4 py-3 bg-[#111]"
+                  key={c.text}
+                  className="absolute left-1/2 top-4 -translate-x-1/2"
+                  style={{ zIndex: total - i }}
                 >
-                  <Icon size={18} className="text-accent shrink-0" />
-                  <span>{item.text}</span>
+                  <motion.div
+                    className="w-[270px] rounded-2xl border border-line bg-card p-5 sm:w-[310px]"
+                    initial={false}
+                    animate={{
+                      opacity: vanished ? 0 : 1,
+                      y: vanished ? -54 : i * 16,
+                      x: vanished ? 36 : (i - 2) * 8,
+                      rotate: vanished ? (i - 2) * 2.5 + 12 : (i - 2) * 2.5,
+                      scale: vanished ? 0.93 : 1,
+                    }}
+                    transition={{ duration: 0.55, ease: EASE }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                      <MonoLabel>{c.tag}</MonoLabel>
+                    </div>
+                    <p className="mt-2 text-sm text-ink">{c.text}</p>
+                  </motion.div>
                 </div>
               );
             })}
+
+            <AnimatePresence>
+              {gone === total && (
+                <motion.div
+                  className="absolute inset-0 flex flex-col items-center justify-center text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4, ease: EASE }}
+                >
+                  <MonoLabel className="mb-3 block">{problem.forgetLabel}</MonoLabel>
+                  <p className="text-2xl font-normal tracking-tight text-ink sm:text-3xl">
+                    {problem.restoreLabel}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.div>
       </div>

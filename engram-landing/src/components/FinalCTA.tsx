@@ -2,47 +2,54 @@
 
 import { motion } from "framer-motion";
 import { cta } from "@/content/copy";
+import { EASE, MonoLabel, PrimaryButton, GhostButton } from "./ui";
 
 export default function FinalCTA() {
   return (
-    <section className="relative border-t border-border py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div
-        className="absolute inset-0 opacity-[0.12]"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 40%, #3b82f6 0%, transparent 50%), radial-gradient(ellipse 60% 50% at 80% 70%, #60a5fa 0%, transparent 40%), radial-gradient(ellipse 50% 40% at 20% 30%, #2563eb 0%, transparent 40%)",
-          backgroundSize: "200% 200%",
-          animation: "gradient-mesh 8s ease-in-out infinite",
-        }}
-      />
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E\")",
-          backgroundSize: "200px 200px",
-          animation: "noise 0.5s steps(3) infinite",
-        }}
-      />
-
-      <motion.div
-        className="relative z-10 max-w-2xl mx-auto text-center"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.5 }}
+    <section
+      id="cta"
+      className="relative overflow-hidden border-t border-line px-6 py-28 lg:px-8 lg:py-36"
+    >
+      {/* faint memory graph illustration */}
+      <svg
+        viewBox="0 0 720 480"
+        fill="none"
+        className="pointer-events-none absolute right-[-6%] top-1/2 hidden h-[140%] -translate-y-1/2 opacity-[0.05] lg:block"
+        aria-hidden
       >
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
-          {cta.headline}
-        </h2>
-        <p className="mt-4 text-muted text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
-          {cta.subtext}
-        </p>
-        <button className="mt-8 px-8 py-3.5 bg-white text-black font-semibold rounded-lg hover:bg-accent-light hover:text-white transition-all duration-200 text-sm">
-          Connect Gmail
-        </button>
-        <p className="mt-4 text-xs text-muted-dark">{cta.disclaimer}</p>
-      </motion.div>
+        <path d="M 206 96 C 253 96 253 240 300 240" stroke="#26251e" strokeWidth="1.5" />
+        <path d="M 206 240 L 300 240" stroke="#26251e" strokeWidth="1.5" />
+        <path d="M 206 384 C 253 384 253 240 300 240" stroke="#26251e" strokeWidth="1.5" />
+        <path d="M 460 240 L 524 240" stroke="#26251e" strokeWidth="1.5" />
+        <circle cx="24" cy="96" r="6" fill="#26251e" />
+        <circle cx="24" cy="240" r="6" fill="#26251e" />
+        <circle cx="24" cy="384" r="6" fill="#26251e" />
+        <circle cx="608" cy="240" r="12" fill="#f54e00" />
+      </svg>
+
+      <div className="relative z-10 mx-auto max-w-2xl text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: EASE }}
+        >
+          <MonoLabel className="mb-5 block">{cta.eyebrow}</MonoLabel>
+          <h2 className="text-balance text-[40px] font-normal leading-[1.05] tracking-tightest text-ink sm:text-[56px]">
+            {cta.headline}
+          </h2>
+          <p className="mx-auto mt-5 max-w-lg text-[17px] leading-relaxed text-muted">
+            {cta.subtext}
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <PrimaryButton href="#">{cta.ctaPrimary}</PrimaryButton>
+            <GhostButton href="#">{cta.ctaSecondary}</GhostButton>
+          </div>
+          <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+            {cta.disclaimer}
+          </p>
+        </motion.div>
+      </div>
     </section>
   );
 }

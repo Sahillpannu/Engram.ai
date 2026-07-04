@@ -1,281 +1,387 @@
 export const siteConfig = {
   name: "Engram",
-  tagline: "Persistent memory for AI agents.",
+  tagline: "Your AI agent remembers.",
   description:
-    "Engram is a persistent memory layer that turns your emails, meetings, and calendar into long-term memory an AI agent can reason over and act on.",
+    "Engram is a persistent memory infrastructure layer for AI agents. It turns emails, meetings, calendars and conversations into long-term memory agents can reason over.",
 };
 
 export const navLinks = [
-  { label: "How it works", href: "#how-it-works" },
+  { label: "How it Works", href: "#how-it-works" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Architecture", href: "#architecture" },
+  { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
 ];
 
 export const hero = {
-  line1: "Your AI agent is smart but forgetful.",
-  line2: "Engram gives it a brain.",
+  label: "PERSISTENT MEMORY FOR AGENTS",
+  headline1: "Your AI agent is smart.",
+  headline2: "It just doesn’t remember.",
   subheading:
-    "A persistent memory layer that turns your emails, meetings, and calendar into long-term memory your AI agent can reason over and act on — so every conversation starts where the last one left off.",
-  integrationsCaption: "Gmail · Google Calendar · Fireflies · Zoom · Qdrant",
-  mockWindow: {
-    title: "/memory",
-    emptyState:
-      "Memory not connected yet — Sign in to start building your AI brain.",
-  },
+    "Turn emails, meetings, and calendars into long-term memory your agents can reason over.",
+  ctaPrimary: "Connect Gmail",
+  ctaSecondary: "View Architecture",
+  trustCaption: "WORKS WITH YOUR EXISTING TOOLS",
+  trust: ["Gmail", "Calendar", "Slack", "Zoom", "Fireflies", "Notion"],
 };
 
 export const problem = {
-  eyebrow: "THE PROBLEM",
-  headline: "Every new chat starts from zero.",
-  body: "Today's AI assistants are intelligent but suffer from digital amnesia. They forget everything between sessions — important emails from weeks ago, decisions made in meetings, ongoing projects, and the context of your past conversations.",
-  forgetsTitle: "What your AI forgets:",
-  forgets: [
-    { icon: "Mail", text: "Important emails from weeks ago" },
-    { icon: "CalendarClock", text: "Decisions made in meetings" },
-    { icon: "Briefcase", text: "Ongoing projects and their status" },
-    { icon: "Users", text: "People, companies, and relationships" },
-    { icon: "MessageSquare", text: "Context from past conversations" },
+  eyebrow: "01 — THE PROBLEM",
+  headline: "Agents forget everything.",
+  body: "Every new session starts from zero. The email from last Tuesday, the decision made in Monday’s meeting, the project you’ve tracked for weeks — gone. Your agent is intelligent, but without memory it can’t build on anything. It asks the same questions. It repeats the same work.",
+  cards: [
+    { tag: "email", text: "Contract draft from Acme" },
+    { tag: "meeting", text: "Q3 pricing decision" },
+    { tag: "calendar", text: "Demo with Globex" },
+    { tag: "slack", text: "Feature request from Sam" },
+    { tag: "note", text: "Vendor evaluation notes" },
   ],
+  forgetLabel: "FADING FROM CONTEXT",
+  restoreLabel: "Engram restores them.",
 };
 
-export const architecture = {
-  eyebrow: "THE SOLUTION",
-  headline: "Engram builds your personal AI brain.",
-  body: "Engram continuously collects information from your digital world, filters what's valuable, converts it into long-term memory, and lets an AI agent reason over it — so your agent always has the context it needs.",
-  stages: [
+export const howItWorks = {
+  eyebrow: "02 — HOW IT WORKS",
+  headline: "From signal to memory.",
+  subtext:
+    "Four stages turn the noise of your workday into memory your agent can actually use.",
+  steps: [
     {
-      id: "inputs",
-      title: "Data Sources",
-      items: ["Gmail", "Google Calendar", "Fireflies", "Zoom"],
-      icon: "Inbox",
+      number: "01",
+      title: "Connect",
+      desc: "Authenticate Gmail, Calendar, Slack and your meeting tools in a single OAuth flow. Engram begins listening immediately — no SDK to install, no infrastructure to deploy.",
     },
     {
-      id: "pipeline",
-      title: "Ingestion Pipeline",
-      description:
-        "Real-time webhooks and Pub/Sub push events into the processing queue.",
-      icon: "GitBranch",
+      number: "02",
+      title: "Ingest",
+      desc: "New emails, events and transcripts stream in through webhooks and Pub/Sub, deduplicated and queued for processing in real time.",
     },
     {
-      id: "filter",
-      title: "LLM Memory Filter",
-      description:
-        "GPT-4.1-mini classifies what's worth remembering and discards noise.",
-      icon: "Brain",
+      number: "03",
+      title: "Structure",
+      desc: "An LLM filter discards noise, extracts entities, and writes typed memory records with consistent metadata — the stuff worth remembering, nothing else.",
     },
     {
-      id: "embed",
-      title: "OpenAI Embeddings",
-      description:
-        "text-embedding-3-small converts filtered knowledge into vector embeddings.",
-      icon: "Layers",
-    },
-    {
-      id: "store",
-      title: "Qdrant Vector Memory",
-      description:
-        "High-performance vector search stores and indexes your memory.",
-      icon: "Database",
-    },
-    {
-      id: "agent",
-      title: "GPT-4.1 Agent",
-      description:
-        "The agent retrieves relevant memory via RAG to answer questions and take action.",
-      icon: "Bot",
-    },
-    {
-      id: "output",
-      title: "Answers & Actions",
-      description:
-        "Email replies, calendar updates, meeting summaries — all grounded in memory.",
-      icon: "Zap",
+      number: "04",
+      title: "Retrieve",
+      desc: "Your agent queries memory through a typed API — semantic search, recall and entity lookup — grounded in context, across every session.",
     },
   ],
 };
 
 export const capabilities = {
-  eyebrow: "CAPABILITIES",
-  headline: "Everything you need for a persistent AI memory",
-  subtext: "Built for Gmail, Calendar, and Meetings — not generic memory infra.",
+  eyebrow: "03 — CAPABILITIES",
+  headline: "Memory, built for real work.",
+  subtext:
+    "Not generic vector storage — primitives tuned for the signals agents actually need.",
   items: [
     {
-      icon: "Bot",
-      title: "AI Agent",
-      description:
-        "GPT-4.1 powered reasoning with multi-step tool execution and tool chaining.",
+      id: "search",
+      span: "lg",
+      title: "Semantic Memory Search",
+      desc: "Ask in natural language and recall the right memory across every source — ranked by relevance, scoped by entity and time.",
+      demo: "search",
+      tag: "search",
     },
     {
-      icon: "Brain",
-      title: "Persistent Memory",
-      description:
-        "Context-aware responses that carry across every conversation.",
-    },
-    {
-      icon: "Mail",
-      title: "Gmail Intelligence",
-      description:
-        "Search inbox, read full threads, draft and send replies directly.",
-    },
-    {
-      icon: "Tags",
-      title: "Native Gmail Categories",
-      description:
-        "Inbox / Updates / Social / Promotions matched to Gmail's real CATEGORY_* labels.",
-    },
-    {
-      icon: "MailCheck",
-      title: "Full Mail Management",
-      description:
-        "Real Drafts API integration, synced Sent, on-demand Spam/Trash.",
-    },
-    {
-      icon: "RefreshCw",
-      title: "Real-time Sync",
-      description:
-        "Gmail changes pushed via Google Pub/Sub with automatic watch renewal.",
-    },
-    {
-      icon: "Calendar",
-      title: "Calendar Intelligence",
-      description:
-        "View, create, and update events; find free slots in natural language.",
-    },
-    {
-      icon: "HardDrive",
-      title: "Local-First Architecture",
-      description:
-        "Sub-second loads via local caching + cooldown-based background sync.",
-    },
-    {
-      icon: "Video",
+      id: "meetings",
+      span: "md",
       title: "Meeting Intelligence",
-      description:
-        "Zoom handles scheduling, Fireflies transcribes, both feed vector memory.",
+      desc: "Transcripts become structured memory — decisions, action items and commitments, ready to recall.",
+      demo: "timeline",
+      tag: "meetings",
+    },
+    {
+      id: "email",
+      span: "md",
+      title: "Email Understanding",
+      desc: "Threads are parsed into intent, entities and actions, so your agent knows what actually needs a reply.",
+      demo: "email",
+      tag: "email",
+    },
+    {
+      id: "calendar",
+      span: "sm",
+      title: "Calendar Context",
+      desc: "Past and upcoming events give your agent a sense of time and what matters next.",
+      demo: "calendar",
+      tag: "calendar",
+    },
+    {
+      id: "retrieval",
+      span: "sm",
+      title: "Memory Retrieval",
+      desc: "Hybrid search combines semantic similarity with metadata filters for precise recall.",
+      demo: "graph",
+      tag: "retrieval",
+    },
+    {
+      id: "sync",
+      span: "md",
+      title: "Real-time Sync",
+      desc: "Webhooks keep memory live. New signals are processed in seconds, not on a schedule.",
+      demo: "sync",
+      tag: "sync",
     },
   ],
 };
 
-export const howItWorks = {
-  eyebrow: "HOW IT WORKS",
-  headline: "From inbox to memory in four steps",
-  subtext:
-    "Scroll — each step appears in sequence, connected by animated dashed lines.",
-  steps: [
+export const architecture = {
+  eyebrow: "04 — ARCHITECTURE",
+  headline: "Memory, as infrastructure.",
+  body: "A pipeline that takes raw signals from your tools, normalizes them, embeds them, and exposes memory through APIs your agents can query. Every stage is observable, typed and stateless.",
+  stages: [
     {
-      number: "01",
-      tab: "Data lands",
-      title: "Data lands",
-      icon: "ArrowDownToLine",
-      description:
-        "New emails, events, and meeting transcripts flow in through Gmail Pub/Sub, Calendar sync, and Fireflies webhooks.",
+      id: "sources",
+      label: "sources",
+      title: "Sources",
+      desc: "Gmail, Calendar, Slack, Zoom, Notion and Fireflies push events the moment they happen.",
+      detail:
+        "Webhooks and Pub/Sub deliver events in real time — no polling, no cron jobs, no missed updates.",
+      items: ["Gmail", "Calendar", "Slack", "Zoom", "Notion", "Fireflies"],
     },
     {
-      number: "02",
-      tab: "Engram filters it",
-      title: "Engram filters it",
-      icon: "Filter",
-      description:
-        "GPT-4.1-mini decides what's actually worth remembering, discarding noise like newsletters and spam.",
+      id: "ingestion",
+      label: "ingestion",
+      title: "Ingestion",
+      desc: "An event queue receives and deduplicates incoming signals.",
+      detail:
+        "Idempotent consumers guarantee at-least-once delivery without double processing.",
+      items: ["Pub/Sub", "Webhooks", "Event Queue"],
     },
     {
-      number: "03",
-      tab: "Memory is embedded",
-      title: "Memory is embedded",
-      icon: "Layers",
-      description:
-        "Valuable knowledge is embedded via text-embedding-3-small and stored in Qdrant vector memory.",
+      id: "normalization",
+      label: "normalization",
+      title: "Normalization",
+      desc: "Heterogeneous payloads are mapped to a unified memory schema.",
+      detail:
+        "Emails, events and transcripts become typed memory records with consistent metadata.",
+      items: ["Schema", "Entities", "Metadata"],
     },
     {
-      number: "04",
-      tab: "Agent acts",
-      title: "Agent acts",
-      icon: "Zap",
-      description:
-        "GPT-4.1 retrieves relevant memory via RAG and answers questions or takes action for you.",
+      id: "embeddings",
+      label: "embeddings",
+      title: "Embeddings",
+      desc: "text-embedding-3-small converts each record into a vector.",
+      detail:
+        "Batched embedding calls keep latency and cost low as your memory scales.",
+      items: ["text-embedding-3-small", "Batched", "Cached"],
+    },
+    {
+      id: "qdrant",
+      label: "qdrant",
+      title: "Qdrant",
+      desc: "Vectors and payloads are indexed for fast similarity search.",
+      detail:
+        "Filtered search lets agents scope memory by source, date or entity in milliseconds.",
+      items: ["Vector Index", "Payload Filter", "Hybrid Search"],
+    },
+    {
+      id: "memory-api",
+      label: "memory-api",
+      title: "Memory APIs",
+      desc: "A typed API exposes search, recall and write operations.",
+      detail:
+        "Semantic search, time-scoped recall and entity lookup through a single interface.",
+      items: ["/search", "/recall", "/write"],
+    },
+    {
+      id: "agents",
+      label: "agents",
+      title: "AI Agents",
+      desc: "Agents retrieve relevant memory via RAG before reasoning or acting.",
+      detail:
+        "Grounded responses and actions — every reply starts where the last one left off.",
+      items: ["RAG", "Tool Calls", "Actions"],
     },
   ],
 };
 
 export const integrations = [
-  { name: "Gmail", icon: "Mail" },
-  { name: "Google Calendar", icon: "Calendar" },
-  { name: "Fireflies", icon: "Video" },
-  { name: "Zoom", icon: "Monitor" },
-  { name: "OpenAI", icon: "Sparkles" },
-  { name: "Qdrant", icon: "Database" },
-  { name: "PostgreSQL", icon: "Server" },
-  { name: "Next.js", icon: "Code" },
+  { name: "Gmail", desc: "Inbox, threads & drafts", icon: "Mail" },
+  { name: "Google Calendar", desc: "Events & availability", icon: "Calendar" },
+  { name: "Slack", desc: "Conversations & channels", icon: "MessageSquare" },
+  { name: "Zoom", desc: "Meetings & recordings", icon: "Video" },
+  { name: "Notion", desc: "Docs & notes", icon: "FileText" },
+  { name: "Fireflies", desc: "Transcripts & summaries", icon: "Mic" },
+  { name: "HubSpot", desc: "CRM records & deals", icon: "Building2" },
 ];
 
+export const useCases = {
+  eyebrow: "05 — BUILT FOR",
+  headline: "Built for agents that need memory.",
+  subtext: "One memory layer powers very different agents.",
+  items: [
+    {
+      icon: "Headphones",
+      title: "Customer support agent",
+      problem: "Repeats clarifying questions on every ticket.",
+      memory: "Past tickets, account history, prior resolutions.",
+      outcome: "Resolves issues with full context from the first reply.",
+    },
+    {
+      icon: "CalendarClock",
+      title: "Executive assistant",
+      problem: "Books meetings blind to past commitments.",
+      memory: "Calendar, preferences, relationships, notes.",
+      outcome: "Schedules and drafts that respect everything before.",
+    },
+    {
+      icon: "TrendingUp",
+      title: "Sales copilot",
+      problem: "Forgets where each deal stands between calls.",
+      memory: "Emails, calls, objections, next steps.",
+      outcome: "Every follow-up picks up exactly where the last left off.",
+    },
+    {
+      icon: "Microscope",
+      title: "Research agent",
+      problem: "Loses findings the moment a session ends.",
+      memory: "Sources, summaries, hypotheses, open questions.",
+      outcome: "Compounds knowledge across every research session.",
+    },
+  ],
+};
+
+export const pricing = {
+  eyebrow: "06 — PRICING",
+  headline: "Start free. Scale with your memory.",
+  subtext: "Pay for stored memory and retrieval — not seats.",
+  tiers: [
+    {
+      name: "Developer",
+      price: "$0",
+      cadence: "/mo",
+      blurb: "For building and testing your first agent.",
+      features: [
+        "1 memory namespace",
+        "5,000 memories",
+        "Gmail & Calendar",
+        "Community support",
+      ],
+      cta: "Start free",
+      featured: false,
+    },
+    {
+      name: "Team",
+      price: "$49",
+      cadence: "/mo",
+      blurb: "For production agents your team relies on.",
+      features: [
+        "10 memory namespaces",
+        "250,000 memories",
+        "All integrations",
+        "Memory APIs",
+        "Priority support",
+      ],
+      cta: "Connect Gmail",
+      featured: true,
+    },
+    {
+      name: "Enterprise",
+      price: "Custom",
+      cadence: "",
+      blurb: "For agents at organizational scale.",
+      features: [
+        "Unlimited namespaces",
+        "Unlimited memories",
+        "SSO & SAML",
+        "Dedicated Qdrant",
+        "SLA + audit logs",
+      ],
+      cta: "Talk to us",
+      featured: false,
+    },
+  ],
+};
+
 export const faq = {
-  eyebrow: "FAQ",
+  eyebrow: "07 — FAQ",
   headline: "Frequently asked questions",
   items: [
     {
       question: "What is Engram?",
       answer:
-        "Engram is a persistent memory layer for AI agents. It connects to your Gmail, Calendar, and meetings, extracts and embeds valuable knowledge, and gives your AI agent long-term memory it can reason over across every conversation.",
+        "Engram is a persistent memory infrastructure layer for AI agents. It connects to your Gmail, Calendar and meetings, extracts and embeds valuable knowledge, and gives your agent long-term memory it can reason over across every conversation.",
     },
     {
       question: "Is my data private?",
       answer:
-        "Yes. Your data never leaves your control. Engram processes data on your behalf and stores embeddings in your own Qdrant instance. We do not train on your data, sell it, or share it with third parties.",
+        "Yes. Your data stays under your control. Engram processes data on your behalf and stores embeddings in your own Qdrant instance. We do not train on your data, sell it, or share it with third parties.",
     },
     {
       question: "Which providers are supported?",
       answer:
-        "Currently we support Gmail, Google Calendar, Fireflies, and Zoom. More integrations are planned based on user demand.",
+        "Gmail, Google Calendar, Slack, Zoom, Notion, Fireflies and HubSpot today. More integrations are added based on demand — all sources feed the same unified memory schema.",
     },
     {
       question: "Do I need to keep a tab open?",
       answer:
-        "No. Engram runs in the background — it listens for new data via Gmail Pub/Sub and Fireflies webhooks, processes it automatically, and updates your memory without you needing to keep anything open.",
+        "No. Engram runs in the background. It listens for new data via Gmail Pub/Sub and Fireflies webhooks, processes it automatically, and updates your memory without you keeping anything open.",
     },
     {
-      question: "What's the pricing?",
+      question: "How is this different from long context or search?",
       answer:
-        "Engram is currently in early access. We're onboarding users gradually — join the waitlist and we'll reach out with details as we open up.",
+        "Long-context windows eventually fill up, and search requires you to know what to look for. Engram maintains a persistent, searchable memory that grows intelligently over time — your agent remembers across sessions without you re-explaining everything.",
     },
     {
-      question:
-        "How is this different from just using ChatGPT with search or long context?",
+      question: "Can I bring my own vector database?",
       answer:
-        "Unlike long-context windows which eventually fill up, or search which requires you to know what to look for, Engram maintains a persistent, searchable memory that grows intelligently over time. Your agent remembers across sessions without you having to re-explain everything.",
+        "On the Team and Enterprise plans, yes. Point Engram at your own Qdrant cluster and keep memory entirely within your infrastructure.",
     },
   ],
 };
 
 export const cta = {
-  headline: "Give your AI agent a memory.",
+  eyebrow: "GET STARTED",
+  headline: "Give your AI a memory.",
   subtext:
-    "Connect Gmail in under a minute. No configuration, no vector database setup — just sign in and Engram starts learning.",
+    "Connect Gmail in under a minute. No vector database to set up, no infrastructure to manage — sign in and Engram starts learning.",
+  ctaPrimary: "Connect Gmail",
+  ctaSecondary: "Read Documentation",
   disclaimer:
     "Early access · No credit card required · Privacy-first by design",
 };
 
 export const footer = {
-  tagline: "Persistent memory for AI agents — built on Gmail, Calendar, and Meetings.",
-  productLinks: [
-    { label: "Features", href: "#capabilities" },
-    { label: "How it works", href: "#how-it-works" },
-    { label: "Integrations", href: "#integrations" },
-    { label: "Changelog", href: "#" },
-  ],
-  companyLinks: [
-    { label: "About", href: "#" },
-    { label: "Blog", href: "#" },
-    { label: "Careers", href: "#" },
-    { label: "Contact", href: "#" },
-  ],
-  legalLinks: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
-  ],
-  socials: [
-    { label: "Twitter", href: "#" },
-    { label: "GitHub", href: "#" },
-    { label: "LinkedIn", href: "#" },
+  mission:
+    "Persistent memory infrastructure for AI agents — built so every conversation starts where the last one left off.",
+  columns: [
+    {
+      title: "Product",
+      links: [
+        { label: "Capabilities", href: "#capabilities" },
+        { label: "Architecture", href: "#architecture" },
+        { label: "Integrations", href: "#integrations" },
+        { label: "Pricing", href: "#pricing" },
+        { label: "Changelog", href: "#" },
+      ],
+    },
+    {
+      title: "Resources",
+      links: [
+        { label: "Documentation", href: "#" },
+        { label: "API Reference", href: "#" },
+        { label: "Guides", href: "#" },
+        { label: "Status", href: "#" },
+      ],
+    },
+    {
+      title: "Company",
+      links: [
+        { label: "About", href: "#" },
+        { label: "Blog", href: "#" },
+        { label: "Careers", href: "#" },
+        { label: "Contact", href: "#" },
+      ],
+    },
+    {
+      title: "Legal",
+      links: [
+        { label: "Privacy", href: "#" },
+        { label: "Terms", href: "#" },
+        { label: "Security", href: "#" },
+      ],
+    },
   ],
 };
