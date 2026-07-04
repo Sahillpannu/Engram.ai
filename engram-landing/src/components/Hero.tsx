@@ -92,7 +92,6 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
         >
           <div className="relative z-10">
-            <div className="absolute -inset-6 rounded-3xl border border-line/50" />
             <div className="relative">
               <MemoryGraph />
             </div>
