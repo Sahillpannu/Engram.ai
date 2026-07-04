@@ -3,11 +3,13 @@
 import { motion } from "framer-motion";
 import { MonoLabel } from "./ui";
 
-const INK = "#26251e";
-const MUTED = "#5a5852";
-const LINE = "#e6e5e0";
-const ACCENT = "#f54e00";
-const CARD = "#ffffff";
+const CARD_BG = "#141413";
+const CARD_LINE = "rgba(255,255,255,0.08)";
+const INK = "#f7f7f4";
+const MUTED = "#a1a1aa";
+const MUTED_FG = "#71717a";
+const LINE = "rgba(255,255,255,0.08)";
+const ACCENT = "#ff6b2c";
 
 const sources = [
   { tag: "email", title: "EMAIL", lines: ["Contract draft", "attached"] },
@@ -29,7 +31,7 @@ function FlowDot({
   glow?: boolean;
 }) {
   return (
-    <circle r={3.4} fill={fill} filter={glow ? "url(#mg-dotglow)" : undefined}>
+    <circle r={glow ? 3.8 : 3} fill={fill} filter={glow ? "url(#mg-dotglow)" : undefined}>
       <animateMotion dur={dur} begin={begin} repeatCount="indefinite" rotate="auto">
         <mpath href={`#${pathId}`} />
       </animateMotion>
@@ -50,16 +52,31 @@ export default function MemoryGraph() {
       >
         <defs>
           <filter id="mg-glow" x="-60%" y="-60%" width="220%" height="220%">
-            <feGaussianBlur stdDeviation="14" />
+            <feGaussianBlur stdDeviation="18" />
           </filter>
           <filter id="mg-dotglow" x="-200%" y="-200%" width="500%" height="500%">
-            <feGaussianBlur stdDeviation="2.4" result="b" />
+            <feGaussianBlur stdDeviation="3" result="b" />
             <feMerge>
               <feMergeNode in="b" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
+          <radialGradient id="mg-radial" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={ACCENT} stopOpacity="0.18" />
+            <stop offset="65%" stopColor={ACCENT} stopOpacity="0.04" />
+            <stop offset="100%" stopColor={ACCENT} stopOpacity="0" />
+          </radialGradient>
         </defs>
+
+        {/* radial glow behind the engram node */}
+        <circle cx="608" cy="240" r="140" fill="url(#mg-radial)">
+          <animate
+            attributeName="opacity"
+            values="0.6;1;0.6"
+            dur="4s"
+            repeatCount="indefinite"
+          />
+        </circle>
 
         {/* connectors */}
         <path id="mg-email" d="M 206 96 C 253 96 253 240 300 240" stroke={LINE} strokeWidth="1.5" />
@@ -67,53 +84,48 @@ export default function MemoryGraph() {
         <path id="mg-meet" d="M 206 384 C 253 384 253 240 300 240" stroke={LINE} strokeWidth="1.5" />
         <path id="mg-mem" d="M 460 240 L 524 240" stroke={LINE} strokeWidth="1.5" />
 
-        {/* flowing data packets */}
-        <FlowDot pathId="mg-email" begin="0s" dur="3s" fill={MUTED} />
-        <FlowDot pathId="mg-email" begin="1.5s" dur="3s" fill={MUTED} />
-        <FlowDot pathId="mg-cal" begin="0.3s" dur="3s" fill={MUTED} />
-        <FlowDot pathId="mg-cal" begin="1.8s" dur="3s" fill={MUTED} />
-        <FlowDot pathId="mg-meet" begin="0.6s" dur="3s" fill={MUTED} />
-        <FlowDot pathId="mg-meet" begin="2.1s" dur="3s" fill={MUTED} />
-        <FlowDot pathId="mg-mem" begin="0s" dur="2.4s" fill={ACCENT} glow />
-        <FlowDot pathId="mg-mem" begin="0.8s" dur="2.4s" fill={ACCENT} glow />
-        <FlowDot pathId="mg-mem" begin="1.6s" dur="2.4s" fill={ACCENT} glow />
+        {/* flowing data packets — muted ones */}
+        <FlowDot pathId="mg-email" begin="0s" dur="3.2s" fill={MUTED} />
+        <FlowDot pathId="mg-email" begin="1.6s" dur="3.2s" fill={MUTED} />
+        <FlowDot pathId="mg-cal" begin="0.4s" dur="3.2s" fill={MUTED} />
+        <FlowDot pathId="mg-cal" begin="2s" dur="3.2s" fill={MUTED} />
+        <FlowDot pathId="mg-meet" begin="0.8s" dur="3.2s" fill={MUTED} />
+        <FlowDot pathId="mg-meet" begin="2.4s" dur="3.2s" fill={MUTED} />
+
+        {/* orange data packets into memory */}
+        <FlowDot pathId="mg-mem" begin="0s" dur="2.2s" fill={ACCENT} glow />
+        <FlowDot pathId="mg-mem" begin="0.7s" dur="2.2s" fill={ACCENT} glow />
+        <FlowDot pathId="mg-mem" begin="1.4s" dur="2.2s" fill={ACCENT} glow />
 
         {/* ---------- source nodes ---------- */}
         {[
           { y: 56, title: "EMAIL", lines: ["Contract draft", "attached"] },
           { y: 200, title: "CALENDAR", lines: ["Demo with Acme"] },
           { y: 344, title: "MEETING", lines: ["Customer requested", "enterprise pricing"] },
-        ].map((n) => (
-          <g key={n.title}>
+        ].map((n, i) => (
+          <g key={n.title} className={i === 0 ? "animate-float" : i === 1 ? "animate-float-delay" : "animate-float-delay-2"}>
             <rect
               x={20}
               y={n.y}
               width={186}
               height={80}
-              rx={12}
+              rx={14}
               fill="none"
-              stroke={INK}
+              stroke={LINE}
               strokeWidth={1}
-              opacity={0.08}
-            >
-              <animate
-                attributeName="opacity"
-                values="0.05;0.13;0.05"
-                dur="3.4s"
-                repeatCount="indefinite"
-              />
-            </rect>
+              opacity={0.06}
+            />
             <rect
               x={24}
               y={n.y + 4}
               width={178}
               height={72}
-              rx={10}
-              fill={CARD}
-              stroke={LINE}
+              rx={12}
+              fill={CARD_BG}
+              stroke={CARD_LINE}
               strokeWidth={1}
             />
-            <circle cx={40} cy={n.y + 24} r={3} fill={INK} />
+            <circle cx={40} cy={n.y + 24} r={3} fill={MUTED_FG} />
             <text
               x={50}
               y={n.y + 28}
@@ -124,11 +136,11 @@ export default function MemoryGraph() {
             >
               {n.title}
             </text>
-            <text x={40} y={n.y + 52} fontSize={13.5} fill={INK}>
+            <text x={40} y={n.y + 52} fontSize={13.5} fill={INK} opacity={0.85}>
               {n.lines[0]}
             </text>
             {n.lines[1] && (
-              <text x={40} y={n.y + 69} fontSize={13.5} fill={INK}>
+              <text x={40} y={n.y + 69} fontSize={13.5} fill={INK} opacity={0.7}>
                 {n.lines[1]}
               </text>
             )}
@@ -142,19 +154,19 @@ export default function MemoryGraph() {
             y={200}
             width={160}
             height={80}
-            rx={10}
-            fill={CARD}
-            stroke={LINE}
+            rx={12}
+            fill={CARD_BG}
+            stroke={CARD_LINE}
             strokeWidth={1}
           />
-          <circle cx={316} cy={224} r={3} fill={INK} />
+          <circle cx={316} cy={224} r={3} fill={MUTED_FG} />
           <text x={326} y={228} className="font-mono" fontSize={11} letterSpacing={1.4} fill={MUTED}>
             KNOWLEDGE
           </text>
-          <text x={316} y={252} fontSize={13} fill={INK}>
+          <text x={316} y={252} fontSize={13} fill={INK} opacity={0.85}>
             structured
           </text>
-          <text x={316} y={269} fontSize={13} fill={INK}>
+          <text x={316} y={269} fontSize={13} fill={INK} opacity={0.7}>
             memory records
           </text>
         </g>
@@ -167,14 +179,14 @@ export default function MemoryGraph() {
             y={138}
             width={188}
             height={204}
-            rx={18}
+            rx={20}
             fill={ACCENT}
             filter="url(#mg-glow)"
           >
             <animate
               attributeName="opacity"
-              values="0.14;0.32;0.14"
-              dur="3.2s"
+              values="0.1;0.22;0.1"
+              dur="3.6s"
               repeatCount="indefinite"
             />
           </rect>
@@ -184,41 +196,58 @@ export default function MemoryGraph() {
             y={148}
             width={168}
             height={184}
-            rx={14}
-            fill={INK}
+            rx={16}
+            fill="#0b0b0a"
           />
-          <circle cx={608} cy={186} r={4} fill={ACCENT} />
+          <rect
+            x={524}
+            y={148}
+            width={168}
+            height={184}
+            rx={16}
+            fill="none"
+            stroke="rgba(255,255,255,0.12)"
+            strokeWidth={1}
+          />
+          <circle cx={608} cy={186} r={5} fill={ACCENT}>
+            <animate
+              attributeName="r"
+              values="5;6.5;5"
+              dur="3.2s"
+              repeatCount="indefinite"
+            />
+          </circle>
           <text
             x={608}
-            y={232}
+            y={234}
             textAnchor="middle"
             className="font-mono"
-            fontSize={17}
-            letterSpacing={2}
-            fill="#f7f7f4"
+            fontSize={18}
+            letterSpacing={2.5}
+            fill={INK}
           >
             ENGRAM
           </text>
           <text
             x={608}
-            y={258}
+            y={260}
             textAnchor="middle"
             className="font-mono"
-            fontSize={17}
-            letterSpacing={2}
-            fill="#f7f7f4"
+            fontSize={18}
+            letterSpacing={2.5}
+            fill={INK}
           >
             MEMORY
           </text>
           <text
             x={608}
-            y={288}
+            y={290}
             textAnchor="middle"
             className="font-mono"
             fontSize={10}
             letterSpacing={1.2}
-            fill="#f7f7f4"
-            opacity={0.5}
+            fill={INK}
+            opacity={0.45}
           >
             persistent layer
           </text>
@@ -234,7 +263,7 @@ export default function MemoryGraph() {
               className="rounded-xl border border-line bg-card p-3.5"
             >
               <MonoLabel>{s.tag}</MonoLabel>
-              <p className="mt-1 text-sm text-ink">{s.lines.join(" ")}</p>
+              <p className="mt-1 text-sm text-ink/80">{s.lines.join(" ")}</p>
             </div>
           ))}
         </div>
@@ -248,9 +277,9 @@ export default function MemoryGraph() {
           />
         </div>
 
-        <div className="rounded-xl bg-ink p-5 text-center">
-          <p className="font-mono text-sm tracking-[0.15em] text-bg">ENGRAM MEMORY</p>
-          <p className="mt-1.5 font-mono text-[10px] tracking-[0.15em] text-bg/55">
+        <div className="rounded-xl bg-[#0b0b0a] p-5 text-center border border-white/10">
+          <p className="font-mono text-sm tracking-[0.15em] text-ink">ENGRAM MEMORY</p>
+          <p className="mt-1.5 font-mono text-[10px] tracking-[0.15em] text-muted-foreground">
             persistent memory layer
           </p>
         </div>

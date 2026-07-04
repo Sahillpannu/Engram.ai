@@ -37,7 +37,7 @@ export default function HowItWorks() {
               <motion.span
                 className="absolute -left-[26px] top-1.5 h-3 w-3 rounded-full border border-line bg-card sm:-left-[30px]"
                 initial={{ backgroundColor: "rgba(0,0,0,0)", borderColor: "var(--line)" }}
-                whileInView={{ backgroundColor: "rgba(38,37,30,1)", borderColor: "rgba(38,37,30,1)" }}
+                whileInView={{ backgroundColor: "var(--ink)", borderColor: "var(--ink)" }}
                 viewport={{ once: true, amount: 0.8 }}
                 transition={{ duration: 0.4, ease: EASE }}
               />

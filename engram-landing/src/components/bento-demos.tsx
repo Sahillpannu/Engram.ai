@@ -102,7 +102,7 @@ export function SearchDemo() {
 
   return (
     <div className="flex flex-1 flex-col gap-3">
-      <div className="flex items-center gap-2 rounded-lg border border-line bg-bg/70 px-3 py-2">
+      <div className="flex items-center gap-2 rounded-lg border border-line bg-white/[0.03] px-3 py-2">
         <Search size={13} className="text-muted" />
         <span className="font-mono text-xs text-ink">
           {typed}
@@ -119,7 +119,7 @@ export function SearchDemo() {
             RESULTS[qi].map((r, i) => (
               <motion.div
                 key={`${qi}-${i}`}
-                className="rounded-lg border border-line bg-bg/50 p-2.5"
+                className="rounded-lg border border-line bg-white/[0.02] p-2.5"
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
@@ -128,7 +128,7 @@ export function SearchDemo() {
                 <p className="text-[12px] leading-snug text-ink">{highlight(r, QUERIES[qi])}</p>
                 <div className="mt-1.5 flex items-center gap-1.5">
                   <span className="h-1 w-1 rounded-full bg-accent" />
-                  <span className="font-mono text-[10px] text-muted">
+                  <span className="font-mono text-[10px] text-muted-foreground">
                     memory · score {(0.92 - i * 0.08).toFixed(2)}
                   </span>
                 </div>
@@ -164,10 +164,10 @@ export function TimelineDemo() {
           >
             <span className="font-mono text-[10px] text-muted">{e.t}</span>
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            <span className="font-mono text-[10px] uppercase tracking-wide text-muted">
+            <span className="font-mono text-[10px] uppercase tracking-wide text-muted-foreground">
               {e.label}
             </span>
-            <span className="text-[12px] text-ink">{e.text}</span>
+            <span className="text-[12px] text-ink/80">{e.text}</span>
           </motion.div>
         );
       })}
@@ -188,9 +188,9 @@ export function EmailDemo() {
   const count = useLoopingCount(EMAIL_CHIPS.length, 700, 1400);
   return (
     <div className="flex flex-1 flex-col gap-2.5">
-      <div className="rounded-lg border border-line bg-bg/50 p-2.5">
-        <p className="text-[11px] text-muted">Acme Procurement</p>
-        <p className="text-[12px] text-ink">RE: Enterprise pricing</p>
+      <div className="rounded-lg border border-line bg-white/[0.02] p-2.5">
+        <p className="text-[11px] text-muted-foreground">Acme Procurement</p>
+        <p className="text-[12px] text-ink/85">RE: Enterprise pricing</p>
       </div>
       <div className="flex flex-wrap gap-1.5">
         {EMAIL_CHIPS.map((c, i) => {
@@ -198,11 +198,11 @@ export function EmailDemo() {
           return (
             <motion.span
               key={c.k}
-              className="inline-flex items-center gap-1.5 rounded-md border border-line bg-bg/60 px-2 py-1"
+              className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white/[0.02] px-2 py-1"
               animate={{ opacity: on ? 1 : 0.2, y: on ? 0 : 6 }}
               transition={{ duration: 0.4, ease: EASE }}
             >
-              <span className="font-mono text-[10px] text-muted">{c.k}</span>
+              <span className="font-mono text-[10px] text-muted-foreground">{c.k}</span>
               <span className="text-[11px] text-ink">{c.v}</span>
             </motion.span>
           );
@@ -222,16 +222,16 @@ export function CalendarDemo() {
   return (
     <div className="flex flex-1 flex-col gap-2.5">
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[10px] uppercase tracking-wide text-muted">July</span>
-        <span className="font-mono text-[10px] text-muted">2026</span>
+        <span className="font-mono text-[10px] uppercase tracking-wide text-muted-foreground">July</span>
+        <span className="font-mono text-[10px] text-muted-foreground">2026</span>
       </div>
       <div className="grid grid-cols-7 gap-1">
         {days.map((d, i) => (
           <div key={i} className="flex flex-col items-center gap-1">
-            <span className="font-mono text-[9px] text-muted">{d}</span>
+            <span className="font-mono text-[9px] text-muted-foreground">{d}</span>
             <span
               className={`flex h-5 w-5 items-center justify-center rounded text-[10px] ${
-                i === active ? "bg-accent-soft font-mono text-ink" : "font-mono text-muted"
+                i === active ? "bg-accent-soft font-mono text-accent" : "font-mono text-muted"
               }`}
             >
               {nums[i]}
@@ -239,13 +239,13 @@ export function CalendarDemo() {
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-1.5 rounded-md border border-line bg-bg/50 px-2 py-1.5">
+      <div className="flex items-center gap-1.5 rounded-md border border-line bg-white/[0.02] px-2 py-1.5">
         <motion.span
           className="h-1.5 w-1.5 rounded-full bg-accent"
           animate={{ opacity: [0.4, 1, 0.4] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
-        <span className="text-[11px] text-ink">2:00pm — Demo, Globex</span>
+        <span className="text-[11px] text-ink/85">2:00pm — Demo, Globex</span>
       </div>
     </div>
   );
@@ -258,17 +258,17 @@ export function GraphDemo() {
   return (
     <div className="flex flex-1 items-center justify-center">
       <svg viewBox="0 0 120 70" fill="none" className="h-auto w-full max-w-[220px]">
-        <path id="bg1" d="M 16 18 C 60 18 60 35 104 35" stroke="#e6e5e0" strokeWidth="1.2" />
-        <path id="bg2" d="M 16 52 C 60 52 60 35 104 35" stroke="#e6e5e0" strokeWidth="1.2" />
-        <circle cx="16" cy="18" r="4" fill="#26251e" />
-        <circle cx="16" cy="52" r="4" fill="#26251e" />
-        <circle cx="104" cy="35" r="5.5" fill="#f54e00" />
-        <circle r="2.6" fill="#5a5852">
+        <path id="bg1" d="M 16 18 C 60 18 60 35 104 35" stroke="rgba(255,255,255,0.08)" strokeWidth="1.2" />
+        <path id="bg2" d="M 16 52 C 60 52 60 35 104 35" stroke="rgba(255,255,255,0.08)" strokeWidth="1.2" />
+        <circle cx="16" cy="18" r="4" fill="#f7f7f4" opacity="0.5" />
+        <circle cx="16" cy="52" r="4" fill="#f7f7f4" opacity="0.5" />
+        <circle cx="104" cy="35" r="5.5" fill="#ff6b2c" />
+        <circle r="2.6" fill="#a1a1aa">
           <animateMotion dur="2.4s" repeatCount="indefinite">
             <mpath href="#bg1" />
           </animateMotion>
         </circle>
-        <circle r="2.6" fill="#5a5852">
+        <circle r="2.6" fill="#a1a1aa">
           <animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite">
             <mpath href="#bg2" />
           </animateMotion>
@@ -299,7 +299,7 @@ export function SyncDemo() {
           animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1, 0.8] }}
           transition={{ duration: 1.4, repeat: Infinity }}
         />
-        <span className="font-mono text-[10px] uppercase tracking-wide text-muted">
+        <span className="font-mono text-[10px] uppercase tracking-wide text-muted-foreground">
           syncing
         </span>
       </div>
@@ -308,14 +308,14 @@ export function SyncDemo() {
           {visible.map((e, i) => (
             <motion.div
               key={`${count}-${i}`}
-              className="flex items-center gap-2 rounded-md border border-line bg-bg/50 px-2 py-1"
+              className="flex items-center gap-2 rounded-md border border-line bg-white/[0.02] px-2 py-1"
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35, ease: EASE }}
             >
               <span className="font-mono text-[9px] text-accent">✓</span>
-              <span className="text-[11px] text-ink">{e}</span>
+              <span className="text-[11px] text-ink/80">{e}</span>
             </motion.div>
           ))}
         </AnimatePresence>

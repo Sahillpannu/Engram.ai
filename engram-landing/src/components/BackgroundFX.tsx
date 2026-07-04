@@ -11,8 +11,8 @@ export default function BackgroundFX() {
 
   const spotlight = useMotionTemplate`radial-gradient(
     600px circle at ${sx}% ${sy}%,
-    rgba(245, 78, 0, 0.05),
-    transparent 60%
+    rgba(255,255,255,0.06),
+    transparent 40%
   )`;
 
   useEffect(() => {
@@ -27,8 +27,8 @@ export default function BackgroundFX() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       <div className="absolute inset-0 grid-overlay" />
+      <div className="absolute inset-0 gradient-drift" />
       <motion.div className="absolute inset-0" style={{ background: spotlight }} />
-      <div className="absolute inset-0 noise-overlay" />
     </div>
   );
 }

@@ -16,7 +16,7 @@ export function MonoLabel({
 }) {
   return (
     <span
-      className={`font-mono text-[11px] uppercase tracking-[0.18em] text-muted ${className}`}
+      className={`font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground ${className}`}
     >
       {children}
     </span>
@@ -37,13 +37,13 @@ export function PrimaryButton({
   return (
     <a
       href={href}
-      className={`group inline-flex items-center justify-center gap-2 rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-bg transition-colors duration-200 hover:bg-[#3a3833] ${className}`}
+      className={`group inline-flex items-center justify-center gap-2 rounded-[12px] bg-accent px-6 py-3.5 text-[15px] font-medium text-white transition-all duration-[250ms] hover:bg-accent-hover ${className}`}
     >
       {children}
       {showArrow && (
         <ArrowRight
           size={15}
-          className="transition-transform duration-200 group-hover:translate-x-0.5"
+          className="transition-transform duration-300 group-hover:translate-x-0.5"
         />
       )}
     </a>
@@ -62,7 +62,7 @@ export function GhostButton({
   return (
     <a
       href={href}
-      className={`inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-card px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-ink/25 hover:bg-bg ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-[12px] border border-line bg-transparent px-6 py-3.5 text-[15px] font-medium text-ink transition-all duration-[250ms] hover:border-white/15 hover:bg-white/[0.03] ${className}`}
     >
       {children}
     </a>
@@ -88,10 +88,10 @@ export function SectionIntro({
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.6, ease: EASE }}
+      transition={{ duration: 0.7, ease: EASE }}
     >
       <MonoLabel className="mb-5 block">{eyebrow}</MonoLabel>
-      <h2 className="text-balance text-[32px] font-normal leading-[1.08] tracking-tightest text-ink sm:text-[42px]">
+      <h2 className="text-balance text-[32px] font-normal leading-[1.08] tracking-tight text-ink sm:text-[40px]">
         {headline}
       </h2>
       {subtext && (
@@ -117,7 +117,7 @@ export function SectionShell({
   return (
     <section
       id={id}
-      className={`relative border-t border-line px-6 py-24 lg:px-8 lg:py-32 ${className}`}
+      className={`relative border-t border-line px-6 py-24 lg:px-8 lg:py-[120px] ${className}`}
     >
       <div className="relative z-10 mx-auto max-w-content">{children}</div>
     </section>
@@ -135,7 +135,7 @@ export function Logo({ className = "" }: { className?: string }) {
           y2="12"
           stroke="var(--ink)"
           strokeWidth="1.4"
-          opacity="0.28"
+          opacity="0.2"
         />
         <line
           x1="6"
@@ -144,7 +144,7 @@ export function Logo({ className = "" }: { className?: string }) {
           y2="12"
           stroke="var(--ink)"
           strokeWidth="1.4"
-          opacity="0.28"
+          opacity="0.2"
         />
         <circle cx="6" cy="7" r="2.6" fill="var(--ink)" />
         <circle cx="6" cy="17" r="2.6" fill="var(--ink)" />
