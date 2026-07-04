@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import BackgroundFX from "@/components/BackgroundFX";
 import Hero from "@/components/Hero";
+import DashboardPreview from "@/components/landing/DashboardPreview";
 import ProblemSection from "@/components/ProblemSection";
 import HowItWorks from "@/components/HowItWorks";
 import CapabilitiesBento from "@/components/CapabilitiesBento";
@@ -19,6 +20,7 @@ export default function Home() {
       <Navbar />
       <main id="top" className="relative z-10">
         <Hero />
+        <DashboardPreview />
         <ProblemSection />
         <HowItWorks />
         <CapabilitiesBento />
