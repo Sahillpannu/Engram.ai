@@ -30,7 +30,7 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans), Inter, system-ui, sans-serif;
-  font-size: 18px;
+  font-size: 21px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -103,7 +103,7 @@ body {
       rgba(255, 255, 255, 0.02),
       transparent 70%
     );
-  animation: drift 24s ease-in-out infinite alternate;
+  animation: drift 60s ease-in-out infinite alternate;
 }
 
 @keyframes drift {

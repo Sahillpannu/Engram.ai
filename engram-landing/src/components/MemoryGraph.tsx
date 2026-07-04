@@ -69,14 +69,7 @@ export default function MemoryGraph() {
         </defs>
 
         {/* radial glow behind the engram node */}
-        <circle cx="608" cy="240" r="140" fill="url(#mg-radial)">
-          <animate
-            attributeName="opacity"
-            values="0.6;1;0.6"
-            dur="4s"
-            repeatCount="indefinite"
-          />
-        </circle>
+        <circle cx="608" cy="240" r="140" fill="url(#mg-radial)" />
 
         {/* connectors */}
         <path id="mg-email" d="M 206 96 C 253 96 253 240 300 240" stroke={LINE} strokeWidth="1.5" />
@@ -181,15 +174,9 @@ export default function MemoryGraph() {
             height={204}
             rx={20}
             fill={ACCENT}
+            opacity="0.14"
             filter="url(#mg-glow)"
-          >
-            <animate
-              attributeName="opacity"
-              values="0.1;0.22;0.1"
-              dur="3.6s"
-              repeatCount="indefinite"
-            />
-          </rect>
+          />
           {/* node body */}
           <rect
             x={524}
@@ -209,14 +196,7 @@ export default function MemoryGraph() {
             stroke="rgba(255,255,255,0.12)"
             strokeWidth={1}
           />
-          <circle cx={608} cy={186} r={5} fill={ACCENT}>
-            <animate
-              attributeName="r"
-              values="5;6.5;5"
-              dur="3.2s"
-              repeatCount="indefinite"
-            />
-          </circle>
+          <circle cx={608} cy={186} r={5} fill={ACCENT} />
           <text
             x={608}
             y={234}

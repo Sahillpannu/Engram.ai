@@ -10,9 +10,9 @@ export default function BackgroundFX() {
   const sy = useSpring(my, { stiffness: 90, damping: 30, mass: 0.4 });
 
   const spotlight = useMotionTemplate`radial-gradient(
-    600px circle at ${sx}% ${sy}%,
-    rgba(255,255,255,0.06),
-    transparent 40%
+    800px circle at ${sx}% ${sy}%,
+    rgba(255,255,255,0.04),
+    transparent 50%
   )`;
 
   useEffect(() => {

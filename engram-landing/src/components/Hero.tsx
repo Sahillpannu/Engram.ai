@@ -1,42 +1,19 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useMotionTemplate } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { hero } from "@/content/copy";
 import { EASE, MonoLabel, PrimaryButton, GhostButton } from "./ui";
 import MemoryGraph from "./MemoryGraph";
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
-  const graphRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
   const graphY = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const graphOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
-
-  const mouseX = useMotionValue(50);
-  const mouseY = useMotionValue(50);
-  const heroSpotlight = useMotionTemplate`radial-gradient(
-    500px circle at ${mouseX}% ${mouseY}%,
-    rgba(255,255,255,0.04),
-    transparent 50%
-  )`;
-
-  useEffect(() => {
-    const el = graphRef.current;
-    if (!el) return;
-    const onMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      mouseX.set(x);
-      mouseY.set(y);
-    };
-    el.addEventListener("mousemove", onMove);
-    return () => el.removeEventListener("mousemove", onMove);
-  }, [mouseX, mouseY]);
 
   return (
     <section ref={ref} className="relative px-6 pt-36 pb-24 sm:pt-44 lg:px-8 lg:pb-36">
@@ -108,17 +85,12 @@ export default function Hero() {
 
         {/* ---------- right: memory graph ---------- */}
         <motion.div
-          ref={graphRef}
           className="relative"
           style={{ y: graphY, opacity: graphOpacity }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
         >
-          <motion.div
-            className="pointer-events-none absolute -inset-10 z-0 rounded-3xl"
-            style={{ background: heroSpotlight }}
-          />
           <div className="relative z-10">
             <div className="absolute -inset-6 rounded-3xl border border-line/50" />
             <div className="relative">
