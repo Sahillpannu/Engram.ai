@@ -1,6 +1,7 @@
 # Taste (Continuously Learned by [CommandCode][cmd])
 
 [cmd]: https://commandcode.ai/
+
 
 # Design Language
 - Design aesthetic should feel like Linear, Vercel, Cursor, Stripe, or Claude — premium, calm, technical, trustworthy, and infrastructure-first. Confidence: 0.85

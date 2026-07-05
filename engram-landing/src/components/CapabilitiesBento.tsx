@@ -37,13 +37,13 @@ export default function CapabilitiesBento() {
         subtext={capabilities.subtext}
       />
 
-      <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-4 md:auto-rows-[200px]">
+      <div className="mt-14 grid grid-cols-1 gap-4 md:auto-rows-auto md:grid-cols-4">
         {capabilities.items.map((item, i) => {
           const Demo = DEMOS[item.demo];
           return (
             <motion.div
               key={item.id}
-              className={`flex flex-col rounded-2xl border border-line bg-card p-5 ${SPAN[item.span]}`}
+              className={`flex flex-col overflow-hidden rounded-2xl border border-line bg-card p-5 min-h-[200px] ${SPAN[item.span]}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
@@ -56,7 +56,7 @@ export default function CapabilitiesBento() {
                 <MonoLabel className="mt-1 shrink-0 text-muted/70">{item.tag}</MonoLabel>
               </div>
               <p className="mt-2 text-[13px] leading-relaxed text-muted">{item.desc}</p>
-              <div className="mt-4 min-h-0 flex-1">
+              <div className="mt-4 min-h-0 flex-1 p-1">
                 {Demo && <Demo />}
               </div>
             </motion.div>

@@ -198,13 +198,13 @@ export const architecture = {
 };
 
 export const integrations = [
-  { name: "Gmail", desc: "Inbox, threads & drafts", icon: "Mail" },
-  { name: "Google Calendar", desc: "Events & availability", icon: "Calendar" },
-  { name: "Slack", desc: "Conversations & channels", icon: "MessageSquare" },
-  { name: "Zoom", desc: "Meetings & recordings", icon: "Video" },
-  { name: "Notion", desc: "Docs & notes", icon: "FileText" },
-  { name: "Fireflies", desc: "Transcripts & summaries", icon: "Mic" },
-  { name: "HubSpot", desc: "CRM records & deals", icon: "Building2" },
+  { name: "Gmail", desc: "Inbox, threads & drafts", icon: "Gmail" },
+  { name: "Google Calendar", desc: "Events & availability", icon: "GoogleCalendar" },
+  { name: "Slack", desc: "Conversations & channels", icon: "Slack" },
+  { name: "Zoom", desc: "Meetings & recordings", icon: "Zoom" },
+  { name: "Notion", desc: "Docs & notes", icon: "Notion" },
+  { name: "Fireflies", desc: "Transcripts & summaries", icon: "Fireflies" },
+  { name: "HubSpot", desc: "CRM records & deals", icon: "HubSpot" },
 ];
 
 export const useCases = {

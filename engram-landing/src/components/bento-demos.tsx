@@ -198,7 +198,7 @@ export function EmailDemo() {
           return (
             <motion.span
               key={c.k}
-              className="inline-flex items-center gap-1.5 rounded-md border border-line bg-white/[0.02] px-2 py-1"
+              className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border border-line bg-white/[0.02] px-2 py-1"
               animate={{ opacity: on ? 1 : 0.2, y: on ? 0 : 6 }}
               transition={{ duration: 0.4, ease: EASE }}
             >
@@ -257,12 +257,12 @@ export function CalendarDemo() {
 export function GraphDemo() {
   return (
     <div className="flex flex-1 items-center justify-center">
-      <svg viewBox="0 0 120 70" fill="none" className="h-auto w-full max-w-[220px]">
-        <path id="bg1" d="M 16 18 C 60 18 60 35 104 35" stroke="rgba(255,255,255,0.08)" strokeWidth="1.2" />
-        <path id="bg2" d="M 16 52 C 60 52 60 35 104 35" stroke="rgba(255,255,255,0.08)" strokeWidth="1.2" />
-        <circle cx="16" cy="18" r="4" fill="#f7f7f4" opacity="0.5" />
-        <circle cx="16" cy="52" r="4" fill="#f7f7f4" opacity="0.5" />
-        <circle cx="104" cy="35" r="5.5" fill="#ff6b2c" />
+      <svg viewBox="0 0 140 90" fill="none" className="h-auto w-full max-w-[200px]">
+        <path id="bg1" d="M 25 25 C 70 25 70 45 115 45" stroke="rgba(255,255,255,0.08)" strokeWidth="1.2" />
+        <path id="bg2" d="M 25 65 C 70 65 70 45 115 45" stroke="rgba(255,255,255,0.08)" strokeWidth="1.2" />
+        <circle cx="25" cy="25" r="4" fill="#f7f7f4" opacity="0.5" />
+        <circle cx="25" cy="65" r="4" fill="#f7f7f4" opacity="0.5" />
+        <circle cx="115" cy="45" r="5.5" fill="#ff6b2c" />
         <circle r="2.6" fill="#a1a1aa">
           <animateMotion dur="2.4s" repeatCount="indefinite">
             <mpath href="#bg1" />
