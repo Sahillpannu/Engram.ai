@@ -29,7 +29,7 @@ export default function Home() {
         <UseCases />
         <Pricing />
         <FAQ />
-        <FinalCTA />
+
       </main>
       <Footer />
     </>
