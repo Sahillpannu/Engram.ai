@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Bot } from "lucide-react";
 import { EASE } from "./ui";
 
 const ACCENT = "#ff6b2c";
@@ -11,8 +12,6 @@ type Source = {
   icon: string;
   app: string;
   detail: string;
-  top: number;
-  path: string;
   floatDelay: number;
 };
 
@@ -22,8 +21,6 @@ const sources: Source[] = [
     icon: "📧",
     app: "Gmail",
     detail: "Contract draft attached",
-    top: 92,
-    path: "M 200 128 C 250 128 270 214 310 236",
     floatDelay: 0,
   },
   {
@@ -31,8 +28,6 @@ const sources: Source[] = [
     icon: "📅",
     app: "Calendar",
     detail: "Demo with Acme",
-    top: 184,
-    path: "M 200 220 C 252 220 272 248 310 258",
     floatDelay: 0.9,
   },
   {
@@ -40,8 +35,6 @@ const sources: Source[] = [
     icon: "🎥",
     app: "Meetings",
     detail: "Enterprise pricing call",
-    top: 276,
-    path: "M 200 312 C 252 312 272 274 310 276",
     floatDelay: 1.8,
   },
   {
@@ -49,8 +42,6 @@ const sources: Source[] = [
     icon: "💬",
     app: "Slack",
     detail: "#sales pricing discussion",
-    top: 368,
-    path: "M 200 404 C 252 404 272 300 310 292",
     floatDelay: 2.6,
   },
   {
@@ -58,8 +49,6 @@ const sources: Source[] = [
     icon: "📝",
     app: "Notion",
     detail: "Acme onboarding plan",
-    top: 460,
-    path: "M 200 496 C 252 496 272 326 310 306",
     floatDelay: 3.2,
   },
 ];
@@ -88,61 +77,48 @@ function Packet({
   );
 }
 
-function PacketStream({
-  pathId,
-  baseDelay,
-  duration,
-}: {
-  pathId: string;
-  baseDelay: number;
-  duration: number;
-}) {
-  return (
-    <>
-      <Packet pathId={pathId} begin={`${baseDelay}s`} duration={`${duration}s`} />
-      <Packet pathId={pathId} begin={`${baseDelay + 0.36}s`} duration={`${duration}s`} />
-      <Packet pathId={pathId} begin={`${baseDelay + 0.72}s`} duration={`${duration}s`} />
-    </>
-  );
-}
-
-function SourceCard({ source, index }: { source: Source; index: number }) {
+const SourceCard = forwardRef<
+  HTMLDivElement,
+  { source: Source; index: number }
+>(function SourceCard({ source, index }, ref) {
   return (
     <motion.div
-      className="absolute left-5 z-20 h-[72px] w-[180px] rounded-[18px] border border-white/10 bg-card px-3.5 py-2.5"
-      style={{ top: source.top }}
+      ref={ref}
+      className="h-[72px] w-[180px] rounded-[18px] border border-white/10 bg-card px-3.5 py-2.5"
       initial={{ opacity: 0, x: -18 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, amount: 0.4 }}
       animate={{ y: [0, -6] }}
       whileHover={{ borderColor: "rgba(255,255,255,0.2)" }}
-      {...{
-        transition: {
-          opacity: { duration: 0.5, ease: EASE, delay: 0.2 + index * 0.08 },
-          x: { duration: 0.5, ease: EASE, delay: 0.2 + index * 0.08 },
-          y: {
-            duration: 5,
-            ease: "easeInOut",
-            repeat: Infinity,
-            repeatType: "reverse",
-            delay: source.floatDelay,
-          },
+      transition={{
+        opacity: { duration: 0.5, ease: EASE, delay: 0.2 + index * 0.08 },
+        x: { duration: 0.5, ease: EASE, delay: 0.2 + index * 0.08 },
+        y: {
+          duration: 5,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "reverse",
+          delay: source.floatDelay,
         },
       }}
     >
-      <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-white/45">Source</p>
+      <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-white/45">
+        Source
+      </p>
       <div className="mt-0.5 flex items-center gap-1.5">
         <span className="text-[14px]" aria-hidden>
           {source.icon}
         </span>
         <span className="text-[14px] text-white/92">{source.app}</span>
       </div>
-      <p className="mt-0.5 truncate text-[11px] text-white/55">{source.detail}</p>
+      <p className="mt-0.5 truncate text-[11px] text-white/55">
+        {source.detail}
+      </p>
     </motion.div>
   );
-}
+});
 
-function BrainGraph() {
+const BrainGraph = () => {
   const nodes = useMemo(
     () => [
       { cx: 44, cy: 32, dx: 8, dy: -5, delay: 0 },
@@ -188,7 +164,10 @@ function BrainGraph() {
           cy={node.cy}
           r="2.2"
           fill={ACCENT}
-          animate={{ cx: [node.cx, node.cx + node.dx, node.cx], cy: [node.cy, node.cy + node.dy, node.cy] }}
+          animate={{
+            cx: [node.cx, node.cx + node.dx, node.cx],
+            cy: [node.cy, node.cy + node.dy, node.cy],
+          }}
           transition={{
             duration: 6.5,
             ease: "easeInOut",
@@ -199,16 +178,178 @@ function BrainGraph() {
       ))}
     </svg>
   );
-}
+};
+
+const BrainCard = forwardRef<HTMLDivElement>(function BrainCard(_, ref) {
+  return (
+    <motion.div
+      ref={ref}
+      className="relative flex h-[220px] w-[220px] flex-col items-center rounded-[28px] border border-white/10 bg-[#0b0b0a] pt-8"
+      initial={{ opacity: 0, scale: 0.94 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, ease: EASE, delay: 0.8 }}
+      animate={{
+        scale: [1, 1.015, 1],
+        borderColor: [
+          "rgba(255,255,255,0.08)",
+          "rgba(255,107,44,0.45)",
+          "rgba(255,255,255,0.08)",
+        ],
+      }}
+    >
+      <div
+        className="pointer-events-none absolute -inset-10 rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,107,44,0.15), transparent 70%)",
+        }}
+        aria-hidden
+      />
+
+      {/* Input dot */}
+      <motion.span
+        className="absolute left-1/2 top-[30px] h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-accent"
+        animate={{ scale: [1, 1.8, 1], opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.span
+        className="absolute left-1/2 top-[30px] h-2.5 w-2.5 -translate-x-1/2 rounded-full border border-accent/60"
+        animate={{ scale: [1, 5, 1], opacity: [0.5, 0, 0.5] }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut" }}
+      />
+
+      {/* Output dot */}
+      <span className="absolute bottom-3 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-accent" />
+
+      <p className="mt-3 text-center text-[28px] leading-[1.05] tracking-[0.13em] text-white/95">
+        ENGRAM
+        <br />
+        BRAIN
+      </p>
+      <p className="mt-2 text-[11px] tracking-[0.05em] text-white/50">
+        persistent memory layer
+      </p>
+      <BrainGraph />
+    </motion.div>
+  );
+});
+
+const AgentCard = forwardRef<HTMLDivElement, { statusIndex: number }>(
+  function AgentCard({ statusIndex }, ref) {
+    return (
+      <motion.div
+        ref={ref}
+        className="relative flex w-[220px] flex-col items-start rounded-[28px] border border-white/10 bg-[#0b0b0a] p-6"
+        initial={{ opacity: 0, y: 14 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.5, ease: EASE, delay: 1.05 }}
+      >
+        <span className="absolute left-1/2 top-3 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-accent" />
+
+        <Bot className="h-7 w-7 text-white/92" />
+        <p className="mt-3 text-[17px] text-white/92">AI Agent</p>
+        <p className="mt-1 text-[11px] text-white/55">
+          Answers questions, drafts replies, takes action
+        </p>
+
+        <div className="mt-4 w-full rounded-xl border border-white/10 bg-[#10100f] p-2.5">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={statusFrames[statusIndex].id}
+              className="flex min-h-7 items-center text-[11px] text-white/78"
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.35, ease: EASE }}
+            >
+              {statusIndex === 0 ? (
+                <span className="inline-flex items-center gap-1.5">
+                  <motion.span
+                    className="h-1.5 w-1.5 rounded-full bg-accent"
+                    animate={{ opacity: [0.2, 1, 0.2] }}
+                    transition={{ duration: 0.9, repeat: Infinity, delay: 0 }}
+                  />
+                  <motion.span
+                    className="h-1.5 w-1.5 rounded-full bg-accent"
+                    animate={{ opacity: [0.2, 1, 0.2] }}
+                    transition={{ duration: 0.9, repeat: Infinity, delay: 0.16 }}
+                  />
+                  <motion.span
+                    className="h-1.5 w-1.5 rounded-full bg-accent"
+                    animate={{ opacity: [0.2, 1, 0.2] }}
+                    transition={{ duration: 0.9, repeat: Infinity, delay: 0.32 }}
+                  />
+                  <span>Searching memory...</span>
+                </span>
+              ) : (
+                statusFrames[statusIndex].text
+              )}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+
+        <div className="mt-2.5 space-y-1 text-[10px] text-white/58">
+          <p className="truncate">• Found contract discussion</p>
+          <p className="truncate">• Acme requested enterprise pricing.</p>
+        </div>
+      </motion.div>
+    );
+  }
+);
 
 export default function MemoryGraph() {
   const [statusIndex, setStatusIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const sourceRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const brainRef = useRef<HTMLDivElement>(null);
+  const agentRef = useRef<HTMLDivElement>(null);
+  const [sourcePaths, setSourcePaths] = useState<string[]>([]);
+  const [agentPath, setAgentPath] = useState<string>("");
+
+  useEffect(() => {
+    const calc = () => {
+      const container = containerRef.current;
+      if (!container) return;
+      const cRect = container.getBoundingClientRect();
+
+      const brain = brainRef.current?.getBoundingClientRect();
+      const agent = agentRef.current?.getBoundingClientRect();
+      if (!brain || !agent) return;
+
+      const destX = brain.left + brain.width / 2 - cRect.left;
+      const destY = brain.top - cRect.top + 30;
+
+      const paths = sources.map((_, i) => {
+        const rect = sourceRefs.current[i]?.getBoundingClientRect();
+        if (!rect) return "";
+        const startX = rect.right - cRect.left;
+        const startY = rect.top + rect.height / 2 - cRect.top;
+        const midX = (startX + destX) / 2;
+        return `M ${startX} ${startY} C ${midX} ${startY}, ${destX} ${destY - 24}, ${destX} ${destY}`;
+      });
+      setSourcePaths(paths);
+
+      const startX = brain.left + brain.width / 2 - cRect.left;
+      const startY = brain.bottom - cRect.top - 12;
+      const endX = agent.left + agent.width / 2 - cRect.left;
+      const endY = agent.top - cRect.top + 12;
+      const midY = (startY + endY) / 2;
+      setAgentPath(
+        `M ${startX} ${startY} C ${startX} ${midY}, ${endX} ${midY}, ${endX} ${endY}`
+      );
+    };
+
+    calc();
+    window.addEventListener("resize", calc);
+    return () => window.removeEventListener("resize", calc);
+  }, []);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
       setStatusIndex((current) => (current + 1) % statusFrames.length);
     }, 2600);
-
     return () => window.clearInterval(interval);
   }, []);
 
@@ -216,7 +357,7 @@ export default function MemoryGraph() {
     <div className="relative w-full">
       <div className="hidden md:block">
         <motion.div
-          className="relative h-[680px] overflow-hidden rounded-[32px] border border-white/10 bg-[#111110] p-8 lg:h-[720px] xl:h-[760px]"
+          className="relative h-[640px] overflow-hidden rounded-[32px] border border-white/10 bg-[#111110] p-8 xl:h-[680px]"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -240,29 +381,39 @@ export default function MemoryGraph() {
             One memory layer for your AI agents
           </p>
 
-          <div className="absolute inset-0 z-10 flex items-center justify-center">
-            <div className="relative mx-auto aspect-[760/640] w-full max-w-[760px]">
-              <svg
-                viewBox="0 0 760 640"
-                className="absolute inset-0 h-full w-full"
-                role="img"
-                aria-label="Data from tools continuously flows into Engram Brain and then powers the AI Agent"
-              >
-                <defs>
-                  <filter id="hero-packet-glow" x="-300%" y="-300%" width="700%" height="700%">
-                    <feGaussianBlur stdDeviation="2.4" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
+          <div
+            ref={containerRef}
+            className="relative mx-auto h-full w-full max-w-[760px]"
+          >
+            <svg
+              className="absolute inset-0 h-full w-full overflow-visible"
+              role="img"
+              aria-label="Data from tools continuously flows into Engram Brain and then powers the AI Agent"
+            >
+              <defs>
+                <filter
+                  id="hero-packet-glow"
+                  x="-300%"
+                  y="-300%"
+                  width="700%"
+                  height="700%"
+                >
+                  <feGaussianBlur stdDeviation="2.4" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
 
-                {sources.map((source, index) => (
+              {sources.map((source, index) => {
+                const d = sourcePaths[index];
+                if (!d) return null;
+                return (
                   <g key={source.id}>
                     <motion.path
                       id={`src-path-${source.id}`}
-                      d={source.path}
+                      d={d}
                       fill="none"
                       stroke="rgba(255,255,255,0.15)"
                       strokeWidth="1.3"
@@ -270,10 +421,14 @@ export default function MemoryGraph() {
                       initial={{ pathLength: 0, opacity: 0.2 }}
                       whileInView={{ pathLength: 1, opacity: 1 }}
                       viewport={{ once: true, amount: 0.2 }}
-                      transition={{ duration: 0.8, ease: EASE, delay: 0.5 + index * 0.08 }}
+                      transition={{
+                        duration: 0.8,
+                        ease: EASE,
+                        delay: 0.5 + index * 0.08,
+                      }}
                     />
                     <motion.path
-                      d={source.path}
+                      d={d}
                       fill="none"
                       stroke={ACCENT}
                       strokeWidth="1"
@@ -287,152 +442,72 @@ export default function MemoryGraph() {
                         delay: 1.2 + index * 0.24,
                       }}
                     />
-                    <PacketStream
+                    <Packet
                       pathId={`src-path-${source.id}`}
-                      baseDelay={2 + index * 0.35}
-                      duration={2.9}
+                      begin={`${index * 0.4}s`}
+                      duration="2.6s"
                     />
                   </g>
-                ))}
+                );
+              })}
 
-                <motion.path
-                  id="brain-agent-path"
-                  d="M 530 290 C 545 290 555 295 570 295"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.15)"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0, opacity: 0.2 }}
-                  whileInView={{ pathLength: 1, opacity: 1 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.8, ease: EASE, delay: 1.05 }}
-                />
-                <motion.path
-                  d="M 530 290 C 545 290 555 295 570 295"
-                  fill="none"
-                  stroke={ACCENT}
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                  opacity="0.18"
-                  animate={{ opacity: [0.04, 0.56, 0.04] }}
-                  transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 2.8 }}
-                />
-                <PacketStream pathId="brain-agent-path" baseDelay={3} duration={3.8} />
-              </svg>
+              {agentPath && (
+                <g>
+                  <motion.path
+                    id="brain-agent-path"
+                    d={agentPath}
+                    fill="none"
+                    stroke="rgba(255,255,255,0.15)"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0, opacity: 0.2 }}
+                    whileInView={{ pathLength: 1, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.8, ease: EASE, delay: 1.05 }}
+                  />
+                  <motion.path
+                    d={agentPath}
+                    fill="none"
+                    stroke={ACCENT}
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    opacity="0.18"
+                    animate={{ opacity: [0.04, 0.56, 0.04] }}
+                    transition={{
+                      duration: 3.2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 2.8,
+                    }}
+                  />
+                  <Packet
+                    pathId="brain-agent-path"
+                    begin="0s"
+                    duration="2.8s"
+                  />
+                </g>
+              )}
+            </svg>
 
+            <div className="absolute left-5 top-16 flex flex-col gap-5">
               {sources.map((source, index) => (
-                <SourceCard key={source.id} source={source} index={index} />
-              ))}
-
-              <motion.div
-                className="absolute left-[310px] top-[180px] z-30"
-                initial={{ opacity: 0, scale: 0.94 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, ease: EASE, delay: 0.8 }}
-              >
-                <div
-                  className="absolute -inset-10 rounded-full"
-                  style={{
-                    background: "radial-gradient(circle, rgba(255,107,44,0.15), transparent 70%)",
+                <SourceCard
+                  key={source.id}
+                  ref={(el) => {
+                    sourceRefs.current[index] = el;
                   }}
-                  aria-hidden
+                  source={source}
+                  index={index}
                 />
-                <motion.div
-                  className="relative flex h-[220px] w-[220px] flex-col items-center rounded-[28px] border border-white/10 bg-[#0b0b0a] pt-8"
-                  animate={{
-                    scale: [1, 1.015, 1],
-                    borderColor: [
-                      "rgba(255,255,255,0.08)",
-                      "rgba(255,107,44,0.45)",
-                      "rgba(255,255,255,0.08)",
-                    ],
-                  }}
-                  transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
-                >
-                  <motion.span
-                    className="absolute left-1/2 top-[30px] h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-accent"
-                    animate={{ scale: [1, 1.8, 1], opacity: [0.7, 1, 0.7] }}
-                    transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                  <motion.span
-                    className="absolute left-1/2 top-[30px] h-2.5 w-2.5 -translate-x-1/2 rounded-full border border-accent/60"
-                    animate={{ scale: [1, 5, 1], opacity: [0.5, 0, 0.5] }}
-                    transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut" }}
-                  />
-                  <p className="mt-3 text-center font-mono text-[28px] leading-[1.05] tracking-[0.13em] text-white/95">
-                    ENGRAM
-                    <br />
-                    BRAIN
-                  </p>
-                  <p className="mt-2 text-[11px] tracking-[0.05em] text-white/50">
-                    persistent memory layer
-                  </p>
-                  <BrainGraph />
-                </motion.div>
-              </motion.div>
+              ))}
+            </div>
 
-              <motion.div
-                className="absolute left-[570px] top-[200px] z-30 h-[190px] w-[170px] rounded-[20px] border border-white/10 bg-card p-4"
-                initial={{ opacity: 0, x: 14 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.5, ease: EASE, delay: 1.05 }}
-              >
-                <div className="text-center">
-                  <p className="text-[30px]">🤖</p>
-                  <p className="mt-1 text-[17px] tracking-[0.02em] text-white/92">AI Agent</p>
-                  <p className="text-[11px] text-white/55">Reasoning over memory</p>
-                </div>
+            <div className="absolute left-1/2 top-20 -translate-x-1/2">
+              <BrainCard ref={brainRef} />
+            </div>
 
-                <div className="mt-3 rounded-xl border border-white/10 bg-[#10100f] p-2.5">
-                  <AnimatePresence mode="wait">
-                    <motion.p
-                      key={statusFrames[statusIndex].id}
-                      className="flex min-h-7 items-center text-[11px] text-white/78"
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      transition={{ duration: 0.35, ease: EASE }}
-                    >
-                      {statusIndex === 0 ? (
-                        <span className="inline-flex items-center gap-1.5">
-                          <motion.span
-                            className="h-1.5 w-1.5 rounded-full bg-accent"
-                            animate={{ opacity: [0.2, 1, 0.2] }}
-                            transition={{ duration: 0.9, repeat: Infinity, delay: 0 }}
-                          />
-                          <motion.span
-                            className="h-1.5 w-1.5 rounded-full bg-accent"
-                            animate={{ opacity: [0.2, 1, 0.2] }}
-                            transition={{ duration: 0.9, repeat: Infinity, delay: 0.16 }}
-                          />
-                          <motion.span
-                            className="h-1.5 w-1.5 rounded-full bg-accent"
-                            animate={{ opacity: [0.2, 1, 0.2] }}
-                            transition={{ duration: 0.9, repeat: Infinity, delay: 0.32 }}
-                          />
-                          <span>Searching memory...</span>
-                        </span>
-                      ) : (
-                        statusFrames[statusIndex].text
-                      )}
-                    </motion.p>
-                  </AnimatePresence>
-                </div>
-
-                <div className="mt-2.5 space-y-1 text-[10px] text-white/58">
-                  <p className="truncate">• Found contract discussion</p>
-                  <p className="truncate">• Acme requested enterprise pricing.</p>
-                </div>
-              </motion.div>
-
-              <div className="pointer-events-none absolute bottom-4 left-5 right-5 grid grid-cols-4 gap-3 border-t border-white/10 pt-4 text-[11px] text-white/58">
-                <p>Unified memory</p>
-                <p>Semantic search</p>
-                <p>Always up to date</p>
-                <p>Private and secure</p>
-              </div>
+            <div className="absolute left-1/2 top-[328px] -translate-x-1/2">
+              <AgentCard ref={agentRef} statusIndex={statusIndex} />
             </div>
           </div>
         </motion.div>
@@ -466,7 +541,9 @@ export default function MemoryGraph() {
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ duration: 0.45, ease: EASE, delay: 0.12 + index * 0.05 }}
               >
-                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-white/45">Source</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-white/45">
+                  Source
+                </p>
                 <p className="mt-1 text-[15px] text-white/92">
                   <span className="mr-1.5">{source.icon}</span>
                   {source.app}
@@ -490,7 +567,7 @@ export default function MemoryGraph() {
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
             <span className="inline-block h-2.5 w-2.5 rounded-full bg-accent" />
-            <p className="mt-4 font-mono text-[26px] leading-[1.05] tracking-[0.13em] text-white/95">
+            <p className="mt-4 text-[26px] leading-[1.05] tracking-[0.13em] text-white/95">
               ENGRAM
               <br />
               BRAIN
@@ -513,9 +590,11 @@ export default function MemoryGraph() {
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.45, ease: EASE, delay: 0.55 }}
           >
-            <p className="text-[34px]">🤖</p>
-            <p className="text-[18px] text-white/92">AI Agent</p>
-            <p className="text-[12px] text-white/55">Reasoning over memory</p>
+            <Bot className="mx-auto h-8 w-8 text-white/92" />
+            <p className="mt-1 text-[18px] text-white/92">AI Agent</p>
+            <p className="text-[12px] text-white/55">
+              Answers questions, drafts replies, takes action
+            </p>
           </motion.div>
         </motion.div>
       </div>

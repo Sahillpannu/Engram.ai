@@ -98,6 +98,15 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
+
+      <div className="mx-auto mt-16 max-w-content border-t border-line pt-6">
+        <div className="grid grid-cols-2 gap-4 text-[11px] text-muted sm:grid-cols-4">
+          <p>Unified memory</p>
+          <p>Semantic search</p>
+          <p>Always up to date</p>
+          <p>Private and secure</p>
+        </div>
+      </div>
     </section>
   );
 }
