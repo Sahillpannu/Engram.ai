@@ -1,21 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { SiGmail, SiGooglecalendar } from "react-icons/si";
+import { Lock, Check, Loader2 } from "lucide-react";
 import {
   EASE,
   MonoLabel,
   PrimaryButton,
   GhostButton,
-  Input,
   Logo,
 } from "@/components/ui";
-
-const today = new Date().toLocaleDateString("en-US", {
-  month: "long",
-  day: "numeric",
-  year: "numeric",
-});
 
 function useReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -54,16 +49,7 @@ function GoogleIcon() {
   );
 }
 
-function MemoryBriefItem({ text }: { text: string }) {
-  return (
-    <div className="flex items-start gap-3">
-      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-      <p className="text-[14px] leading-relaxed text-white/80">{text}</p>
-    </div>
-  );
-}
-
-function LoginGraphic({ gradientId = "login-glow" }: { gradientId?: string }) {
+function OnboardingGraphic({ gradientId = "onboarding-glow" }: { gradientId?: string }) {
   const reduced = useReducedMotion();
 
   return (
@@ -276,22 +262,10 @@ function LoginGraphic({ gradientId = "login-glow" }: { gradientId?: string }) {
   );
 }
 
-function Divider() {
-  return (
-    <div className="my-6 flex items-center gap-4">
-      <div className="h-px flex-1 bg-line" />
-      <span className="text-[12px] uppercase tracking-[0.12em] text-muted-foreground">
-        or
-      </span>
-      <div className="h-px flex-1 bg-line" />
-    </div>
-  );
-}
-
 function HeroPanel() {
   return (
     <div className="relative hidden flex-col justify-between overflow-hidden bg-[#0a0a0a] p-12 lg:flex lg:w-[58%]">
-      <LoginGraphic />
+      <OnboardingGraphic />
 
       <motion.div
         className="relative z-10"
@@ -312,9 +286,9 @@ function HeroPanel() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
         >
-          Your memories,
+          Your <span className="text-accent">memories</span> begin
           <br />
-          <span className="text-accent">quietly remembered.</span>
+          here.
         </motion.h1>
         <motion.p
           className="mt-6 max-w-md text-lg leading-relaxed text-muted"
@@ -322,8 +296,8 @@ function HeroPanel() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
         >
-          A persistent memory layer for your AI agent. Every conversation,
-          meeting, and decision stays available, connected, and useful.
+          Connect your digital life and let Engram quietly organize your emails,
+          meetings, and moments into a personal memory journal.
         </motion.p>
       </div>
 
@@ -333,19 +307,9 @@ function HeroPanel() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
       >
-        <div className="rounded-[24px] border border-white/10 bg-[#141413] p-6">
-          <div className="flex items-center justify-between">
-            <MonoLabel>TODAY&apos;S MEMORY BRIEF</MonoLabel>
-            <span className="font-mono text-[11px] text-muted-foreground">
-              {today}
-            </span>
-          </div>
-          <div className="mt-5 space-y-3">
-            <MemoryBriefItem text="Investor follow-up draft ready for review" />
-            <MemoryBriefItem text="Board notes connected to calendar context" />
-            <MemoryBriefItem text="Three key decisions remembered from last week" />
-          </div>
-        </div>
+        <p className="font-serif italic text-white/40 text-[15px] pl-1 border-l border-white/10">
+          &ldquo;Every conversation has a story worth remembering.&rdquo;
+        </p>
       </motion.div>
     </div>
   );
@@ -355,7 +319,7 @@ function MobileHero() {
   return (
     <div className="relative overflow-hidden bg-[#0a0a0a] px-6 py-10 lg:hidden">
       <div className="pointer-events-none absolute inset-0">
-        <LoginGraphic />
+        <OnboardingGraphic />
       </div>
       <div className="relative z-10">
         <div className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-[#141413]/80 px-4 py-2">
@@ -363,20 +327,32 @@ function MobileHero() {
           <MonoLabel className="text-white/70">ENGRAM MEMORY JOURNAL</MonoLabel>
         </div>
         <h1 className="mt-6 text-[36px] font-semibold leading-[1.05] tracking-tightest text-ink">
-          Your memories,
+          Your <span className="text-accent">memories</span> begin
           <br />
-          <span className="text-accent">quietly remembered.</span>
+          here.
         </h1>
         <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted">
-          A persistent memory layer for your AI agent. Every conversation,
-          meeting, and decision stays available, connected, and useful.
+          Connect your digital life and let Engram quietly organize your emails,
+          meetings, and moments into a personal memory journal.
         </p>
       </div>
     </div>
   );
 }
 
-export default function LoginPage() {
+export default function OnboardingPage() {
+  const [connectState, setConnectState] = useState<"idle" | "loading" | "connected">("idle");
+
+  const handleConnect = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (connectState !== "idle") return;
+
+    setConnectState("loading");
+    setTimeout(() => {
+      setConnectState("connected");
+    }, 1500);
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-[#0a0a0a] lg:flex-row">
       <MobileHero />
@@ -393,89 +369,152 @@ export default function LoginPage() {
             aria-hidden
           />
           <div className="absolute inset-0 opacity-[0.04]">
-            <LoginGraphic gradientId="login-glow-right" />
+            <OnboardingGraphic gradientId="onboarding-glow-right" />
           </div>
         </div>
 
-        <div className="relative z-10 mx-auto w-full max-w-[460px]">
-          <div className="rounded-2xl border border-line bg-[#111110] p-10 shadow-[0_20px_60px_rgba(0,0,0,0.4)] lg:p-12">
-            <div className="mb-8 flex items-center justify-center lg:hidden">
-              <Logo />
+        <div className="relative z-10 mx-auto w-full max-w-[460px] space-y-6">
+          {/* Step indicator card */}
+          <motion.div
+            className="rounded-2xl border border-line bg-[#111110] p-4 flex items-center justify-between shadow-lg"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE }}
+          >
+            <div className="flex items-center gap-3.5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-[14px] font-medium text-white shadow-[0_0_15px_rgba(255,107,44,0.3)] font-mono">
+                1
+              </span>
+              <div>
+                <h3 className="text-[14px] font-medium text-ink">Connect Google Account</h3>
+                <p className="text-[11px] text-muted-foreground leading-none mt-0.5">Required to unlock Engram</p>
+              </div>
             </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-            >
-              <h2 className="text-[28px] font-semibold tracking-tight text-ink sm:text-[32px]">
-                Welcome Back
-              </h2>
-              <p className="mt-2 text-[15px] text-muted">
-                Sign in to your Engram AI workspace
-              </p>
-            </motion.div>
-
-            <motion.div
-              className="mt-8"
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
-            >
-              <GhostButton href="/onboarding" className="w-full">
-                <GoogleIcon />
-                Continue with Google
-              </GhostButton>
-
-              <Divider />
-
-              <form
-                className="space-y-4"
-                onSubmit={(e) => e.preventDefault()}
-              >
-                <Input type="email" placeholder="Email" autoComplete="email" />
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  autoComplete="current-password"
-                />
-
-                <div className="flex items-center justify-between py-1">
-                  <label className="flex cursor-pointer items-center gap-2.5">
-                    <input
-                      type="checkbox"
-                      className="h-4 w-4 cursor-pointer appearance-none rounded-[5px] border border-line bg-[#0b0b0a] checked:border-accent checked:bg-accent focus:outline-none"
-                    />
-                    <span className="text-[13px] text-muted">Remember me</span>
-                  </label>
-                  <a
-                    href="#"
-                    className="text-[13px] text-accent transition-colors hover:text-accent-hover"
+            {/* Status indicator on the right */}
+            <div className="relative flex h-6 w-6 items-center justify-center">
+              <AnimatePresence mode="wait">
+                {connectState === "connected" ? (
+                  <motion.div
+                    key="checked"
+                    className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-white"
+                    initial={{ scale: 0, rotate: -45 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    exit={{ scale: 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
-                    Forgot password?
-                  </a>
+                    <Check size={13} strokeWidth={3} />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="empty"
+                    className="h-5 w-5 rounded-full border-2 border-accent/70 bg-transparent"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                  />
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+
+          {/* Main connection card */}
+          <motion.div
+            className="rounded-2xl border border-line bg-[#111110] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.4)] lg:p-10"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
+          >
+            <div className="flex flex-col items-center text-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] shadow-inner mb-4">
+                <GoogleIcon />
+              </div>
+              <h2 className="text-[20px] font-semibold text-ink">Google Workspace</h2>
+              <p className="text-[13px] text-muted mt-1">Gmail + Google Calendar</p>
+            </div>
+
+            {/* Sub-rows inside */}
+            <div className="mt-8 space-y-3">
+              <div className="flex items-center gap-3.5 rounded-xl border border-line bg-white/[0.01] p-3.5 transition-colors duration-[250ms] hover:bg-white/[0.03]">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-line bg-[#151514]">
+                  <SiGmail size={16} className="text-[#EA4335]" />
+                </span>
+                <div className="min-w-0">
+                  <h4 className="text-[13.5px] font-medium text-ink">Gmail</h4>
+                  <p className="truncate text-[11px] text-muted mt-0.5">Read, summarize, and draft emails</p>
                 </div>
+              </div>
 
-                <PrimaryButton
-                  href="/onboarding"
-                  className="w-full"
-                  showArrow={false}
-                >
-                  Sign In
-                </PrimaryButton>
-              </form>
+              <div className="flex items-center gap-3.5 rounded-xl border border-line bg-white/[0.01] p-3.5 transition-colors duration-[250ms] hover:bg-white/[0.03]">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-line bg-[#151514]">
+                  <SiGooglecalendar size={16} className="text-[#4285F4]" />
+                </span>
+                <div className="min-w-0">
+                  <h4 className="text-[13.5px] font-medium text-ink">Google Calendar</h4>
+                  <p className="truncate text-[11px] text-muted mt-0.5">Schedule meetings and view events</p>
+                </div>
+              </div>
+            </div>
 
-              <p className="mt-6 text-center text-[13px] text-muted">
-                Don&apos;t have an account?{" "}
-                <a
-                  href="#"
-                  className="text-accent transition-colors hover:text-accent-hover"
+            {/* Primary CTA button */}
+            <div className="mt-8">
+              {connectState === "connected" ? (
+                <div className="flex w-full items-center justify-center gap-2 rounded-[12px] border border-accent/20 bg-accent/10 py-3.5 text-[15px] font-medium text-accent">
+                  <Check size={16} strokeWidth={2.5} />
+                  Google Connected
+                </div>
+              ) : (
+                <button
+                  onClick={handleConnect}
+                  disabled={connectState === "loading"}
+                  className="group flex w-full items-center justify-center gap-2.5 rounded-[12px] bg-accent px-6 py-3.5 text-[15px] font-medium text-white transition-all duration-[250ms] hover:bg-accent-hover disabled:opacity-80 disabled:cursor-not-allowed shadow-[0_4px_20px_rgba(255,107,44,0.15)] hover:shadow-[0_4px_25px_rgba(255,107,44,0.25)]"
                 >
-                  Sign up
-                </a>
+                  {connectState === "loading" ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      Connecting...
+                    </>
+                  ) : (
+                    <>
+                      <GoogleIcon />
+                      Connect Google Account
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </motion.div>
+
+          {/* Secondary skip row/card */}
+          <motion.div
+            className="rounded-2xl border border-line bg-[#111110] p-5 flex items-center justify-between shadow-lg"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.3 }}
+          >
+            <div className="min-w-0 pr-4">
+              <h4 className="text-[13.5px] font-medium text-ink">Ready to explore?</h4>
+              <p className="text-[11px] text-muted leading-tight mt-0.5">
+                You can always connect later from Integrations.
               </p>
-            </motion.div>
-          </div>
+            </div>
+            <GhostButton href="/dashboard" className="py-2.5 px-4 text-[13.5px] shrink-0 border border-white/5 bg-white/[0.01]">
+              Skip for now →
+            </GhostButton>
+          </motion.div>
+
+          {/* Privacy reassurance footer */}
+          <motion.div
+            className="flex items-start gap-2 px-2 text-[11px] leading-relaxed text-muted-foreground"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.45 }}
+          >
+            <Lock size={12} className="shrink-0 mt-0.5 text-accent/70" />
+            <p>
+              Your memories remain yours. Engram only reads your information and never acts without your permission.
+            </p>
+          </motion.div>
         </div>
       </div>
     </div>

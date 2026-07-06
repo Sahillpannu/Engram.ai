@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { ReactNode } from "react";
+import Link from "next/link";
 
 export const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 export const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -28,16 +29,18 @@ export function PrimaryButton({
   href = "#",
   className = "",
   showArrow = true,
+  ...props
 }: {
   children: ReactNode;
   href?: string;
   className?: string;
   showArrow?: boolean;
-}) {
+} & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   return (
-    <a
+    <Link
       href={href}
       className={`group inline-flex items-center justify-center gap-2 rounded-[12px] bg-accent px-6 py-3.5 text-[15px] font-medium text-white transition-all duration-[250ms] hover:bg-accent-hover ${className}`}
+      {...props}
     >
       {children}
       {showArrow && (
@@ -46,7 +49,7 @@ export function PrimaryButton({
           className="transition-transform duration-300 group-hover:translate-x-0.5"
         />
       )}
-    </a>
+    </Link>
   );
 }
 
@@ -54,18 +57,20 @@ export function GhostButton({
   children,
   href = "#",
   className = "",
+  ...props
 }: {
   children: ReactNode;
   href?: string;
   className?: string;
-}) {
+} & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   return (
-    <a
+    <Link
       href={href}
       className={`inline-flex items-center justify-center gap-2 rounded-[12px] border border-line bg-transparent px-6 py-3.5 text-[15px] font-medium text-ink transition-all duration-[250ms] hover:border-white/15 hover:bg-white/[0.03] ${className}`}
+      {...props}
     >
       {children}
-    </a>
+    </Link>
   );
 }
 
