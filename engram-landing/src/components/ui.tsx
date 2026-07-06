@@ -69,6 +69,18 @@ export function GhostButton({
   );
 }
 
+export function Input({
+  className = "",
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <input
+      className={`w-full rounded-[12px] border border-line bg-[#0b0b0a] px-4 py-3.5 text-[15px] text-ink placeholder:text-muted-foreground outline-none transition-all duration-200 focus:border-accent/50 focus:bg-[#0d0d0c] ${className}`}
+      {...props}
+    />
+  );
+}
+
 export function SectionIntro({
   eyebrow,
   headline,

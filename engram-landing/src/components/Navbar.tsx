@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { navLinks } from "@/content/copy";
 import { EASE, Logo, PrimaryButton } from "./ui";
@@ -46,12 +47,12 @@ export default function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <a
-            href="#"
+          <Link
+            href="/login"
             className="text-sm text-muted transition-colors duration-200 hover:text-ink"
           >
             Log in
-          </a>
+          </Link>
           <PrimaryButton href="#cta" className="px-4 py-2" showArrow={false}>
             Connect Gmail
           </PrimaryButton>
@@ -87,9 +88,9 @@ export default function Navbar() {
                 </a>
               ))}
               <div className="flex items-center gap-3 pt-3">
-                <a href="#" className="text-sm text-muted">
+                <Link href="/login" className="text-sm text-muted" onClick={() => setMobileOpen(false)}>
                   Log in
-                </a>
+                </Link>
                 <PrimaryButton href="#cta" showArrow={false}>
                   Connect Gmail
                 </PrimaryButton>
