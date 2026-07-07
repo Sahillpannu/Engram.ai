@@ -11,7 +11,7 @@ const config: Config = {
       colors: {
         bg: "var(--bg)",
         "bg-secondary": "var(--bg-secondary)",
-        card: "var(--card)",
+        card: "rgb(var(--card) / <alpha-value>)",
         "card-secondary": "var(--card-secondary)",
         ink: "var(--ink)",
         muted: "var(--muted)",
