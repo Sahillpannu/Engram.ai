@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { SiGmail, SiGooglecalendar } from "react-icons/si";
 import { Lock, Check, Loader2 } from "lucide-react";
@@ -298,6 +299,7 @@ function MobileHero() {
 }
 
 export default function OnboardingPage() {
+  const router = useRouter();
   const [connectState, setConnectState] = useState<"idle" | "loading" | "connected">("idle");
 
   const handleConnect = (e: React.MouseEvent) => {
@@ -307,6 +309,11 @@ export default function OnboardingPage() {
     setConnectState("loading");
     setTimeout(() => {
       setConnectState("connected");
+      
+      // Delay navigation to let checkmark animate
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 600);
     }, 1500);
   };
 
