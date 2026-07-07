@@ -53,8 +53,8 @@ export default function Navbar() {
           >
             Log in
           </Link>
-          <PrimaryButton href="#cta" className="px-4 py-2 text-[14px]" showArrow={false}>
-            Connect Gmail
+          <PrimaryButton href="#cta" className="px-3.5 py-1.5 text-[13px]" showArrow={false}>
+            Connect Workspace
           </PrimaryButton>
         </div>
 
@@ -91,8 +91,8 @@ export default function Navbar() {
                 <Link href="/login" className="text-base font-medium text-muted" onClick={() => setMobileOpen(false)}>
                   Log in
                 </Link>
-                <PrimaryButton href="#cta" className="px-4 py-2 text-[14px]" showArrow={false}>
-                  Connect Gmail
+                <PrimaryButton href="#cta" className="px-3.5 py-1.5 text-[13px]" showArrow={false}>
+                  Connect Workspace
                 </PrimaryButton>
               </div>
             </div>

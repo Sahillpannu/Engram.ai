@@ -15,11 +15,11 @@ export const navLinks = [
 
 export const hero = {
   label: "PERSISTENT MEMORY FOR AGENTS",
-  headline1: "Your AI agent is smart.",
-  headline2: "It just doesn’t remember.",
+  headline1: "THE BR(AI)N",
+  headline2: "your company always needed",
   subheading:
     "Turn emails, meetings, and calendars into long-term memory your agents can reason over.",
-  ctaPrimary: "Connect Gmail",
+  ctaPrimary: "Connect Workspace",
   ctaSecondary: "View Architecture",
   trustCaption: "WORKS WITH YOUR EXISTING TOOLS",
   trust: ["Gmail", "Calendar", "Slack", "Zoom", "Fireflies", "Notion"],
@@ -274,7 +274,7 @@ export const pricing = {
         "Memory APIs",
         "Priority support",
       ],
-      cta: "Connect Gmail",
+      cta: "Connect Workspace",
       featured: true,
     },
     {
@@ -336,8 +336,8 @@ export const cta = {
   eyebrow: "GET STARTED",
   headline: "Give your AI a memory.",
   subtext:
-    "Connect Gmail in under a minute. No vector database to set up, no infrastructure to manage — sign in and Engram starts learning.",
-  ctaPrimary: "Connect Gmail",
+    "Connect Workspace in under a minute. No vector database to set up, no infrastructure to manage — sign in and Engram starts learning.",
+  ctaPrimary: "Connect Workspace",
   ctaSecondary: "Read Documentation",
   disclaimer:
     "Early access · No credit card required · Privacy-first by design",

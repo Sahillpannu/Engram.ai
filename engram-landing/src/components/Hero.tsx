@@ -64,9 +64,22 @@ export default function Hero() {
             <MonoLabel className="block">{hero.label}</MonoLabel>
           </motion.div>
 
-          <h1 className="mt-6 text-[44px] font-normal leading-[1.04] tracking-tightest text-ink sm:text-[52px] lg:text-[60px]">
+          <h1 className="mt-6 text-[44px] font-medium leading-[1.04] tracking-tightest text-ink sm:text-[52px] lg:text-[60px]">
             <motion.span className="block" variants={itemVariants}>
-              {hero.headline1}
+              THE{" "}
+              <span className="relative inline-flex items-center px-1">
+                {/* Background glow shadow */}
+                <span className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[130%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#ff6b2c]/30 via-yellow-500/20 to-[#ff6b2c]/30 blur-md" />
+                
+                {/* Glowing text layout */}
+                <span className="relative z-10 flex items-center drop-shadow-[0_0_16px_rgba(255,107,44,0.4)]">
+                  <span className="font-extrabold text-accent">BR</span>
+                  <span className="font-light text-white/30 px-[2px]">(</span>
+                  <span className="font-extrabold text-accent">AI</span>
+                  <span className="font-light text-white/30 px-[2px]">)</span>
+                  <span className="font-extrabold text-accent">N</span>
+                </span>
+              </span>
             </motion.span>
             {/* text-ink/60 instead of text-muted for WCAG contrast compliance on H1 */}
             <motion.span className="block text-ink/60" variants={itemVariants}>
