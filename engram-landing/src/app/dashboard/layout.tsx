@@ -72,18 +72,11 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
       {/* Top Logo */}
       <div className="flex h-16 items-center px-6 border-b border-line shrink-0">
         <Link href="/dashboard" className="flex items-center gap-2.5" onClick={() => setMobileOpen(false)}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <line x1="6" y1="7" x2="17" y2="12" stroke="var(--ink)" strokeWidth="1.4" opacity="0.2" />
-            <line x1="6" y1="17" x2="17" y2="12" stroke="var(--ink)" strokeWidth="1.4" opacity="0.2" />
-            <circle cx="6" cy="7" r="2.6" fill="var(--ink)" />
-            <circle cx="6" cy="17" r="2.6" fill="var(--ink)" />
-            <circle cx="17" cy="12" r="3.4" fill="var(--accent)" />
-          </svg>
-          <span className="text-[17px] font-semibold tracking-tight text-ink flex items-baseline gap-1">
-            Engram
-            <span className="text-[10px] font-mono text-accent uppercase tracking-wider font-semibold px-1 rounded bg-accent-soft border border-accent/20">
-              Journal
-            </span>
+          <div className="flex h-[28px] w-[28px] items-center justify-center rounded-[6px] bg-accent font-sans text-[14px] font-extrabold text-white select-none shadow-[0_2px_8px_rgba(255,107,44,0.2)]">
+            E
+          </div>
+          <span className="text-[14.5px] font-bold tracking-tight text-white select-none">
+            Engram Journal
           </span>
         </Link>
       </div>
