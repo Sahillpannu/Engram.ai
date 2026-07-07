@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { integrations } from "@/content/copy";
 import { EASE, MonoLabel } from "./ui";
 
-const SlackLogo = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+const SlackLogo = ({ size = 20, style }: { size?: number; style?: React.CSSProperties }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={style}>
     <path
       d="M5.042 15.166a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.166a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52Zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.52v-6.314Z"
       fill="#E01E5A"
@@ -26,8 +26,8 @@ const SlackLogo = ({ size = 16 }: { size?: number }) => (
   </svg>
 );
 
-const FirefliesLogo = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+const FirefliesLogo = ({ size = 20, style }: { size?: number; style?: React.CSSProperties }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={style}>
     <path
       d="M12 2c-4.42 0-8 3.58-8 8 0 3.5 2.2 6.47 5.33 7.66L11 22l1.67-4.34C15.8 16.47 18 13.5 18 10c0-4.42-3.58-8-8-8ZM9 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2Zm6.5-2c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2Z"
       fill="#FFAB00"
@@ -43,7 +43,10 @@ const brandColor: Record<string, string> = {
   HubSpot: "#FF7A59",
 };
 
-const iconMap: Record<string, React.ComponentType<{ size?: number; style?: React.CSSProperties }>> = {
+const iconMap: Record<
+  string,
+  React.ComponentType<{ size?: number; style?: React.CSSProperties }>
+> = {
   Gmail: SiGmail,
   GoogleCalendar: SiGooglecalendar,
   Slack: SlackLogo,
@@ -53,56 +56,43 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; style?: React
   HubSpot: SiHubspot,
 };
 
-function DockCard({ item }: { item: (typeof integrations)[number] }) {
+function IntegrationIcon({ item }: { item: (typeof integrations)[number] }) {
   const Icon = iconMap[item.icon] ?? SiGmail;
   const color = brandColor[item.icon];
   const isNotion = item.icon === "Notion";
-  return (
-    <div className="group relative mx-3 flex min-h-[92px] w-[230px] shrink-0 flex-col overflow-hidden rounded-xl border border-line bg-card p-4 transition-transform duration-300 ease-editorial hover:-translate-y-1.5">
-      <div className="flex items-center gap-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-bg/60">
-          {isNotion ? (
-            <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-white/90">
-              <Icon size={18} style={{ color }} />
-            </span>
-          ) : (
-            <span className="flex h-[18px] w-[18px] items-center justify-center">
-              <Icon size={18} style={{ color }} />
-            </span>
-          )}
-        </span>
-        <div className="min-w-0">
-          <div className="text-sm font-normal text-ink">{item.name}</div>
-          <div className="truncate font-mono text-[11px] text-muted">{item.desc}</div>
-        </div>
-      </div>
 
-      {/* syncing indicator */}
-      <div className="mt-auto flex items-center gap-1.5 overflow-hidden opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <span className="flex gap-1">
-          {[0, 1, 2].map((d) => (
-            <span
-              key={d}
-              className="h-1 w-1 rounded-full bg-accent"
-              style={{
-                animation: "syncing-blink 1.2s ease-in-out infinite",
-                animationDelay: `${d * 0.18}s`,
-              }}
-            />
-          ))}
-        </span>
-        <span className="font-mono text-[10px] uppercase tracking-wide text-muted">
-          Syncing
-        </span>
-      </div>
-    </div>
+  return (
+    <motion.div
+      className="group relative mx-12 flex h-24 w-24 shrink-0 items-center justify-center transition-all duration-300"
+      whileHover={{ y: -6, scale: 1.1 }}
+    >
+      {/* Subtle brand color glow behind the icon on hover */}
+      <div
+        className="pointer-events-none absolute -inset-4 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-15"
+        style={{
+          background: `radial-gradient(circle, ${color || "#ffffff"} 0%, transparent 70%)`,
+        }}
+      />
+
+      <span className="flex items-center justify-center">
+        {isNotion ? (
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/95 shadow-sm">
+            <Icon size={33} style={{ color }} />
+          </span>
+        ) : (
+          <Icon size={54} style={{ color }} />
+        )}
+      </span>
+    </motion.div>
   );
 }
 
 export default function IntegrationsDock() {
-  const row = [...integrations, ...integrations];
+  // Multiply array to guarantee seamless looping without gaps
+  const row = [...integrations, ...integrations, ...integrations, ...integrations];
+
   return (
-    <section id="integrations" className="relative border-t border-line py-20 lg:py-24">
+    <section id="integrations" className="relative border-t border-line py-16 lg:py-20">
       <motion.div
         className="relative z-10 mb-10 text-center"
         initial={{ opacity: 0, y: 16 }}
@@ -116,10 +106,10 @@ export default function IntegrationsDock() {
         </p>
       </motion.div>
 
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden py-2">
         <div className="flex w-max animate-marquee">
           {row.map((item, i) => (
-            <DockCard key={`${item.name}-${i}`} item={item} />
+            <IntegrationIcon key={`${item.name}-${i}`} item={item} />
           ))}
         </div>
 
