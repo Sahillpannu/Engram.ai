@@ -55,216 +55,172 @@ function OnboardingGraphic({ gradientId = "onboarding-glow" }: { gradientId?: st
   return (
     <svg
       viewBox="0 0 800 800"
-      className="absolute -right-32 top-1/2 h-[110%] w-[110%] -translate-y-1/2 opacity-[0.18]"
+      className="absolute -right-32 top-1/2 h-[110%] w-[110%] -translate-y-1/2 opacity-[0.20]"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden
     >
       <defs>
-        <radialGradient
-          id={gradientId}
-          cx="50%"
-          cy="50%"
-          r="50%"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#ff6b2c" stopOpacity="0.35" />
+        <radialGradient id={gradientId} cx="50%" cy="50%" r="50%" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#ff6b2c" stopOpacity="0.4" />
           <stop offset="100%" stopColor="#ff6b2c" stopOpacity="0" />
         </radialGradient>
-        <path
-          id={`orbit-120-${gradientId}`}
-          d="M 400 280 A 120 120 0 1 1 399.99 280"
-          fill="none"
-        />
-        <path
-          id={`orbit-144-${gradientId}`}
-          d="M 280 320 A 144 144 0 1 1 279.99 320"
-          fill="none"
-        />
+        <path id={`orbit-120-${gradientId}`} d="M 400 280 A 120 120 0 1 1 399.99 280" fill="none" />
+        <path id={`orbit-144-${gradientId}`} d="M 280 320 A 144 144 0 1 1 279.99 320" fill="none" />
+        <filter id={`glow-${gradientId}`} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
       </defs>
 
       <circle cx="400" cy="400" r="280" fill={`url(#${gradientId})`} />
 
-      <g stroke="rgba(247,247,244,0.45)" strokeWidth="0.8" fill="none">
-        <circle cx="400" cy="400" r="180" strokeDasharray="1128 3">
-          {!reduced && (
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              from="0 400 400"
-              to="360 400 400"
-              dur="80s"
-              repeatCount="indefinite"
-            />
-          )}
+      <g stroke="rgba(247,247,244,0.3)" strokeWidth="0.8" fill="none">
+        <circle cx="400" cy="400" r="180" strokeDasharray="1128 4">
+          {!reduced && <animateTransform attributeName="transform" type="rotate" from="0 400 400" to="360 400 400" dur="80s" repeatCount="indefinite" />}
         </circle>
-        <circle cx="400" cy="400" r="240" strokeDasharray="1505 3">
-          {!reduced && (
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              from="360 400 400"
-              to="0 400 400"
-              dur="100s"
-              repeatCount="indefinite"
-            />
-          )}
+        <circle cx="400" cy="400" r="240" strokeDasharray="1505 4">
+          {!reduced && <animateTransform attributeName="transform" type="rotate" from="360 400 400" to="0 400 400" dur="100s" repeatCount="indefinite" />}
         </circle>
-        <circle cx="400" cy="400" r="300" strokeDasharray="1882 3">
-          {!reduced && (
-            <animateTransform
-              attributeName="transform"
-              type="rotate"
-              from="0 400 400"
-              to="360 400 400"
-              dur="120s"
-              repeatCount="indefinite"
-            />
-          )}
+        <circle cx="400" cy="400" r="300" strokeDasharray="1882 4">
+          {!reduced && <animateTransform attributeName="transform" type="rotate" from="0 400 400" to="360 400 400" dur="120s" repeatCount="indefinite" />}
         </circle>
       </g>
 
-      <g stroke="rgba(255,107,44,0.35)" strokeWidth="1.2" fill="none">
-        <path d="M 280 320 C 340 320 360 400 400 400" />
-        <path d="M 520 320 C 460 320 440 400 400 400" />
-        <path d="M 280 480 C 340 480 360 400 400 400" />
-        <path d="M 520 480 C 460 480 440 400 400 400" />
-        <path d="M 400 280 C 400 340 460 360 460 400" />
-        <path d="M 400 520 C 400 460 340 440 340 400" />
+      <g stroke="rgba(255,107,44,0.4)" strokeWidth="1.2" fill="none">
+        <path d="M 280 320 C 340 320 360 400 400 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 520 320 C 460 320 440 400 400 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2.2s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 280 480 C 340 480 360 400 400 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.8s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 520 480 C 460 480 440 400 400 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2.4s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 400 280 C 400 340 460 360 460 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2.1s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 400 520 C 400 460 340 440 340 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.9s" repeatCount="indefinite" />}
+        </path>
       </g>
 
-      <g fill="#ff6b2c">
-        <circle cx="400" cy="400" r="8">
-          {!reduced && (
-            <animate
-              attributeName="opacity"
-              values="0.7;1;0.7"
-              dur="3s"
-              repeatCount="indefinite"
-            />
-          )}
+      <g fill="#ff6b2c" filter={`url(#glow-${gradientId})`}>
+        <circle cx="280" cy="320" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="0s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="0s" />}
         </circle>
+        <circle cx="520" cy="320" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="0.5s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="0.5s" />}
+        </circle>
+        <circle cx="280" cy="480" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="1s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="1s" />}
+        </circle>
+        <circle cx="520" cy="480" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="1.5s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="1.5s" />}
+        </circle>
+        <circle cx="400" cy="280" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="2s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="2s" />}
+        </circle>
+        <circle cx="400" cy="520" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="2.5s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="2.5s" />}
+        </circle>
+      </g>
 
-        <circle r="5">
-          {!reduced && (
-            <>
-              <animateMotion
-                dur="25s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-120-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="3.5s"
-                repeatCount="indefinite"
-              />
-            </>
-          )}
+      <g transform="translate(400, 400)">
+        <circle cx="0" cy="0" r="15" stroke="#ff6b2c" strokeWidth="1" fill="none" opacity="0">
+          {!reduced && <animate attributeName="r" values="15;40" dur="3s" repeatCount="indefinite" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;0" dur="3s" repeatCount="indefinite" />}
         </circle>
-        <circle r="5">
-          {!reduced && (
-            <>
-              <animateMotion
-                dur="35s"
-                begin="-17.5s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-120-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="4s"
-                repeatCount="indefinite"
-              />
-            </>
-          )}
+        <circle cx="0" cy="0" r="15" stroke="#ff6b2c" strokeWidth="1" fill="none" opacity="0">
+          {!reduced && <animate attributeName="r" values="15;40" dur="3s" begin="1s" repeatCount="indefinite" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;0" dur="3s" begin="1s" repeatCount="indefinite" />}
         </circle>
+        <circle cx="0" cy="0" r="15" stroke="#ff6b2c" strokeWidth="1" fill="none" opacity="0">
+          {!reduced && <animate attributeName="r" values="15;40" dur="3s" begin="2s" repeatCount="indefinite" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;0" dur="3s" begin="2s" repeatCount="indefinite" />}
+        </circle>
+        <circle cx="0" cy="0" r="8" fill="#ff6b2c" filter={`url(#glow-${gradientId})`}>
+          {!reduced && <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" />}
+        </circle>
+      </g>
 
-        <circle r="5">
-          {!reduced && (
-            <>
-              <animateMotion
-                dur="30s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-144-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="3.2s"
-                repeatCount="indefinite"
-              />
-            </>
-          )}
+      <g fill="#ff6b2c" opacity="0.9">
+        <circle r="4">
+          {!reduced && (<><animateMotion dur="25s" repeatCount="indefinite"><mpath href={`#orbit-120-${gradientId}`} /></animateMotion><animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite" /></>)}
         </circle>
-        <circle r="5">
-          {!reduced && (
-            <>
-              <animateMotion
-                dur="40s"
-                begin="-7.48s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-144-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="3.8s"
-                repeatCount="indefinite"
-              />
-            </>
-          )}
+        <circle r="4">
+          {!reduced && (<><animateMotion dur="35s" begin="-17.5s" repeatCount="indefinite"><mpath href={`#orbit-120-${gradientId}`} /></animateMotion><animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite" /></>)}
         </circle>
-        <circle r="5">
-          {!reduced && (
-            <>
-              <animateMotion
-                dur="45s"
-                begin="-22.5s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-144-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="4.2s"
-                repeatCount="indefinite"
-              />
-            </>
-          )}
+        <circle r="3.5">
+          {!reduced && (<><animateMotion dur="30s" repeatCount="indefinite"><mpath href={`#orbit-144-${gradientId}`} /></animateMotion><animate attributeName="opacity" values="0.5;1;0.5" dur="3.2s" repeatCount="indefinite" /></>)}
         </circle>
-        <circle r="5">
-          {!reduced && (
-            <>
-              <animateMotion
-                dur="50s"
-                begin="-34.35s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-144-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="3.6s"
-                repeatCount="indefinite"
-              />
-            </>
-          )}
+        <circle r="3.5">
+          {!reduced && (<><animateMotion dur="40s" begin="-7.48s" repeatCount="indefinite"><mpath href={`#orbit-144-${gradientId}`} /></animateMotion><animate attributeName="opacity" values="0.5;1;0.5" dur="3.8s" repeatCount="indefinite" /></>)}
+        </circle>
+        <circle r="3.5">
+          {!reduced && (<><animateMotion dur="45s" begin="-22.5s" repeatCount="indefinite"><mpath href={`#orbit-144-${gradientId}`} /></animateMotion><animate attributeName="opacity" values="0.5;1;0.5" dur="4.2s" repeatCount="indefinite" /></>)}
+        </circle>
+        <circle r="3.5">
+          {!reduced && (<><animateMotion dur="50s" begin="-34.35s" repeatCount="indefinite"><mpath href={`#orbit-144-${gradientId}`} /></animateMotion><animate attributeName="opacity" values="0.5;1;0.5" dur="3.6s" repeatCount="indefinite" /></>)}
         </circle>
       </g>
     </svg>
   );
 }
 
+type Particle = {
+  size: number;
+  left: number;
+  duration: number;
+  delay: number;
+  drift: number;
+};
+
+function FloatingParticles() {
+  const reduced = useReducedMotion();
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 25 }, () => ({
+        size: Math.random() * 2 + 1,
+        left: Math.random() * 100,
+        duration: Math.random() * 15 + 15,
+        delay: Math.random() * 15,
+        drift: (Math.random() - 0.5) * 100,
+      }))
+    );
+  }, []);
+
+  if (reduced || particles.length === 0) return null;
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {particles.map((p, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-white/10"
+          style={{ width: p.size, height: p.size, left: `${p.left}%`, bottom: "-5%" }}
+          animate={{ y: ["0vh", "-110vh"], x: [0, p.drift], opacity: [0, 0.6, 0.6, 0] }}
+          transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "linear" }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function HeroPanel() {
   return (
     <div className="relative hidden flex-col justify-between overflow-hidden bg-[#0a0a0a] p-12 lg:flex lg:w-[58%]">
+      <FloatingParticles />
       <OnboardingGraphic />
 
       <motion.div
@@ -281,7 +237,7 @@ function HeroPanel() {
 
       <div className="relative z-10 max-w-xl">
         <motion.h1
-          className="text-[48px] font-semibold leading-[1.05] tracking-tightest text-ink sm:text-[56px]"
+          className="text-[56px] font-semibold leading-[1.05] tracking-tightest text-ink sm:text-[64px]"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
@@ -291,7 +247,7 @@ function HeroPanel() {
           here.
         </motion.h1>
         <motion.p
-          className="mt-6 max-w-md text-lg leading-relaxed text-muted"
+          className="mt-6 max-w-md text-xl leading-relaxed text-muted"
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
@@ -307,7 +263,7 @@ function HeroPanel() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
       >
-        <p className="font-serif italic text-white/40 text-[15px] pl-1 border-l border-white/10">
+        <p className="font-serif italic text-white/40 text-[17px] pl-1 border-l border-white/10">
           &ldquo;Every conversation has a story worth remembering.&rdquo;
         </p>
       </motion.div>
@@ -318,6 +274,7 @@ function HeroPanel() {
 function MobileHero() {
   return (
     <div className="relative overflow-hidden bg-[#0a0a0a] px-6 py-10 lg:hidden">
+      <FloatingParticles />
       <div className="pointer-events-none absolute inset-0">
         <OnboardingGraphic />
       </div>
@@ -354,18 +311,15 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#0a0a0a] lg:flex-row">
+    <div className="flex h-screen overflow-hidden bg-[#0a0a0a] lg:flex-row">
       <MobileHero />
       <HeroPanel />
 
-      <div className="relative flex flex-1 flex-col justify-center bg-[#0a0a0a] px-6 py-12 lg:w-[42%] lg:flex-none">
+      <div className="relative flex flex-1 flex-col justify-center bg-[#0a0a0a] px-6 py-8 lg:w-[42%] lg:flex-none">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div
             className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30 blur-[100px]"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(255,107,44,0.16), transparent 70%)",
-            }}
+            style={{ background: "radial-gradient(circle, rgba(255,107,44,0.16), transparent 70%)" }}
             aria-hidden
           />
           <div className="absolute inset-0 opacity-[0.04]">
@@ -373,42 +327,42 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        <div className="relative z-10 mx-auto w-full max-w-[460px] space-y-6">
-          {/* Step indicator card */}
+        {/* Reduced spacing to ensure 1-screen fit */}
+        <div className="relative z-10 mx-auto w-full max-w-[460px] space-y-4">
+          {/* Step indicator card - Compacted */}
           <motion.div
-            className="rounded-2xl border border-line bg-[#111110] p-4 flex items-center justify-between shadow-lg"
+            className="rounded-xl border border-line bg-[#111110] p-3 flex items-center justify-between shadow-lg"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE }}
           >
-            <div className="flex items-center gap-3.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-[14px] font-medium text-white shadow-[0_0_15px_rgba(255,107,44,0.3)] font-mono">
+            <div className="flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent text-[12px] font-medium text-white shadow-[0_0_15px_rgba(255,107,44,0.3)] font-mono">
                 1
               </span>
               <div>
-                <h3 className="text-[14px] font-medium text-ink">Connect Google Account</h3>
-                <p className="text-[11px] text-muted-foreground leading-none mt-0.5">Required to unlock Engram</p>
+                <h3 className="text-[13px] font-medium text-ink leading-tight">Connect Google Account</h3>
+                <p className="text-[10px] text-muted-foreground leading-none mt-0.5">Required to unlock Engram</p>
               </div>
             </div>
 
-            {/* Status indicator on the right */}
-            <div className="relative flex h-6 w-6 items-center justify-center">
+            <div className="relative flex h-5 w-5 items-center justify-center">
               <AnimatePresence mode="wait">
                 {connectState === "connected" ? (
                   <motion.div
                     key="checked"
-                    className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-white"
+                    className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-white"
                     initial={{ scale: 0, rotate: -45 }}
                     animate={{ scale: 1, rotate: 0 }}
                     exit={{ scale: 0 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
-                    <Check size={13} strokeWidth={3} />
+                    <Check size={11} strokeWidth={3} />
                   </motion.div>
                 ) : (
                   <motion.div
                     key="empty"
-                    className="h-5 w-5 rounded-full border-2 border-accent/70 bg-transparent"
+                    className="h-4 w-4 rounded-full border-2 border-accent/70 bg-transparent"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
@@ -418,60 +372,58 @@ export default function OnboardingPage() {
             </div>
           </motion.div>
 
-          {/* Main connection card */}
+          {/* Main connection card - Compacted */}
           <motion.div
-            className="rounded-2xl border border-line bg-[#111110] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.4)] lg:p-10"
+            className="rounded-xl border border-line bg-[#111110] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.15 }}
           >
             <div className="flex flex-col items-center text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] shadow-inner mb-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] shadow-inner mb-3">
                 <GoogleIcon />
               </div>
-              <h2 className="text-[20px] font-semibold text-ink">Google Workspace</h2>
-              <p className="text-[13px] text-muted mt-1">Gmail + Google Calendar</p>
+              <h2 className="text-[18px] font-semibold text-ink">Google Workspace</h2>
+              <p className="text-[12px] text-muted mt-0.5">Gmail + Google Calendar</p>
             </div>
 
-            {/* Sub-rows inside */}
-            <div className="mt-8 space-y-3">
-              <div className="flex items-center gap-3.5 rounded-xl border border-line bg-white/[0.01] p-3.5 transition-colors duration-[250ms] hover:bg-white/[0.03]">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-line bg-[#151514]">
-                  <SiGmail size={16} className="text-[#EA4335]" />
+            <div className="mt-6 space-y-2.5">
+              <div className="flex items-center gap-3 rounded-lg border border-line bg-white/[0.01] p-3 transition-colors duration-[250ms] hover:bg-white/[0.03]">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-line bg-[#151514]">
+                  <SiGmail size={14} className="text-[#EA4335]" />
                 </span>
                 <div className="min-w-0">
-                  <h4 className="text-[13.5px] font-medium text-ink">Gmail</h4>
+                  <h4 className="text-[13px] font-medium text-ink leading-tight">Gmail</h4>
                   <p className="truncate text-[11px] text-muted mt-0.5">Read, summarize, and draft emails</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3.5 rounded-xl border border-line bg-white/[0.01] p-3.5 transition-colors duration-[250ms] hover:bg-white/[0.03]">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-line bg-[#151514]">
-                  <SiGooglecalendar size={16} className="text-[#4285F4]" />
+              <div className="flex items-center gap-3 rounded-lg border border-line bg-white/[0.01] p-3 transition-colors duration-[250ms] hover:bg-white/[0.03]">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-line bg-[#151514]">
+                  <SiGooglecalendar size={14} className="text-[#4285F4]" />
                 </span>
                 <div className="min-w-0">
-                  <h4 className="text-[13.5px] font-medium text-ink">Google Calendar</h4>
+                  <h4 className="text-[13px] font-medium text-ink leading-tight">Google Calendar</h4>
                   <p className="truncate text-[11px] text-muted mt-0.5">Schedule meetings and view events</p>
                 </div>
               </div>
             </div>
 
-            {/* Primary CTA button */}
-            <div className="mt-8">
+            <div className="mt-6">
               {connectState === "connected" ? (
-                <div className="flex w-full items-center justify-center gap-2 rounded-[12px] border border-accent/20 bg-accent/10 py-3.5 text-[15px] font-medium text-accent">
-                  <Check size={16} strokeWidth={2.5} />
+                <div className="flex w-full items-center justify-center gap-2 rounded-lg border border-accent/20 bg-accent/10 py-3 text-[14px] font-medium text-accent">
+                  <Check size={15} strokeWidth={2.5} />
                   Google Connected
                 </div>
               ) : (
                 <button
                   onClick={handleConnect}
                   disabled={connectState === "loading"}
-                  className="group flex w-full items-center justify-center gap-2.5 rounded-[12px] bg-accent px-6 py-3.5 text-[15px] font-medium text-white transition-all duration-[250ms] hover:bg-accent-hover disabled:opacity-80 disabled:cursor-not-allowed shadow-[0_4px_20px_rgba(255,107,44,0.15)] hover:shadow-[0_4px_25px_rgba(255,107,44,0.25)]"
+                  className="group flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-[14px] font-medium text-white transition-all duration-[250ms] hover:bg-accent-hover disabled:opacity-80 disabled:cursor-not-allowed shadow-[0_4px_20px_rgba(255,107,44,0.15)] hover:shadow-[0_4px_25px_rgba(255,107,44,0.25)]"
                 >
                   {connectState === "loading" ? (
                     <>
-                      <Loader2 size={16} className="animate-spin" />
+                      <Loader2 size={15} className="animate-spin" />
                       Connecting...
                     </>
                   ) : (
@@ -485,32 +437,32 @@ export default function OnboardingPage() {
             </div>
           </motion.div>
 
-          {/* Secondary skip row/card */}
+          {/* Secondary skip row/card - Compacted */}
           <motion.div
-            className="rounded-2xl border border-line bg-[#111110] p-5 flex items-center justify-between shadow-lg"
+            className="rounded-xl border border-line bg-[#111110] p-3.5 flex items-center justify-between shadow-lg"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.3 }}
           >
             <div className="min-w-0 pr-4">
-              <h4 className="text-[13.5px] font-medium text-ink">Ready to explore?</h4>
-              <p className="text-[11px] text-muted leading-tight mt-0.5">
+              <h4 className="text-[12.5px] font-medium text-ink">Ready to explore?</h4>
+              <p className="text-[10.5px] text-muted leading-tight mt-0.5">
                 You can always connect later from Integrations.
               </p>
             </div>
-            <GhostButton href="/dashboard" className="py-2.5 px-4 text-[13.5px] shrink-0 border border-white/5 bg-white/[0.01]">
+            <GhostButton href="/dashboard" className="py-2 px-3.5 text-[12.5px] shrink-0 border border-white/5 bg-white/[0.01]">
               Skip for now →
             </GhostButton>
           </motion.div>
 
-          {/* Privacy reassurance footer */}
+          {/* Privacy reassurance footer - Tighter */}
           <motion.div
-            className="flex items-start gap-2 px-2 text-[11px] leading-relaxed text-muted-foreground"
+            className="flex items-start gap-2 px-1 text-[10.5px] leading-relaxed text-muted-foreground"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.45 }}
           >
-            <Lock size={12} className="shrink-0 mt-0.5 text-accent/70" />
+            <Lock size={11} className="shrink-0 mt-0.5 text-accent/70" />
             <p>
               Your memories remain yours. Engram only reads your information and never acts without your permission.
             </p>

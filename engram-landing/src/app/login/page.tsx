@@ -54,12 +54,17 @@ function GoogleIcon() {
   );
 }
 
-function MemoryBriefItem({ text }: { text: string }) {
+function MemoryBriefItem({ text, delay }: { text: string; delay: number }) {
   return (
-    <div className="flex items-start gap-3">
+    <motion.div
+      className="flex items-start gap-3"
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, ease: EASE, delay }}
+    >
       <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
       <p className="text-[14px] leading-relaxed text-white/80">{text}</p>
-    </div>
+    </motion.div>
   );
 }
 
@@ -69,7 +74,7 @@ function LoginGraphic({ gradientId = "login-glow" }: { gradientId?: string }) {
   return (
     <svg
       viewBox="0 0 800 800"
-      className="absolute -right-32 top-1/2 h-[110%] w-[110%] -translate-y-1/2 opacity-[0.18]"
+      className="absolute -right-32 top-1/2 h-[110%] w-[110%] -translate-y-1/2 opacity-[0.20]"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden
     >
@@ -81,7 +86,7 @@ function LoginGraphic({ gradientId = "login-glow" }: { gradientId?: string }) {
           r="50%"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%" stopColor="#ff6b2c" stopOpacity="0.35" />
+          <stop offset="0%" stopColor="#ff6b2c" stopOpacity="0.4" />
           <stop offset="100%" stopColor="#ff6b2c" stopOpacity="0" />
         </radialGradient>
         <path
@@ -94,12 +99,21 @@ function LoginGraphic({ gradientId = "login-glow" }: { gradientId?: string }) {
           d="M 280 320 A 144 144 0 1 1 279.99 320"
           fill="none"
         />
+        {/* Glow filter for nodes */}
+        <filter id={`glow-${gradientId}`} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
       </defs>
 
       <circle cx="400" cy="400" r="280" fill={`url(#${gradientId})`} />
 
-      <g stroke="rgba(247,247,244,0.45)" strokeWidth="0.8" fill="none">
-        <circle cx="400" cy="400" r="180" strokeDasharray="1128 3">
+      {/* Outer Rotating Rings */}
+      <g stroke="rgba(247,247,244,0.3)" strokeWidth="0.8" fill="none">
+        <circle cx="400" cy="400" r="180" strokeDasharray="1128 4">
           {!reduced && (
             <animateTransform
               attributeName="transform"
@@ -111,7 +125,7 @@ function LoginGraphic({ gradientId = "login-glow" }: { gradientId?: string }) {
             />
           )}
         </circle>
-        <circle cx="400" cy="400" r="240" strokeDasharray="1505 3">
+        <circle cx="400" cy="400" r="240" strokeDasharray="1505 4">
           {!reduced && (
             <animateTransform
               attributeName="transform"
@@ -123,7 +137,7 @@ function LoginGraphic({ gradientId = "login-glow" }: { gradientId?: string }) {
             />
           )}
         </circle>
-        <circle cx="400" cy="400" r="300" strokeDasharray="1882 3">
+        <circle cx="400" cy="400" r="300" strokeDasharray="1882 4">
           {!reduced && (
             <animateTransform
               attributeName="transform"
@@ -137,142 +151,193 @@ function LoginGraphic({ gradientId = "login-glow" }: { gradientId?: string }) {
         </circle>
       </g>
 
-      <g stroke="rgba(255,107,44,0.35)" strokeWidth="1.2" fill="none">
-        <path d="M 280 320 C 340 320 360 400 400 400" />
-        <path d="M 520 320 C 460 320 440 400 400 400" />
-        <path d="M 280 480 C 340 480 360 400 400 400" />
-        <path d="M 520 480 C 460 480 440 400 400 400" />
-        <path d="M 400 280 C 400 340 460 360 460 400" />
-        <path d="M 400 520 C 400 460 340 440 340 400" />
+      {/* Data Flow Lines (Animated Dashes moving to center) */}
+      <g stroke="rgba(255,107,44,0.4)" strokeWidth="1.2" fill="none">
+        <path d="M 280 320 C 340 320 360 400 400 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 520 320 C 460 320 440 400 400 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2.2s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 280 480 C 340 480 360 400 400 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.8s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 520 480 C 460 480 440 400 400 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2.4s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 400 280 C 400 340 460 360 460 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="2.1s" repeatCount="indefinite" />}
+        </path>
+        <path d="M 400 520 C 400 460 340 440 340 400" strokeDasharray="4 8">
+          {!reduced && <animate attributeName="stroke-dashoffset" from="0" to="-24" dur="1.9s" repeatCount="indefinite" />}
+        </path>
       </g>
 
-      <g fill="#ff6b2c">
-        <circle cx="400" cy="400" r="8">
+      {/* Pulsing Endpoint Nodes */}
+      <g fill="#ff6b2c" filter={`url(#glow-${gradientId})`}>
+        <circle cx="280" cy="320" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="0s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="0s" />}
+        </circle>
+        <circle cx="520" cy="320" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="0.5s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="0.5s" />}
+        </circle>
+        <circle cx="280" cy="480" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="1s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="1s" />}
+        </circle>
+        <circle cx="520" cy="480" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="1.5s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="1.5s" />}
+        </circle>
+        <circle cx="400" cy="280" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="2s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="2s" />}
+        </circle>
+        <circle cx="400" cy="520" r="3" opacity="0.8">
+          {!reduced && <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite" begin="2.5s" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="2.5s" />}
+        </circle>
+      </g>
+
+      {/* Center Core & Expansion Rings */}
+      <g transform="translate(400, 400)">
+        {/* Expanding sonar rings */}
+        <circle cx="0" cy="0" r="15" stroke="#ff6b2c" strokeWidth="1" fill="none" opacity="0">
+          {!reduced && <animate attributeName="r" values="15;40" dur="3s" repeatCount="indefinite" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;0" dur="3s" repeatCount="indefinite" />}
+        </circle>
+        <circle cx="0" cy="0" r="15" stroke="#ff6b2c" strokeWidth="1" fill="none" opacity="0">
+          {!reduced && <animate attributeName="r" values="15;40" dur="3s" begin="1s" repeatCount="indefinite" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;0" dur="3s" begin="1s" repeatCount="indefinite" />}
+        </circle>
+        <circle cx="0" cy="0" r="15" stroke="#ff6b2c" strokeWidth="1" fill="none" opacity="0">
+          {!reduced && <animate attributeName="r" values="15;40" dur="3s" begin="2s" repeatCount="indefinite" />}
+          {!reduced && <animate attributeName="opacity" values="0.6;0" dur="3s" begin="2s" repeatCount="indefinite" />}
+        </circle>
+
+        {/* Core Dot */}
+        <circle cx="0" cy="0" r="8" fill="#ff6b2c" filter={`url(#glow-${gradientId})`}>
           {!reduced && (
             <animate
               attributeName="opacity"
-              values="0.7;1;0.7"
-              dur="3s"
+              values="0.8;1;0.8"
+              dur="2s"
               repeatCount="indefinite"
             />
           )}
         </circle>
+      </g>
 
-        <circle r="5">
+      {/* Orbiting Dots */}
+      <g fill="#ff6b2c" opacity="0.9">
+        <circle r="4">
           {!reduced && (
             <>
-              <animateMotion
-                dur="25s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-120-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="3.5s"
-                repeatCount="indefinite"
-              />
+              <animateMotion dur="25s" repeatCount="indefinite"><mpath href={`#orbit-120-${gradientId}`} /></animateMotion>
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite" />
             </>
           )}
         </circle>
-        <circle r="5">
+        <circle r="4">
           {!reduced && (
             <>
-              <animateMotion
-                dur="35s"
-                begin="-17.5s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-120-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="4s"
-                repeatCount="indefinite"
-              />
+              <animateMotion dur="35s" begin="-17.5s" repeatCount="indefinite"><mpath href={`#orbit-120-${gradientId}`} /></animateMotion>
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite" />
             </>
           )}
         </circle>
 
-        <circle r="5">
+        <circle r="3.5">
           {!reduced && (
             <>
-              <animateMotion
-                dur="30s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-144-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="3.2s"
-                repeatCount="indefinite"
-              />
+              <animateMotion dur="30s" repeatCount="indefinite"><mpath href={`#orbit-144-${gradientId}`} /></animateMotion>
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="3.2s" repeatCount="indefinite" />
             </>
           )}
         </circle>
-        <circle r="5">
+        <circle r="3.5">
           {!reduced && (
             <>
-              <animateMotion
-                dur="40s"
-                begin="-7.48s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-144-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="3.8s"
-                repeatCount="indefinite"
-              />
+              <animateMotion dur="40s" begin="-7.48s" repeatCount="indefinite"><mpath href={`#orbit-144-${gradientId}`} /></animateMotion>
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="3.8s" repeatCount="indefinite" />
             </>
           )}
         </circle>
-        <circle r="5">
+        <circle r="3.5">
           {!reduced && (
             <>
-              <animateMotion
-                dur="45s"
-                begin="-22.5s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-144-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="4.2s"
-                repeatCount="indefinite"
-              />
+              <animateMotion dur="45s" begin="-22.5s" repeatCount="indefinite"><mpath href={`#orbit-144-${gradientId}`} /></animateMotion>
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="4.2s" repeatCount="indefinite" />
             </>
           )}
         </circle>
-        <circle r="5">
+        <circle r="3.5">
           {!reduced && (
             <>
-              <animateMotion
-                dur="50s"
-                begin="-34.35s"
-                repeatCount="indefinite"
-              >
-                <mpath href={`#orbit-144-${gradientId}`} />
-              </animateMotion>
-              <animate
-                attributeName="opacity"
-                values="0.6;1;0.6"
-                dur="3.6s"
-                repeatCount="indefinite"
-              />
+              <animateMotion dur="50s" begin="-34.35s" repeatCount="indefinite"><mpath href={`#orbit-144-${gradientId}`} /></animateMotion>
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="3.6s" repeatCount="indefinite" />
             </>
           )}
         </circle>
       </g>
     </svg>
+  );
+}
+
+type Particle = {
+  size: number;
+  left: number;
+  duration: number;
+  delay: number;
+  drift: number;
+};
+
+function FloatingParticles() {
+  const reduced = useReducedMotion();
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 25 }, () => ({
+        size: Math.random() * 2 + 1,
+        left: Math.random() * 100,
+        duration: Math.random() * 15 + 15,
+        delay: Math.random() * 15,
+        drift: (Math.random() - 0.5) * 100,
+      }))
+    );
+  }, []);
+
+  if (reduced || particles.length === 0) return null;
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {particles.map((p, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-white/10"
+          style={{
+            width: p.size,
+            height: p.size,
+            left: `${p.left}%`,
+            bottom: "-5%",
+          }}
+          animate={{
+            y: ["0vh", "-110vh"],
+            x: [0, p.drift],
+            opacity: [0, 0.6, 0.6, 0],
+          }}
+          transition={{
+            duration: p.duration,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -291,6 +356,7 @@ function Divider() {
 function HeroPanel() {
   return (
     <div className="relative hidden flex-col justify-between overflow-hidden bg-[#0a0a0a] p-12 lg:flex lg:w-[58%]">
+      <FloatingParticles />
       <LoginGraphic />
 
       <motion.div
@@ -333,7 +399,7 @@ function HeroPanel() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: EASE, delay: 0.3 }}
       >
-        <div className="rounded-[24px] border border-white/10 bg-[#141413] p-6">
+        <div className="rounded-[24px] border border-white/10 bg-[#141413] p-6 shadow-2xl shadow-black/20">
           <div className="flex items-center justify-between">
             <MonoLabel>TODAY&apos;S MEMORY BRIEF</MonoLabel>
             <span className="font-mono text-[11px] text-muted-foreground">
@@ -341,9 +407,9 @@ function HeroPanel() {
             </span>
           </div>
           <div className="mt-5 space-y-3">
-            <MemoryBriefItem text="Investor follow-up draft ready for review" />
-            <MemoryBriefItem text="Board notes connected to calendar context" />
-            <MemoryBriefItem text="Three key decisions remembered from last week" />
+            <MemoryBriefItem text="Investor follow-up draft ready for review" delay={0.4} />
+            <MemoryBriefItem text="Board notes connected to calendar context" delay={0.5} />
+            <MemoryBriefItem text="Three key decisions remembered from last week" delay={0.6} />
           </div>
         </div>
       </motion.div>

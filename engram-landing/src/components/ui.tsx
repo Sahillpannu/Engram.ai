@@ -143,8 +143,8 @@ export function SectionShell({
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-center gap-2 ${className}`}>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+    <span className={`inline-flex items-center gap-2.5 ${className}`}>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
         <line
           x1="6"
           y1="7"
@@ -167,7 +167,7 @@ export function Logo({ className = "" }: { className?: string }) {
         <circle cx="6" cy="17" r="2.6" fill="var(--ink)" />
         <circle cx="17" cy="12" r="3.4" fill="var(--accent)" />
       </svg>
-      <span className="text-[17px] font-medium tracking-tight text-ink">
+      <span className="text-[19px] font-semibold tracking-tight text-ink">
         Engram
       </span>
     </span>
