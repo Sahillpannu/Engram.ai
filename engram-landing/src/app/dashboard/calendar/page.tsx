@@ -3,9 +3,10 @@
 import React from "react";
 import CalendarWorkspace from "@/components/dashboard/CalendarWorkspace";
 import type { CalendarEventAction } from "@/lib/agent-actions";
+import { useTheme } from "@/app/dashboard/theme-context";
 
 export default function CalendarPage() {
-  const isDarkMode = true; // Defaulting to dark mode as per design system
+  const { isDarkMode } = useTheme();
 
   const calendarColors = {
     bg: isDarkMode ? "#111317" : "#F3ECE3",

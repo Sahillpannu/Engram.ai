@@ -4,11 +4,12 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { DashboardProvider } from "./context";
 import Sidebar from "@/components/dashboard/Sidebar";
+import { ThemeProvider, useTheme } from "./theme-context";
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const { isDarkMode, toggleTheme } = useTheme();
   const [isMobile, setIsMobile] = useState(false);
 
   // Extract activeNav from pathname (e.g. /dashboard/brief -> brief)
@@ -27,10 +28,6 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
   const handleLogout = () => {
     router.push("/login");
   };
@@ -46,15 +43,13 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         height: "100vh",
         width: "100vw",
         overflow: "hidden",
-        backgroundColor: "#111317",
+        backgroundColor: isDarkMode ? "#111317" : "#F3ECE3",
       }}
     >
       <Sidebar
         isMobile={isMobile}
-        isDarkMode={isDarkMode}
         activeNav={activeNav}
         setActiveNav={setActiveNav}
-        onToggleTheme={toggleTheme}
         onLogout={handleLogout}
         userName={userName}
         userInitials={userInitials}
@@ -65,7 +60,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
           flex: 1,
           minWidth: 0,
           overflowY: "auto",
-          backgroundColor: "#111317",
+          backgroundColor: isDarkMode ? "#111317" : "#F3ECE3",
         }}
       >
         {children}
@@ -80,8 +75,10 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <DashboardProvider>
-      <DashboardLayoutContent>{children}</DashboardLayoutContent>
-    </DashboardProvider>
+    <ThemeProvider>
+      <DashboardProvider>
+        <DashboardLayoutContent>{children}</DashboardLayoutContent>
+      </DashboardProvider>
+    </ThemeProvider>
   );
 }

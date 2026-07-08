@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useDashboard } from "./context";
+import { useTheme } from "@/app/dashboard/theme-context";
 import {
   SiGmail,
   SiGooglecalendar,
@@ -78,205 +79,173 @@ const allIntegrationsList: IntegrationItem[] = [
   },
   {
     name: "Google Calendar",
-    desc: "Expose schedule context, meetings, and invite attendee information.",
+    desc: "Ingest daily schedules, meetings, and invite descriptions.",
     icon: SiGooglecalendar,
     color: "#4285F4",
-    subtitle: "Shared calendar",
-    category: "Collaboration & Docs",
-    recommended: true,
-    comingSoon: false,
-    defaultSynced: "4m ago",
-  },
-  {
-    name: "Slack",
-    desc: "Index channels, chats, and files for real-time team context.",
-    icon: SlackLogo,
-    color: "#E01E5A",
-    subtitle: "Team chat",
+    subtitle: "Daily logs",
     category: "Messaging & Support",
     recommended: true,
     comingSoon: false,
+    defaultSynced: "24m ago",
+  },
+  {
+    name: "Slack",
+    desc: "Index thread activities and channels to identify critical items.",
+    icon: SlackLogo,
+    color: "#4A154B",
+    subtitle: "Real-time sync",
+    category: "Messaging & Support",
+    recommended: true,
+    comingSoon: false,
+    defaultSynced: "1m ago",
+  },
+  {
+    name: "Notion",
+    desc: "Sync knowledge documents, wikis, and team handbooks.",
+    icon: SiNotion,
+    color: "#000000",
+    subtitle: "Company wikis",
+    category: "Collaboration & Docs",
+    recommended: false,
+    comingSoon: false,
+    defaultSynced: "2h ago",
   },
   {
     name: "HubSpot",
-    desc: "Sync customer deals, notes, emails, and timeline context.",
+    desc: "Sync enterprise accounts, leads, opportunities, and pipeline contacts.",
     icon: SiHubspot,
     color: "#FF7A59",
-    subtitle: "Customer records",
-    category: "CRM & Sales",
-    recommended: true,
+    subtitle: "Enterprise CRM",
+    category: "AI & Automation",
+    recommended: false,
     comingSoon: false,
   },
   {
     name: "Jira",
-    desc: "Track projects, sprint goals, issues, and board tickets.",
+    desc: "Sync tasks, story points, epics, and sprint progress boards.",
     icon: SiJira,
     color: "#0052CC",
-    subtitle: "Task management",
-    category: "Project & Workflow",
-    recommended: true,
-    comingSoon: false,
-  },
-  {
-    name: "Notion",
-    desc: "Index wikis, meeting notes, database logs, and workspace documents.",
-    icon: SiNotion,
-    color: "#FFFFFF",
-    subtitle: "Company wiki",
+    subtitle: "Product tickets",
     category: "Collaboration & Docs",
-    recommended: true,
-    comingSoon: false,
+    recommended: false,
+    comingSoon: true,
   },
   {
     name: "Airtable",
-    desc: "Query relational database spreadsheets, records, and forms.",
+    desc: "Index tabular databases and custom relational worksheets.",
     icon: SiAirtable,
-    color: "#186FFF",
-    subtitle: "Relational databases",
+    color: "#18BFFF",
+    subtitle: "Context grids",
     category: "Collaboration & Docs",
     recommended: false,
-    comingSoon: false,
-  },
-  {
-    name: "Amplitude",
-    desc: "Feed product analytics, user charts, and event trends to agent memory.",
-    icon: AmplitudeLogo,
-    color: "#FF6B2C",
-    subtitle: "Product analytics",
-    category: "Analytics & Monitoring",
-    recommended: false,
-    comingSoon: false,
+    comingSoon: true,
   },
   {
     name: "Zoom",
-    desc: "Record, transcribe, and index transcript logs from video sessions.",
+    desc: "Import video call recordings, summaries, and transcripts.",
     icon: SiZoom,
     color: "#2D8CFF",
-    subtitle: "Video sessions",
-    category: "Collaboration & Docs",
+    subtitle: "Meetings record",
+    category: "Messaging & Support",
     recommended: true,
     comingSoon: false,
-  },
-  {
-    name: "GitHub",
-    desc: "Track commits, pull requests, issue threads, and markdown wikis.",
-    icon: SiGithub,
-    color: "#FFFFFF",
-    subtitle: "Code repositories",
-    category: "Project & Workflow",
-    recommended: false,
-    comingSoon: false,
-  },
-  {
-    name: "Linear",
-    desc: "Index software tickets, issue trackers, product roadmaps, and cycle logs.",
-    icon: SiLinear,
-    color: "#5E6AD2",
-    subtitle: "Software planning",
-    category: "Project & Workflow",
-    recommended: false,
-    comingSoon: false,
+    defaultSynced: "1h ago",
   },
   {
     name: "Stripe",
-    desc: "Analyze subscription plans, payouts, receipts, and customer billing.",
+    desc: "Sync invoice bills, transactions, billing plans, and subscriptions.",
     icon: SiStripe,
-    color: "#635BFF",
-    subtitle: "Billing engine",
-    category: "E-commerce & Payments",
+    color: "#008CDD",
+    subtitle: "Finances tracker",
+    category: "Analytics & Monitoring",
     recommended: false,
-    comingSoon: false,
+    comingSoon: true,
   },
   {
-    name: "Salesforce",
-    desc: "Sync enterprise accounts, leads, opportunities, and pipeline contacts.",
-    icon: SalesforceLogo,
-    color: "#00A1E0",
-    subtitle: "Enterprise CRM",
-    category: "CRM & Sales",
+    name: "GitHub",
+    desc: "Ingest PR descriptions, code reviews, and commit changes.",
+    icon: SiGithub,
+    color: "#181717",
+    subtitle: "Engineering logs",
+    category: "Collaboration & Docs",
     recommended: false,
     comingSoon: false,
-    hasError: true,
-    errorMsg: "Re-auth required",
   },
   {
     name: "Discord",
-    desc: "Index community chat groups, developer forums, and direct chats.",
+    desc: "Track community chat rooms, announcements, and support queries.",
     icon: SiDiscord,
     color: "#5865F2",
-    subtitle: "Community chat",
+    subtitle: "Developer forums",
     category: "Messaging & Support",
     recommended: false,
-    comingSoon: false,
+    comingSoon: true,
   },
   {
     name: "Zendesk",
-    desc: "Connect support tickets, customer conversations, and FAQ articles.",
+    desc: "Sync help center tickets, user queries, and customer satisfaction rates.",
     icon: SiZendesk,
-    color: "#00E0A1",
-    subtitle: "Support queue",
+    color: "#03363D",
+    subtitle: "Customer tickets",
     category: "Messaging & Support",
     recommended: false,
-    comingSoon: false,
+    comingSoon: true,
   },
   {
     name: "Intercom",
-    desc: "Sync real-time support widgets, messaging flows, and user profiles.",
+    desc: "Import live support messenger history, chat logs, and help notes.",
     icon: SiIntercom,
     color: "#0057FF",
-    subtitle: "User chat widget",
+    subtitle: "Support livechat",
     category: "Messaging & Support",
     recommended: false,
-    comingSoon: false,
+    comingSoon: true,
   },
   {
-    name: "OpenAI",
-    desc: "Sync assistant memories, run logs, and fine-tuning prompts.",
-    icon: OpenAILogo,
-    color: "#74AA9C",
-    subtitle: "AI Assistants",
+    name: "Linear",
+    desc: "Sync dev tickets, task issues, milestones, and cycles.",
+    icon: SiLinear,
+    color: "#5E6AD2",
+    subtitle: "Team task tracker",
+    category: "Collaboration & Docs",
+    recommended: false,
+    comingSoon: true,
+  },
+  {
+    name: "Amplitude",
+    desc: "Synchronize user product actions, conversions, and metrics.",
+    icon: AmplitudeLogo,
+    color: "#311432",
+    subtitle: "Product analytics",
+    category: "Analytics & Monitoring",
+    recommended: false,
+    comingSoon: true,
+  },
+  {
+    name: "Salesforce",
+    desc: "Track pipeline leads, custom accounts, and deal statuses.",
+    icon: SalesforceLogo,
+    color: "#00A1E0",
+    subtitle: "Pipeline contacts",
     category: "AI & Automation",
     recommended: false,
     comingSoon: true,
   },
+  {
+    name: "OpenAI",
+    desc: "Enable models, API connections, and query metrics.",
+    icon: OpenAILogo,
+    color: "#41295a",
+    subtitle: "Language models",
+    category: "AI & Automation",
+    recommended: true,
+    comingSoon: false,
+    defaultSynced: "Just now",
+  },
 ];
-
-// Generate generic placeholders to show 34 sources scale
-const extraCategories = [
-  "Collaboration & Docs",
-  "AI & Automation",
-  "CRM & Sales",
-  "Messaging & Support",
-  "E-commerce & Payments",
-  "Project & Workflow",
-  "Analytics & Monitoring",
-];
-
-const genericSources: IntegrationItem[] = Array.from({ length: 17 }, (_, i) => {
-  const num = i + 18;
-  const name = `Source #${num}`;
-  const cat = extraCategories[i % extraCategories.length];
-  return {
-    name,
-    desc: `Seamlessly index records and synchronize workspace memory from ${name}.`,
-    icon: null,
-    color: "#71717a",
-    subtitle: "Memory connector",
-    category: cat,
-    recommended: false,
-    comingSoon: true,
-    hasError: false,
-    errorMsg: "",
-  };
-});
-
-const integrations: IntegrationItem[] = [...allIntegrationsList, ...genericSources];
 
 const categories = [
   "Messaging & Support",
-  "E-commerce & Payments",
-  "CRM & Sales",
-  "Project & Workflow",
   "AI & Automation",
   "Analytics & Monitoring",
   "Collaboration & Docs",
@@ -284,6 +253,7 @@ const categories = [
 
 export default function IntegrationsPage() {
   const { connectedIds, connect, disconnect } = useDashboard();
+  const { isDarkMode } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedOverview, setSelectedOverview] = useState<OverviewFilter>("all");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -295,10 +265,6 @@ export default function IntegrationsPage() {
   const handleReauth = (id: string) => {
     setFixingId(id);
     setTimeout(() => {
-      const item = integrations.find((i) => i.name === id);
-      if (item) {
-        item.hasError = false;
-      }
       setFixingId(null);
     }, 1200);
   };
@@ -317,7 +283,7 @@ export default function IntegrationsPage() {
     setSearchQuery("");
   };
 
-  const filteredIntegrations = integrations.filter((item) => {
+  const filteredIntegrations = allIntegrationsList.filter((item) => {
     if (
       searchQuery &&
       !item.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -342,15 +308,15 @@ export default function IntegrationsPage() {
     return true;
   });
 
-  const countAll = integrations.length;
-  const countConnected = integrations.filter((item) =>
+  const countAll = allIntegrationsList.length;
+  const countConnected = allIntegrationsList.filter((item) =>
     connectedIds.includes(item.name)
   ).length;
 
   return (
     <div className="flex h-full overflow-hidden">
       <IntegrationFilterPanel
-        apps={integrations}
+        apps={allIntegrationsList}
         connectedIds={connectedIds}
         categories={categories}
         searchQuery={searchQuery}
@@ -359,6 +325,7 @@ export default function IntegrationsPage() {
         onSelectOverview={setSelectedOverview}
         selectedCategories={selectedCategories}
         onToggleCategory={toggleCategory}
+        isDarkMode={isDarkMode}
       />
       <IntegrationGrid
         apps={filteredIntegrations}
@@ -370,6 +337,7 @@ export default function IntegrationsPage() {
         onReauth={handleReauth}
         fixingId={fixingId}
         onClearFilters={clearFilters}
+        isDarkMode={isDarkMode}
       />
     </div>
   );

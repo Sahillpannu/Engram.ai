@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import WorkspaceItem from "./WorkspaceItem";
+import { useTheme } from "@/app/dashboard/theme-context";
 
 export type Mailbox = "inbox" | "drafts" | "sent" | "spam" | "trash";
 
@@ -33,6 +34,17 @@ export default function EmailWorkspaceDropdown({
   onSearchChange,
 }: EmailWorkspaceDropdownProps) {
   const [isExpanded, setIsExpanded] = useState(true);
+  const { isDarkMode } = useTheme();
+
+  // Theme-aware styles based on isDarkMode
+  const bgOuter = isDarkMode ? "#161719" : "#EFECE6";
+  const borderCol = isDarkMode ? "#1E1F23" : "#E8DCCB";
+  const bgInner = isDarkMode ? "#1A1B1E" : "#EAE5DB";
+  const borderInput = isDarkMode ? "#2A2F37" : "#E8DCCB";
+  const textPrimary = isDarkMode ? "#F3F4F6" : "#2D2B26";
+  const textMuted = isDarkMode ? "#9AA3AE" : "#615E56";
+  const textGray = isDarkMode ? "#6B7280" : "#9A958C";
+  const bgHover = isDarkMode ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)";
 
   const items: { key: Mailbox; label: string; icon: LucideIcon; badge?: number }[] = [
     { key: "inbox", label: "Inbox", icon: Mail, badge: unreadInboxCount },
@@ -43,17 +55,34 @@ export default function EmailWorkspaceDropdown({
   ];
 
   return (
-    <div className="hidden md:flex flex-col w-[280px] shrink-0 h-full bg-[#161719] border-r border-[#1E1F23] select-none">
+    <div
+      className="hidden md:flex flex-col w-[280px] shrink-0 h-full select-none"
+      style={{
+        backgroundColor: bgOuter,
+        borderRight: `1px solid ${borderCol}`,
+      }}
+    >
       {/* Search */}
       <div className="p-4 shrink-0">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#6B7280]" />
+          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[#6B7280]" style={{ color: textGray }} />
           <input
             type="text"
             placeholder="Search here"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full rounded-full border border-[#2A2F37] bg-[#1A1B1E] pl-9 pr-3 h-9 text-[13px] text-[#F3F4F6] placeholder:text-[#6B7280] outline-none transition-colors focus:border-[#F59E0B]/40"
+            className="w-full rounded-full border pl-9 pr-3 h-9 text-[13px] outline-none transition-colors"
+            style={{
+              borderColor: borderInput,
+              backgroundColor: bgInner,
+              color: textPrimary,
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = isDarkMode ? "#F59E0B/40" : "#D97706/40";
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = borderInput;
+            }}
           />
         </div>
       </div>
@@ -62,15 +91,23 @@ export default function EmailWorkspaceDropdown({
       <div className="px-2 shrink-0">
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full flex items-center justify-between px-3 h-[38px] rounded-[8px] text-[13px] font-semibold text-[#F3F4F6] hover:bg-white/[0.03] transition-colors"
+          className="w-full flex items-center justify-between px-3 h-[38px] rounded-[8px] text-[13px] font-semibold transition-colors bg-transparent border-none cursor-pointer"
+          style={{ color: textPrimary }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = bgHover;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "transparent";
+          }}
         >
           <span className="flex items-center gap-2.5">
-            <Mail size={16} className="text-[#F59E0B]" />
+            <Mail size={16} style={{ color: isDarkMode ? "#F59E0B" : "#D97706" }} />
             Email
           </span>
           <ChevronDown
             size={16}
-            className={`text-[#9AA3AE] transition-transform ${isExpanded ? "" : "-rotate-90"}`}
+            className={`transition-transform ${isExpanded ? "" : "-rotate-90"}`}
+            style={{ color: textMuted }}
           />
         </button>
       </div>
@@ -78,7 +115,10 @@ export default function EmailWorkspaceDropdown({
       {/* Workspace sub-items */}
       {isExpanded && (
         <div className="flex-1 overflow-y-auto custom-scrollbar px-2 pt-2">
-          <div className="px-3 mb-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#9AA3AE]">
+          <div
+            className="px-3 mb-1.5 text-[10px] font-semibold uppercase tracking-[0.15em]"
+            style={{ color: textMuted }}
+          >
             Workspace
           </div>
           <div className="space-y-1">

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Users, Plus, X, Lock, Check, Send, Shield, User } from "lucide-react";
 import EnterpriseModal from "@/components/dashboard/EnterpriseModal";
+import { useTheme } from "@/app/dashboard/theme-context";
 
 interface TeamMember {
   initials: string;
@@ -14,6 +15,18 @@ interface TeamMember {
 }
 
 export default function TeamsPage() {
+  const { isDarkMode } = useTheme();
+
+  const bgMain = isDarkMode ? "#111317" : "#F3ECE3";
+  const bgCard = isDarkMode ? "#1E1F23" : "#FFFFFF";
+  const bgInner = isDarkMode ? "#1A1B1E" : "#EAE5DB";
+  const borderCol = isDarkMode ? "#2A2F37" : "#E8DCCB";
+  const textPrimary = isDarkMode ? "#F3F4F6" : "#2D2B26";
+  const textMuted = isDarkMode ? "#9AA3AE" : "#615E56";
+  const textGray = isDarkMode ? "#6B7280" : "#9A958C";
+  const accent = isDarkMode ? "#F59E0B" : "#D97706";
+  const accentText = isDarkMode ? "#111317" : "#F3ECE3";
+
   const [members, setMembers] = useState<TeamMember[]>([
     {
       initials: "AD",
@@ -89,7 +102,7 @@ export default function TeamsPage() {
   };
 
   return (
-    <div className="min-h-full bg-[#111317] select-none flex flex-col justify-between" style={{ minHeight: "calc(100vh - 64px)" }}>
+    <div className="min-h-full select-none flex flex-col justify-between" style={{ minHeight: "calc(100vh - 64px)", backgroundColor: bgMain }}>
       {/* Toast alert banner */}
       {toastMessage && (
         <div className="fixed top-4 right-4 z-50 flex items-center gap-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-4.5 py-3 text-xs text-emerald-400 font-semibold shadow-2xl animate-fade-in">
@@ -111,17 +124,17 @@ export default function TeamsPage() {
             height: "96px",
             borderRadius: "50%",
             backgroundColor: "rgba(245, 158, 11, 0.12)",
-            borderColor: "rgba(245, 158, 11, 0.35)",
+            borderColor: isDarkMode ? "rgba(245, 158, 11, 0.35)" : "rgba(217, 119, 6, 0.35)",
           }}
         >
-          <Users size={40} className="text-[#F59E0B]" />
+          <Users size={40} style={{ color: accent }} />
         </div>
 
         {/* Avatar cluster */}
         <div className="flex items-center justify-center">
           {/* AD Avatar */}
           <div
-            className="flex items-center justify-center text-white border-2 border-[#111317]"
+            className="flex items-center justify-center text-white border-2"
             style={{
               width: "40px",
               height: "40px",
@@ -131,6 +144,7 @@ export default function TeamsPage() {
               fontWeight: 700,
               marginRight: "-8px",
               zIndex: 3,
+              borderColor: bgMain,
             }}
             title="Adrian Rivera (Admin)"
           >
@@ -138,7 +152,7 @@ export default function TeamsPage() {
           </div>
           {/* SK Avatar */}
           <div
-            className="flex items-center justify-center text-white border-2 border-[#111317]"
+            className="flex items-center justify-center text-white border-2"
             style={{
               width: "40px",
               height: "40px",
@@ -148,6 +162,7 @@ export default function TeamsPage() {
               fontWeight: 700,
               marginRight: "-8px",
               zIndex: 2,
+              borderColor: bgMain,
             }}
             title="Sarah Jenkins (Member)"
           >
@@ -155,7 +170,7 @@ export default function TeamsPage() {
           </div>
           {/* PR Avatar */}
           <div
-            className="flex items-center justify-center text-white border-2 border-[#111317]"
+            className="flex items-center justify-center text-white border-2"
             style={{
               width: "40px",
               height: "40px",
@@ -165,6 +180,7 @@ export default function TeamsPage() {
               fontWeight: 700,
               marginRight: "-8px",
               zIndex: 1,
+              borderColor: bgMain,
             }}
             title="Pratik Rivera (Member)"
           >
@@ -179,8 +195,8 @@ export default function TeamsPage() {
               height: "40px",
               borderRadius: "50%",
               backgroundColor: "transparent",
-              border: "2px dashed rgba(245, 158, 11, 0.6)",
-              color: "#F59E0B",
+              border: `2px dashed ${isDarkMode ? "rgba(245, 158, 11, 0.6)" : "rgba(217, 119, 6, 0.6)"}`,
+              color: accent,
               fontSize: "20px",
               fontWeight: 500,
               zIndex: 0,
@@ -193,11 +209,12 @@ export default function TeamsPage() {
 
         {/* Heading */}
         <h1 
-          className="text-[#F3F4F6] leading-[1.1] tracking-tight text-center"
+          className="leading-[1.1] tracking-tight text-center"
           style={{
             fontSize: "36px",
             fontWeight: 800,
             maxWidth: "560px",
+            color: textPrimary,
           }}
         >
           Connect your team - stay in sync, always
@@ -208,7 +225,7 @@ export default function TeamsPage() {
           className="text-center"
           style={{
             fontSize: "15px",
-            color: "#9AA3AE",
+            color: textMuted,
             lineHeight: "1.6",
             maxWidth: "500px",
           }}
@@ -226,9 +243,9 @@ export default function TeamsPage() {
                 className="px-4 py-2 border font-medium text-[13px] tracking-wide"
                 style={{
                   borderRadius: "999px",
-                  borderColor: "rgba(245, 158, 11, 0.3)",
-                  backgroundColor: "rgba(245, 158, 11, 0.06)",
-                  color: "#D4A843",
+                  borderColor: isDarkMode ? "rgba(245, 158, 11, 0.3)" : "rgba(217, 119, 6, 0.3)",
+                  backgroundColor: isDarkMode ? "rgba(245, 158, 11, 0.06)" : "rgba(217, 119, 6, 0.06)",
+                  color: isDarkMode ? "#D4A843" : "#C4A35A",
                 }}
               >
                 {pill}
@@ -241,9 +258,9 @@ export default function TeamsPage() {
               className="px-4 py-2 border font-medium text-[13px] tracking-wide"
               style={{
                 borderRadius: "999px",
-                borderColor: "rgba(245, 158, 11, 0.3)",
-                backgroundColor: "rgba(245, 158, 11, 0.06)",
-                color: "#D4A843",
+                borderColor: isDarkMode ? "rgba(245, 158, 11, 0.3)" : "rgba(217, 119, 6, 0.3)",
+                backgroundColor: isDarkMode ? "rgba(245, 158, 11, 0.06)" : "rgba(217, 119, 6, 0.06)",
+                color: isDarkMode ? "#D4A843" : "#C4A35A",
               }}
             >
               Role-based access
@@ -256,7 +273,7 @@ export default function TeamsPage() {
           onClick={() => setEnterpriseModalOpen(true)}
           className="rounded-full shadow-lg transition-colors flex items-center justify-center"
           style={{
-            backgroundColor: "#F59E0B",
+            backgroundColor: accent,
             color: "#111317",
             border: "none",
             borderRadius: "999px",
@@ -264,40 +281,41 @@ export default function TeamsPage() {
             fontSize: "15px",
             fontWeight: 700,
             width: "fit-content",
+            cursor: "pointer",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#D97706";
+            e.currentTarget.style.backgroundColor = isDarkMode ? "#D97706" : "#B45309";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "#F59E0B";
+            e.currentTarget.style.backgroundColor = accent;
           }}
         >
           + Invite your team
         </button>
       </div>
 
-      {/* Active Team Members List Table (Optional extension below mockup) */}
+      {/* Active Team Members List Table */}
       <div className="max-w-4xl w-full mx-auto px-6 pb-16 mt-8">
-        <div className="rounded-xl border border-line bg-[#111110] p-6 space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-line/45">
-            <h3 className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">Active Team Members</h3>
-            <span className="text-[10px] text-muted-foreground">{members.length} members connected</span>
+        <div className="rounded-xl border p-6 space-y-4" style={{ borderColor: borderCol, backgroundColor: bgCard }}>
+          <div className="flex items-center justify-between pb-3" style={{ borderBottom: `1px solid ${borderCol}` }}>
+            <h3 className="font-mono text-[9px] uppercase tracking-[0.2em] font-semibold" style={{ color: textMuted }}>Active Team Members</h3>
+            <span className="text-[10px]" style={{ color: textMuted }}>{members.length} members connected</span>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-muted-foreground border-collapse">
+            <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-line/30 text-white/50 text-[10px] font-mono uppercase">
+                <tr className="font-mono uppercase" style={{ borderBottom: `1px solid ${borderCol}`, color: textMuted }}>
                   <th className="py-2.5 font-semibold">Name</th>
                   <th className="py-2.5 font-semibold">Email</th>
                   <th className="py-2.5 font-semibold">Role</th>
                   <th className="py-2.5 font-semibold">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line/25">
+              <tbody className="divide-y" style={{ borderColor: borderCol }}>
                 {members.map((member, idx) => (
-                  <tr key={idx} className="hover:bg-white/[0.01] transition-colors">
-                    <td className="py-3 font-medium text-white flex items-center gap-2">
+                  <tr key={idx} className="transition-colors" style={{ color: textPrimary }}>
+                    <td className="py-3 font-medium flex items-center gap-2">
                       <span className={`h-6 w-6 rounded-full ${member.color} text-white text-[9px] font-bold flex items-center justify-center uppercase`}>
                         {member.initials}
                       </span>
@@ -306,7 +324,7 @@ export default function TeamsPage() {
                     <td className="py-3 font-mono text-[11px]">{member.email}</td>
                     <td className="py-3">
                       <span className="inline-flex items-center gap-1">
-                        <Shield size={11} className="text-accent/70" />
+                        <Shield size={11} style={{ color: accent }} />
                         {member.role}
                       </span>
                     </td>
@@ -330,16 +348,25 @@ export default function TeamsPage() {
       {/* Invite Member Popup Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md rounded-xl border border-line bg-[#111110] p-6 shadow-2xl animate-scale-up">
+          <div className="w-full max-w-md rounded-xl border p-6 shadow-2xl animate-scale-up" style={{ borderColor: borderCol, backgroundColor: bgCard }}>
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-line">
+            <div className="flex items-center justify-between pb-4" style={{ borderBottom: `1px solid ${borderCol}` }}>
               <div className="flex items-center gap-2">
-                <Users size={16} className="text-accent" />
-                <h3 className="text-sm font-semibold text-ink">Invite Team Member</h3>
+                <Users size={16} style={{ color: accent }} />
+                <h3 className="text-sm font-semibold" style={{ color: textPrimary }}>Invite Team Member</h3>
               </div>
               <button
                 onClick={() => setDraftModalOpen(false)}
-                className="text-muted hover:text-ink p-1 rounded hover:bg-white/[0.04] transition-colors border border-line/50"
+                className="p-1 rounded transition-colors border"
+                style={{ color: textMuted, borderColor: borderCol, backgroundColor: "transparent" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = textPrimary;
+                  e.currentTarget.style.backgroundColor = isDarkMode ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = textMuted;
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }}
               >
                 <X size={14} />
               </button>
@@ -348,23 +375,31 @@ export default function TeamsPage() {
             {/* Form */}
             <form onSubmit={handleInviteSubmit} className="mt-4 space-y-4">
               <div>
-                <label className="block text-[11px] font-mono uppercase tracking-wider text-muted mb-1.5">Email Address</label>
+                <label className="block text-[11px] font-mono uppercase tracking-wider mb-1.5" style={{ color: textMuted }}>Email Address</label>
                 <input
                   type="email"
                   required
                   placeholder="name@company.com"
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
-                  className="w-full rounded-lg border border-line bg-[#0b0b0a] px-3.5 py-2 text-xs text-ink placeholder:text-muted-foreground/50 outline-none focus:border-accent/40"
+                  className="w-full rounded-lg border px-3.5 py-2 text-xs outline-none transition-colors"
+                  style={{ borderColor: borderCol, backgroundColor: bgInner, color: textPrimary }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = `${accent}80`;
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = borderCol;
+                  }}
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono uppercase tracking-wider text-muted mb-1.5">Workspace Role</label>
+                <label className="block text-[11px] font-mono uppercase tracking-wider mb-1.5" style={{ color: textMuted }}>Workspace Role</label>
                 <select
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value as "Admin" | "Member" | "Viewer")}
-                  className="w-full rounded-lg border border-line bg-[#0b0b0a] px-3.5 py-2 text-xs text-ink outline-none focus:border-accent/40 cursor-pointer"
+                  className="w-full rounded-lg border px-3.5 py-2 text-xs outline-none transition-colors cursor-pointer"
+                  style={{ borderColor: borderCol, backgroundColor: bgInner, color: textPrimary }}
                 >
                   <option value="Member">Member (Read & Write)</option>
                   <option value="Admin">Admin (Full Control)</option>
@@ -372,9 +407,9 @@ export default function TeamsPage() {
                 </select>
               </div>
 
-              <div className="pt-3 border-t border-line flex items-center justify-between">
-                <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                  <Lock size={10} className="text-accent/60" />
+              <div className="pt-3 flex items-center justify-between" style={{ borderTop: `1px solid ${borderCol}` }}>
+                <span className="text-[10px] flex items-center gap-1" style={{ color: textGray }}>
+                  <Lock size={10} style={{ color: `${accent}90` }} />
                   Secure OAuth token invite
                 </span>
                 
@@ -382,13 +417,21 @@ export default function TeamsPage() {
                   <button
                     type="button"
                     onClick={() => setDraftModalOpen(false)}
-                    className="px-3.5 py-1.5 text-xs font-semibold border border-line hover:border-white/10 rounded-lg text-ink transition-colors"
+                    className="px-3.5 py-1.5 text-xs font-semibold border rounded-lg transition-colors"
+                    style={{ borderColor: borderCol, color: textPrimary, backgroundColor: "transparent" }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = `${accent}80`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = borderCol;
+                    }}
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-1.5 text-xs font-semibold bg-accent hover:bg-accent-hover text-white rounded-lg transition-all shadow-md"
+                    className="px-4 py-1.5 text-xs font-semibold rounded-lg transition-colors border-none"
+                    style={{ backgroundColor: accent, color: "#111317" }}
                   >
                     Send Invite
                   </button>

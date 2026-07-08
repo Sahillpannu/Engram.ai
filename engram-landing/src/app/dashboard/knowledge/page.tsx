@@ -3,8 +3,20 @@
 import React, { useState } from "react";
 import { BookOpen, Sparkles, Search, RefreshCw, Layers, Database, ShieldAlert } from "lucide-react";
 import KnowledgeGraph, { Connector, Memory } from "@/components/KnowledgeGraph";
+import { useTheme } from "@/app/dashboard/theme-context";
 
 export default function KnowledgePage() {
+  const { isDarkMode } = useTheme();
+
+  const bgMain = isDarkMode ? "#111317" : "#F3ECE3";
+  const bgCard = isDarkMode ? "#1E1F23" : "#FFFFFF";
+  const bgInner = isDarkMode ? "#1A1B1E" : "#EAE5DB";
+  const borderCol = isDarkMode ? "#2A2F37" : "#E8DCCB";
+  const textPrimary = isDarkMode ? "#F3F4F6" : "#2D2B26";
+  const textMuted = isDarkMode ? "#9AA3AE" : "#615E56";
+  const textGray = isDarkMode ? "#6B7280" : "#9A958C";
+  const accent = isDarkMode ? "#F59E0B" : "#D97706";
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedNode, setSelectedNode] = useState<{
     id: string;
@@ -110,13 +122,13 @@ export default function KnowledgePage() {
       return (
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <Layers className="text-accent h-4 w-4" />
-            <h4 className="text-sm font-semibold text-ink">Brain Cortex Active</h4>
+            <Layers className="h-4 w-4" style={{ color: accent }} />
+            <h4 className="text-sm font-semibold" style={{ color: textPrimary }}>Brain Cortex Active</h4>
           </div>
-          <p className="text-xs text-muted-foreground leading-relaxed">
+          <p className="text-xs leading-relaxed" style={{ color: textMuted }}>
             The Cortex center dynamically aggregates ingested transcripts, inbox messages, and documents. Currently, your agent is listening across <strong>{activeCount} active connections</strong>.
           </p>
-          <div className="pt-2 border-t border-line/45 flex justify-between text-[11px] text-muted-foreground/60 font-mono">
+          <div className="pt-2 flex justify-between text-[11px] font-mono" style={{ borderTop: `1px solid ${borderCol}`, color: textMuted }}>
             <span>Indexed associations: ~812</span>
             <span>Sync: Healthy</span>
           </div>
@@ -132,7 +144,7 @@ export default function KnowledgePage() {
       return (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-semibold text-ink">{conn.name}</h4>
+            <h4 className="text-sm font-semibold" style={{ color: textPrimary }}>{conn.name}</h4>
             <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase ${
               conn.status === "connected"
                 ? "bg-emerald-500/10 text-emerald-400"
@@ -144,20 +156,27 @@ export default function KnowledgePage() {
             </span>
           </div>
 
-          <p className="text-xs text-muted-foreground leading-relaxed">
+          <p className="text-xs leading-relaxed" style={{ color: textMuted }}>
             Configure permissions and manual sync triggers for the {conn.name} connector. When connected, new documents and thread summaries are mapped automatically.
           </p>
 
-          <div className="pt-2 border-t border-line/45 flex items-center justify-between gap-4">
+          <div className="pt-2 flex items-center justify-between gap-4" style={{ borderTop: `1px solid ${borderCol}` }}>
             <button
               onClick={() => handleResyncConnector(conn.id)}
               disabled={conn.status !== "connected" || isSyncing}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-line bg-card rounded-lg text-[10.5px] font-semibold text-muted hover:text-ink disabled:opacity-50 transition-colors shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1.5 border rounded-lg text-[10.5px] font-semibold disabled:opacity-50 transition-colors shadow-sm cursor-pointer"
+              style={{ borderColor: borderCol, backgroundColor: bgCard, color: textMuted }}
+              onMouseEnter={(e) => {
+                if (conn.status === "connected" && !isSyncing) e.currentTarget.style.color = textPrimary;
+              }}
+              onMouseLeave={(e) => {
+                if (conn.status === "connected" && !isSyncing) e.currentTarget.style.color = textMuted;
+              }}
             >
               <RefreshCw size={11} className={isSyncing ? "animate-spin" : ""} />
               {isSyncing ? "Syncing..." : "Re-Sync Workspace"}
             </button>
-            <span className="text-[10px] text-muted-foreground/50 font-mono italic">
+            <span className="text-[10px] font-mono italic" style={{ color: textMuted }}>
               Source: OAuth2
             </span>
           </div>
@@ -173,26 +192,27 @@ export default function KnowledgePage() {
       return (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-semibold text-ink">{mem.title}</h4>
-            <span className="inline-flex items-center rounded-full bg-accent/10 px-2.5 py-0.5 text-[9.5px] font-mono font-medium text-accent border border-accent/20 uppercase">
+            <h4 className="text-sm font-semibold" style={{ color: textPrimary }}>{mem.title}</h4>
+            <span className="inline-flex items-center rounded-full bg-accent/10 px-2.5 py-0.5 text-[9.5px] font-mono font-medium border uppercase" style={{ color: accent, borderColor: `${accent}40` }}>
               {mem.source}
             </span>
           </div>
 
-          <p className="text-xs text-white/90 bg-[#111110] border border-line/55 p-3 rounded-lg leading-relaxed whitespace-pre-wrap font-sans">
+          <p className="text-xs p-3 rounded-lg leading-relaxed whitespace-pre-wrap font-sans border" style={{ backgroundColor: bgInner, borderColor: borderCol, color: textPrimary }}>
             {mem.summary}
           </p>
 
-          <div className="pt-2 border-t border-line/45 flex items-center justify-between">
+          <div className="pt-2 flex items-center justify-between" style={{ borderTop: `1px solid ${borderCol}` }}>
             <button
               onClick={() => handleReindexMemory(mem.id)}
               disabled={isReindexing}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-accent hover:bg-accent-hover text-white rounded-lg text-[10.5px] font-semibold transition-all shadow-md"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10.5px] font-semibold transition-all shadow-md cursor-pointer border-none"
+              style={{ backgroundColor: accent, color: "#111317" }}
             >
               <RefreshCw size={11} className={isReindexing ? "animate-spin" : ""} />
               {isReindexing ? "Re-indexing..." : "Re-Index Memory"}
             </button>
-            <span className="text-[10.5px] font-mono text-muted-foreground/60">{mem.date}</span>
+            <span className="text-[10.5px] font-mono" style={{ color: textMuted }}>{mem.date}</span>
           </div>
         </div>
       );
@@ -205,12 +225,12 @@ export default function KnowledgePage() {
     <div className="max-w-4xl mx-auto px-6 py-8 animate-fade-in space-y-6 select-none">
       {/* Page Heading */}
       <div>
-        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-xs font-semibold mb-3">
+        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border text-xs font-semibold mb-3" style={{ backgroundColor: `${accent}15`, borderColor: `${accent}25`, color: accent }}>
           <BookOpen size={12} />
           <span>Knowledge Context</span>
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">Knowledge Base</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <h1 className="text-2xl font-semibold tracking-tight" style={{ color: textPrimary }}>Knowledge Base</h1>
+        <p className="mt-1 text-sm" style={{ color: textMuted }}>
           Index company documents, handbooks, and static wikis to feed your agent&apos;s memory graph.
         </p>
       </div>
@@ -220,7 +240,7 @@ export default function KnowledgePage() {
         
         {/* Left Column: Knowledge Graph Panel */}
         <div className="md:col-span-1 space-y-5">
-          <h3 className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">
+          <h3 className="font-mono text-[9px] uppercase tracking-[0.2em] font-semibold" style={{ color: textMuted }}>
             Neural Map View
           </h3>
           
@@ -232,15 +252,22 @@ export default function KnowledgePage() {
           />
 
           {/* Node Inspector Box */}
-          <div className="rounded-xl border border-line bg-[#111110] p-5">
-            <div className="flex items-center justify-between pb-3 border-b border-line/45 mb-4">
-              <h3 className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">
+          <div className="rounded-xl border p-5" style={{ borderColor: borderCol, backgroundColor: bgCard }}>
+            <div className="flex items-center justify-between pb-3 mb-4" style={{ borderBottom: `1px solid ${borderCol}` }}>
+              <h3 className="font-mono text-[9px] uppercase tracking-[0.2em] font-semibold" style={{ color: textMuted }}>
                 Node Inspector
               </h3>
               {selectedNode.type !== "cortex" && (
                 <button
                   onClick={() => setSelectedNode({ id: "cortex", type: "cortex" })}
-                  className="text-[9px] font-semibold text-accent hover:text-accent-hover uppercase"
+                  className="text-[9px] font-semibold uppercase bg-transparent border-none cursor-pointer"
+                  style={{ color: accent }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = isDarkMode ? "#FDBA4A" : "#B45309";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = accent;
+                  }}
                 >
                   Reset to Core
                 </button>
@@ -253,19 +280,26 @@ export default function KnowledgePage() {
         {/* Right Column: Search & Memory Catalog */}
         <div className="md:col-span-2 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <h3 className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">
+            <h3 className="font-mono text-[9px] uppercase tracking-[0.2em] font-semibold" style={{ color: textMuted }}>
               Indexed Memory Catalog
             </h3>
             
             {/* Search Input bar */}
             <div className="relative w-full sm:w-60">
-              <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground/60" />
+              <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2" style={{ color: textMuted }} />
               <input
                 type="text"
                 placeholder="Search memories..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-[8px] border border-line bg-[#111110] pl-9 pr-3 py-1.5 text-xs text-ink placeholder:text-muted-foreground/60 outline-none transition-all focus:border-accent/40 focus:bg-[#141413]"
+                className="w-full rounded-[8px] border pl-9 pr-3 py-1.5 text-xs outline-none transition-all"
+                style={{ borderColor: borderCol, backgroundColor: bgCard, color: textPrimary }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = `${accent}60`;
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = borderCol;
+                }}
               />
             </div>
           </div>
@@ -273,7 +307,7 @@ export default function KnowledgePage() {
           {/* Catalog Grid */}
           <div className="space-y-4">
             {filteredMemories.length === 0 ? (
-              <div className="rounded-xl border border-line bg-[#111110]/40 p-12 text-center text-xs text-muted-foreground/60 select-none">
+              <div className="rounded-xl border p-12 text-center text-xs select-none" style={{ borderColor: borderCol, backgroundColor: `${bgCard}80`, color: textMuted }}>
                 No matching indexed memories found. Try resetting the inspector filters.
               </div>
             ) : (
@@ -282,40 +316,48 @@ export default function KnowledgePage() {
                 return (
                   <div
                     key={mem.id}
-                    className="rounded-xl border border-line bg-card p-4.5 space-y-3 transition-all hover:border-white/10 hover:bg-white/[0.01]"
+                    className="rounded-xl border p-4.5 space-y-3 transition-all"
+                    style={{ borderColor: borderCol, backgroundColor: bgCard }}
                   >
                     {/* Header */}
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-2">
-                        <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#111110] border border-line text-xs font-semibold capitalize text-accent-hover font-mono">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold capitalize font-mono" style={{ backgroundColor: bgInner, borderColor: borderCol, color: accent }}>
                           {mem.source.charAt(0)}
                         </span>
-                        <h4 className="text-[13px] font-semibold text-ink truncate max-w-[200px] sm:max-w-md">
+                        <h4 className="text-[13px] font-semibold truncate max-w-[200px] sm:max-w-md" style={{ color: textPrimary }}>
                           {mem.title}
                         </h4>
                       </div>
                       
-                      <span className="font-mono text-[10.5px] text-muted-foreground/50 shrink-0">
+                      <span className="font-mono text-[10.5px] shrink-0" style={{ color: textMuted }}>
                         {mem.date}
                       </span>
                     </div>
 
                     {/* Summary snippet */}
-                    <p className="text-[12px] leading-relaxed text-muted-foreground">
+                    <p className="text-[12px] leading-relaxed" style={{ color: textMuted }}>
                       {mem.summary}
                     </p>
 
                     {/* Action footer */}
-                    <div className="pt-2 border-t border-line/35 flex items-center justify-between text-[11px]">
-                      <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground/75 font-mono uppercase">
-                        <Database size={10} className="text-accent/50" />
+                    <div className="pt-2 flex items-center justify-between text-[11px]" style={{ borderTop: `1px solid ${borderCol}` }}>
+                      <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase" style={{ color: textMuted }}>
+                        <Database size={10} style={{ color: `${accent}80` }} />
                         Memory ID: {mem.id}
                       </span>
 
                       <button
                         onClick={() => handleReindexMemory(mem.id)}
                         disabled={isReindexing}
-                        className="flex items-center gap-1 text-accent font-semibold py-1 px-2.5 bg-accent/5 hover:bg-accent/10 border border-accent/15 rounded-lg text-[11px] transition-all"
+                        className="flex items-center gap-1 font-semibold py-1 px-2.5 border rounded-lg text-[11px] transition-all cursor-pointer bg-transparent"
+                        style={{ borderColor: `${accent}40`, color: accent }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = `${accent}15`;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                        }}
                       >
                         <RefreshCw size={11} className={isReindexing ? "animate-spin animate-duration-1000" : ""} />
                         {isReindexing ? "Re-indexing..." : "Re-Index"}

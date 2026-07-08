@@ -18,6 +18,7 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
+import { useTheme } from "@/app/dashboard/theme-context";
 
 const workspaceLinks = [
   { label: "Daily Brief", href: "/dashboard/brief", icon: Sparkles },
@@ -37,10 +38,8 @@ const manageLinks = [
 
 interface SidebarProps {
   isMobile?: boolean;
-  isDarkMode?: boolean;
   activeNav?: string;
   setActiveNav?: (nav: string) => void;
-  onToggleTheme?: () => void;
   onLogout?: () => void;
   userName?: string;
   userInitials?: string;
@@ -49,22 +48,35 @@ interface SidebarProps {
 
 export default function Sidebar({
   isMobile,
-  isDarkMode,
   activeNav,
   setActiveNav,
-  onToggleTheme,
   onLogout,
   userName = "Hitesh Dhayal",
   userInitials = "HD",
   userEmail = "hitesh@engram.ai",
 }: SidebarProps) {
   const pathname = usePathname();
-  const [localIsDark, setLocalIsDark] = useState(true);
+  const { isDarkMode, toggleTheme } = useTheme();
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [themeHovered, setThemeHovered] = useState(false);
   const [logoutHovered, setLogoutHovered] = useState(false);
 
-  const isDarkCurrent = isDarkMode !== undefined ? isDarkMode : localIsDark;
+  // Theme-aware styles based on isDarkMode
+  const bgOuter = isDarkMode ? "#111317" : "#F3ECE3";
+  const borderCol = isDarkMode ? "#2A2F37" : "#E8DCCB";
+  const bgInner = isDarkMode ? "#1A1B1E" : "#EAE5DB";
+  const textPrimary = isDarkMode ? "#F3F4F6" : "#2D2B26";
+  const textMuted = isDarkMode ? "#9AA3AE" : "#615E56";
+  const textSection = isDarkMode ? "#6B7280" : "#615E56";
+  const bgActive = isDarkMode ? "rgba(245,158,11,0.15)" : "rgba(217,119,6,0.12)";
+  const bgHover = isDarkMode ? "rgba(245,158,11,0.08)" : "rgba(217,119,6,0.08)";
+  const colorActive = isDarkMode ? "#FDBA4A" : "#B45309";
+  const iconActiveColor = isDarkMode ? "#F59E0B" : "#B45309";
+  const colorInactive = isDarkMode ? "#B6BEC8" : "#6B5B4B";
+  const iconInactiveColor = isDarkMode ? "#9AA3AE" : "#615E56";
+  const topGradient = isDarkMode
+    ? "linear-gradient(180deg, rgba(245,158,11,0.06), transparent 42%)"
+    : "linear-gradient(180deg, rgba(255,255,255,0.5), transparent 42%)";
 
   const isLinkActive = (href: string) => {
     if (href === "/dashboard") {
@@ -87,9 +99,9 @@ export default function Sidebar({
         flexDirection: "column",
         height: "100%",
         width: "220px",
-        backgroundColor: "#111317",
+        backgroundColor: bgOuter,
         position: "relative",
-        borderRight: "1px solid #1E1F23",
+        borderRight: `1px solid ${borderCol}`,
       }}
     >
       {/* Top gradient overlay */}
@@ -101,8 +113,7 @@ export default function Sidebar({
           right: 0,
           top: 0,
           height: "180px",
-          background:
-            "linear-gradient(180deg, rgba(245,158,11,0.06), transparent 42%)",
+          background: topGradient,
         }}
       />
 
@@ -114,7 +125,7 @@ export default function Sidebar({
           alignItems: "center",
           gap: "10px",
           padding: "0 16px",
-          borderBottom: "1px solid #2A2F37",
+          borderBottom: `1px solid ${borderCol}`,
           zIndex: 1,
         }}
       >
@@ -148,7 +159,7 @@ export default function Sidebar({
             style={{
               fontSize: "15px",
               fontWeight: 700,
-              color: "#F3F4F6",
+              color: textPrimary,
               userSelect: "none",
             }}
           >
@@ -175,7 +186,7 @@ export default function Sidebar({
             style={{
               fontSize: "10px",
               fontWeight: 700,
-              color: "#6B7280",
+              color: textSection,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
               padding: "0 8px",
@@ -208,9 +219,9 @@ export default function Sidebar({
                     cursor: "pointer",
                     border: "none",
                     backgroundColor: isActive
-                      ? "rgba(245, 158, 11, 0.15)"
+                      ? bgActive
                       : isHovered
-                      ? "rgba(245, 158, 11, 0.08)"
+                      ? bgHover
                       : "transparent",
                     textDecoration: "none",
                     transition: "background-color 0.15s ease",
@@ -218,14 +229,14 @@ export default function Sidebar({
                 >
                   <Icon
                     size={16}
-                    color={isActive ? "#F59E0B" : "#9AA3AE"}
+                    color={isActive ? iconActiveColor : iconInactiveColor}
                     style={{ flexShrink: 0 }}
                   />
                   <span
                     style={{
                       fontSize: "13px",
                       fontWeight: isActive ? 600 : 500,
-                      color: isActive ? "#FDBA4A" : "#B6BEC8",
+                      color: isActive ? colorActive : colorInactive,
                     }}
                   >
                     {link.label}
@@ -242,7 +253,7 @@ export default function Sidebar({
             style={{
               fontSize: "10px",
               fontWeight: 700,
-              color: "#6B7280",
+              color: textSection,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
               padding: "0 8px",
@@ -275,9 +286,9 @@ export default function Sidebar({
                     cursor: "pointer",
                     border: "none",
                     backgroundColor: isActive
-                      ? "rgba(245, 158, 11, 0.15)"
+                      ? bgActive
                       : isHovered
-                      ? "rgba(245, 158, 11, 0.08)"
+                      ? bgHover
                       : "transparent",
                     textDecoration: "none",
                     transition: "background-color 0.15s ease",
@@ -285,14 +296,14 @@ export default function Sidebar({
                 >
                   <Icon
                     size={16}
-                    color={isActive ? "#F59E0B" : "#9AA3AE"}
+                    color={isActive ? iconActiveColor : iconInactiveColor}
                     style={{ flexShrink: 0 }}
                   />
                   <span
                     style={{
                       fontSize: "13px",
                       fontWeight: isActive ? 600 : 500,
-                      color: isActive ? "#FDBA4A" : "#B6BEC8",
+                      color: isActive ? colorActive : colorInactive,
                     }}
                   >
                     {link.label}
@@ -308,7 +319,7 @@ export default function Sidebar({
       <div
         style={{
           padding: "12px 8px",
-          borderTop: "1px solid #2A2F37",
+          borderTop: `1px solid ${borderCol}`,
           display: "flex",
           flexDirection: "column",
           gap: "10px",
@@ -346,7 +357,7 @@ export default function Sidebar({
               style={{
                 fontSize: "12px",
                 fontWeight: 600,
-                color: "#F3F4F6",
+                color: textPrimary,
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -357,7 +368,7 @@ export default function Sidebar({
             <span
               style={{
                 fontSize: "10px",
-                color: "#9AA3AE",
+                color: textMuted,
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -378,25 +389,25 @@ export default function Sidebar({
         >
           {/* Theme Toggle Button */}
           <button
-            onClick={onToggleTheme || (() => setLocalIsDark(!localIsDark))}
+            onClick={toggleTheme}
             onMouseEnter={() => setThemeHovered(true)}
             onMouseLeave={() => setThemeHovered(false)}
             style={{
               width: "32px",
               height: "32px",
               borderRadius: "50%",
-              border: `1px solid ${themeHovered ? "#F59E0B" : "#2A2F37"}`,
+              border: `1px solid ${themeHovered ? (isDarkMode ? "#F59E0B" : "#D97706") : borderCol}`,
               backgroundColor: "transparent",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: themeHovered ? "#F3F4F6" : "#9AA3AE",
+              color: themeHovered ? textPrimary : textMuted,
               transition: "all 0.2s ease",
             }}
-            title={isDarkCurrent ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
-            {isDarkCurrent ? <Moon size={14} /> : <Sun size={14} />}
+            {isDarkMode ? <Moon size={14} /> : <Sun size={14} />}
           </button>
 
           {/* Logout Button */}
@@ -407,11 +418,11 @@ export default function Sidebar({
             style={{
               height: "32px",
               borderRadius: "999px",
-              border: logoutHovered ? "1px solid #EF4444" : "1px solid #2A2F37",
+              border: logoutHovered ? "1px solid #EF4444" : `1px solid ${borderCol}`,
               backgroundColor: logoutHovered
                 ? "rgba(239,68,68,0.12)"
                 : "transparent",
-              color: logoutHovered ? "#EF4444" : "#9AA3AE",
+              color: logoutHovered ? "#EF4444" : textMuted,
               fontSize: "12px",
               fontWeight: 600,
               padding: "0 16px",
