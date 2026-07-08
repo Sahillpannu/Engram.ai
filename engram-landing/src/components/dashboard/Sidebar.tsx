@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
+  Bot,
   Sparkles,
   Mail,
   Calendar,
@@ -11,9 +12,7 @@ import {
   Users,
   Zap,
   BookOpen,
-  Bot,
   Workflow,
-  Settings,
   LogOut,
   Moon,
   Sun,
@@ -21,6 +20,7 @@ import {
 import { useTheme } from "@/app/dashboard/theme-context";
 
 const workspaceLinks = [
+  { label: "Agent", href: "/dashboard/agent", icon: Bot },
   { label: "Daily Brief", href: "/dashboard/brief", icon: Sparkles },
   { label: "Email", href: "/dashboard/email", icon: Mail },
   { label: "Calendar", href: "/dashboard/calendar", icon: Calendar },
@@ -31,9 +31,7 @@ const manageLinks = [
   { label: "Teams", href: "/dashboard/teams", icon: Users },
   { label: "Integrations", href: "/dashboard", icon: Zap },
   { label: "Knowledge", href: "/dashboard/knowledge", icon: BookOpen },
-  { label: "AI Center", href: "/dashboard/ai", icon: Bot },
   { label: "Automations", href: "/dashboard/automations", icon: Workflow },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 interface SidebarProps {
