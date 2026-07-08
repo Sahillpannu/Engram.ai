@@ -1,14 +1,14 @@
+import React from "react";
 import { Bot } from "lucide-react";
 
 export default function AICenterPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4 animate-fade-in">
-      <div className="w-12 h-12 rounded-full border border-line bg-card flex items-center justify-center text-accent mb-4">
-        <Bot size={20} />
+    <div className="flex flex-col items-center justify-center min-h-[75vh] w-full bg-[#111317] text-center px-4 animate-fade-in">
+      <div className="text-[#9AA3AE] opacity-40 mb-4 flex items-center justify-center">
+        <Bot size={40} />
       </div>
-      <h2 className="text-xl font-medium text-ink">AI Center</h2>
-      <p className="text-sm text-muted mt-2 max-w-sm">
-        Configure prompt guidelines, customize model selection, and monitor memory retrieval parameters.
+      <p className="text-[14px] text-[#9AA3AE] font-medium tracking-wide">
+        Coming soon
       </p>
     </div>
   );
